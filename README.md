@@ -1,6 +1,6 @@
 # SubastaQuindio
 
-![Image text]([https://publicdomainvectors.org/photos/Rocket11.png](http://cdn2.dineroenimagen.com/media/dinero/styles/xlarge/public/images/blogs/javalogo.jpg))
+![Image text](https://i.blogs.es/53044d/java/1366_521.jpg)
 
 
 # Definición
