@@ -16,6 +16,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 /**
  * @author GonzalezHDanielaA
@@ -71,26 +73,31 @@ public class SubastaViewController {
 	{
 		modelFactoryController = ModelFactoryController.getInstance();
 		crudRegistroViewController = new CrudRegistroViewController(modelFactoryController);
+		llenarComboRol();
 		
+	}
+	
+	public void llenarComboRol()
+	{
+		ObservableList<TipoPersona> tipoPers = FXCollections.observableArrayList();
+		TipoPersona t = TipoPersona.USUARIOANUNCIANTES;
+		TipoPersona t2 = TipoPersona.USUARIOCOMPRADOR;
+		tipoPers.addAll(t,t2);
+		this.txtrol.setItems(tipoPers);
 	}
 	
 	
 	 @FXML
     void registrarPerson(ActionEvent event) {
-
-		 registerPerson();
-		 
-		 
+		 registerPerson();	 
     }
 	
-	 
-	 
 	 private void registerPerson()
 	 {
 		 //1. Capturar los datos
 		 String cedula = txtcedula.getText(); 
 		 String nombre = txtnombre.getText();
-		 int edad = Integer.parseInt(txtedad.getText());
+		 String edad = txtedad.getText();
 		 TipoPersona rol = txtrol.getValue();
 		 String usuario = txtusuario.getText();
 		 String contrasenia = txtcontrasena.getText();
@@ -99,7 +106,7 @@ public class SubastaViewController {
 		 
 		 if(datosValidos(cedula, nombre, edad, usuario, contrasenia, rol)) {
 			 Persona persona = null;
-			 persona = crudRegistroViewController.registerPerson(cedula, nombre, edad, usuario, contrasenia, rol);
+			 persona = crudRegistroViewController.registerPerson(cedula, nombre, Integer.parseInt(edad), usuario, contrasenia, rol);
 			 
 			 if(persona != null)
 			 {
@@ -139,7 +146,7 @@ public class SubastaViewController {
 		 alert.showAndWait();	 
 	 }
 	 
-	 private boolean datosValidos(String cedula, String nombre, int edad, String usuario, String contrasenia, TipoPersona rol) {
+	 private boolean datosValidos(String cedula, String nombre, String edad, String usuario, String contrasenia, TipoPersona rol) {
 		 
 		 String mensaje="";
 		 
@@ -158,8 +165,8 @@ public class SubastaViewController {
 		 if(rol == null || rol.equals(""))
 			 mensaje += "El rol es invalido \n";
 		 
-		 if(edad <0)
-			 mensaje += "edad inválida";
+		 if(edad  == null || edad.equals("") )
+			 mensaje += "edad invalidad \n";
 		 
 		 if(mensaje.equals(""))
 		 {

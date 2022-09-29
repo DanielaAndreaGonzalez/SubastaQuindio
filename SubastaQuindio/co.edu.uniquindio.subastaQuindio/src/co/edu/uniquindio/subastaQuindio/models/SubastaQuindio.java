@@ -34,11 +34,13 @@ public class SubastaQuindio implements ISubastaQuindioService{
 
 		Persona personaNueva = null;
 		boolean personaExist = verifyPersonExists(cedula);
-		if (personaExist) {
+		if (personaExist == true) {
 			throw new RegistroException("El usuario con cédula: " + cedula + "ya existe");
 
 		} else {
 			personaNueva = new Persona();
+			
+			personaNueva.setCedula(cedula);
 			personaNueva.setNombre(nombre);
 			personaNueva.setEdad(edad);
 			personaNueva.setUsuario(usuario);
@@ -65,10 +67,10 @@ public class SubastaQuindio implements ISubastaQuindioService{
 	public Persona obtenerPerson(String cedula) {
 
 		Persona personaEncontrada = null;
-
-		for (Persona person : listaPersonas) {
+		for (Persona person : getListaPersona()) {
 			if (person.getCedula().equalsIgnoreCase(cedula)) {
 				personaEncontrada = person;
+				break;
 			}
 		}
 		return personaEncontrada;
