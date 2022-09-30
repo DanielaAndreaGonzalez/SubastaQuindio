@@ -104,7 +104,7 @@ public class SubastaViewController {
 		 
 		 //2. Validar la información 
 		 
-		 if(datosValidos(cedula, nombre, edad, usuario, contrasenia, rol)) {
+		 if(datosValidos(cedula, nombre, edad, usuario, contrasenia, rol)==true) {
 			 Persona persona = null;
 			 persona = crudRegistroViewController.registerPerson(cedula, nombre, Integer.parseInt(edad), usuario, contrasenia, rol);
 			 

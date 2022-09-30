@@ -18,7 +18,7 @@ import co.edu.uniquindio.subastaQuindio.services.IModelFactoryService;
 public class ModelFactoryController implements IModelFactoryService{
 
 	
-	SubastaQuindio subasta = null;
+	SubastaQuindio subastaQuindio;
 	
 	//***********************************Singleton***********************************************
 	//Clase estatica oculta. Tan solo se instanciara el singleton una vez
@@ -37,20 +37,24 @@ public class ModelFactoryController implements IModelFactoryService{
 	public ModelFactoryController()
 	{
 		System.out.println("Invocación clase singleton");
-		
+		inicializarDatos();
 		//OJO NOTA: ACÁ SE INICIALIZAN LOS DATOS
 	}
 	
+	private void inicializarDatos()
+	{
+		subastaQuindio= new SubastaQuindio();  
+	}
 	
 	
 	public SubastaQuindio getSubastaQuindio()
 	{
-		return subasta;
+		return this.subastaQuindio;
 	}
 	
 	public void setSubastaQuindio(SubastaQuindio subasta)
 	{
-		this.subasta = subasta;
+		this.subastaQuindio = subasta;
 	}
 
 	@Override
@@ -58,6 +62,7 @@ public class ModelFactoryController implements IModelFactoryService{
 		Persona persona = null;
 		try {
 			persona = getSubastaQuindio().registerPerson(cedula, nombre, edad, usuario, contrasenia, rol);
+			
 		} catch (RegistroException e) {
 		
 			e.printStackTrace();

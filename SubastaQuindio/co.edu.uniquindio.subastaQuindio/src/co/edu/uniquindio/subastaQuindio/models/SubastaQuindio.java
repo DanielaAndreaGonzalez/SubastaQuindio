@@ -15,7 +15,7 @@ import co.edu.uniquindio.subastaQuindio.services.ISubastaQuindioService;
 public class SubastaQuindio implements ISubastaQuindioService{
 
 	
-	
+	private static final long serialVersionUID = 1L;
 	
 	ArrayList<Persona> listaPersonas = new ArrayList<>();
 	
@@ -29,8 +29,7 @@ public class SubastaQuindio implements ISubastaQuindioService{
 	
 
 	@Override
-	public Persona registerPerson(String cedula, String nombre, int edad, String usuario, String contrasenia,
-			TipoPersona rol) throws RegistroException {
+	public Persona registerPerson(String cedula, String nombre, int edad, String usuario, String contrasenia,TipoPersona rol) throws RegistroException {
 
 		Persona personaNueva = null;
 		boolean personaExist = verifyPersonExists(cedula);
@@ -39,7 +38,6 @@ public class SubastaQuindio implements ISubastaQuindioService{
 
 		} else {
 			personaNueva = new Persona();
-			
 			personaNueva.setCedula(cedula);
 			personaNueva.setNombre(nombre);
 			personaNueva.setEdad(edad);
@@ -67,9 +65,9 @@ public class SubastaQuindio implements ISubastaQuindioService{
 	public Persona obtenerPerson(String cedula) {
 
 		Persona personaEncontrada = null;
-		for (Persona person : getListaPersona()) {
-			if (person.getCedula().equalsIgnoreCase(cedula)) {
-				personaEncontrada = person;
+		for (Persona persona : getListaPersona()) {
+			if (persona.getCedula().equalsIgnoreCase(cedula)) {
+				personaEncontrada = persona;
 				break;
 			}
 		}
