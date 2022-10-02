@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -10,26 +11,35 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="583.0" prefWidth="761.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.subastaQuindio.controllers.SubastaViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="730.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.subastaQuindio.controllers.SubastaViewController">
    <children>
-      <TabPane layoutX="-2.0" layoutY="-3.0" prefHeight="576.0" prefWidth="765.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane layoutX="-2.0" layoutY="-3.0" prefHeight="730.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Autenticacion">
                <content>
-                  <AnchorPane prefHeight="576.0" prefWidth="765.0">
+                  <AnchorPane prefWidth="900.0">
                      <children>
-                        <AnchorPane layoutY="-1.0" prefHeight="576.0" prefWidth="765.0">
+                        <AnchorPane layoutY="-1.0" prefHeight="705.0" prefWidth="900.0">
                            <children>
-                              <Label layoutX="166.0" layoutY="141.0" prefHeight="17.0" prefWidth="48.0" text="Usuario:" />
-                              <Label layoutX="151.0" layoutY="202.0" text="Contraseña:" />
-                              <TextField fx:id="txtusuarioautenticarse" layoutX="224.0" layoutY="137.0" prefHeight="30.0" prefWidth="318.0" />
-                              <TextField fx:id="txtcontrasenaautenticarse" layoutX="223.0" layoutY="198.0" prefHeight="30.0" prefWidth="319.0" />
-                              <Button fx:id="btningresar" layoutX="224.0" layoutY="247.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="80.0" text="Ingresar" />
-                              <Label layoutX="316.0" layoutY="70.0" prefHeight="27.0" prefWidth="112.0" text="Autenticarse">
+                              <Label layoutX="260.0" layoutY="138.0" prefHeight="17.0" prefWidth="58.0" text="Usuario:*">
                                  <font>
-                                    <Font size="20.0" />
+                                    <Font name="System Bold" size="12.0" />
+                                 </font></Label>
+                              <Label layoutX="237.0" layoutY="201.0" text="Contraseña:*">
+                                 <font>
+                                    <Font name="Arial Bold" size="12.0" />
+                                 </font></Label>
+                              <TextField fx:id="txtusuarioautenticarse" layoutX="328.0" layoutY="134.0" prefHeight="30.0" prefWidth="318.0" />
+                              <Button fx:id="btningresar" layoutX="328.0" layoutY="242.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="97.0" style="-fx-background-color: #44C817;" text="Ingresar" textFill="WHITE">
+                                 <font>
+                                    <Font name="Arial Bold" size="17.0" />
+                                 </font></Button>
+                              <Label layoutX="400.0" layoutY="67.0" prefHeight="36.0" prefWidth="188.0" text="Autenticarse">
+                                 <font>
+                                    <Font name="Arial Bold" size="20.0" />
                                  </font>
                               </Label>
+                              <PasswordField fx:id="txtcontrasenaautenticarse" layoutX="326.0" layoutY="196.0" prefHeight="30.0" prefWidth="318.0" />
                            </children>
                         </AnchorPane>
                      </children></AnchorPane>
@@ -37,45 +47,66 @@
             </Tab>
           <Tab text="Registro">
                <content>
-                  <AnchorPane prefHeight="576.0" prefWidth="765.0">
+                  <AnchorPane prefWidth="765.0">
                      <children>
-                        <AnchorPane layoutX="3.0" layoutY="-4.0" prefHeight="576.0" prefWidth="765.0">
+                        <AnchorPane layoutX="3.0" layoutY="-4.0" prefWidth="765.0">
                            <children>
-                              <SplitPane dividerPositions="0.48626373626373626" layoutY="6.0" orientation="VERTICAL" prefHeight="576.0" prefWidth="765.0">
+                              <SplitPane dividerPositions="0.3516483516483517" layoutY="6.0" orientation="VERTICAL" prefHeight="730.0" prefWidth="900.0">
                                 <items>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="576.0" prefWidth="765.0">
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="900.0">
                                        <children>
-                                          <AnchorPane prefHeight="576.0" prefWidth="765.0">
+                                          <AnchorPane prefHeight="576.0" prefWidth="900.0">
                                              <children>
-                                                <Label layoutX="206.0" layoutY="24.0" text="Información personal">
+                                                <Label layoutX="400.0" layoutY="14.0" text="Información personal">
                                                    <font>
-                                                      <Font size="20.0" />
+                                                      <Font name="Arial Bold" size="20.0" />
                                                    </font></Label>
-                                                <Label layoutX="148.0" layoutY="103.0" text="Nombre:" />
-                                                <Label layoutX="157.0" layoutY="151.0" text="Edad:" />
-                                                <Label layoutX="159.0" layoutY="200.0" prefHeight="17.0" prefWidth="24.0" text="Rol:" />
-                                                <TextField fx:id="txtnombre" layoutX="206.0" layoutY="99.0" prefHeight="30.0" prefWidth="356.0" />
-                                                <TextField fx:id="txtedad" layoutX="206.0" layoutY="144.0" prefHeight="30.0" prefWidth="356.0" />
-                                                <ComboBox fx:id="txtrol" layoutX="205.0" layoutY="193.0" prefHeight="30.0" prefWidth="356.0" />
-                                                <TextField fx:id="txtcedula" layoutX="205.0" layoutY="59.0" prefHeight="30.0" prefWidth="356.0" />
-                                                <Label layoutX="151.0" layoutY="63.0" text="Cedula:" />
+                                                <Label layoutX="290.0" layoutY="103.0" text="Nombre:*">
+                                                   <font>
+                                                      <Font name="Arial Bold" size="12.0" />
+                                                   </font></Label>
+                                                <Label layoutX="299.0" layoutY="152.0" text="Edad:*">
+                                                   <font>
+                                                      <Font name="Arial Bold" size="12.0" />
+                                                   </font></Label>
+                                                <Label layoutX="303.0" layoutY="200.0" prefHeight="17.0" prefWidth="29.0" text="Rol:*">
+                                                   <font>
+                                                      <Font name="Arial Bold" size="12.0" />
+                                                   </font></Label>
+                                                <TextField fx:id="txtnombre" layoutX="348.0" layoutY="99.0" prefHeight="30.0" prefWidth="356.0" />
+                                                <TextField fx:id="txtedad" layoutX="348.0" layoutY="144.0" prefHeight="30.0" prefWidth="356.0" />
+                                                <ComboBox fx:id="txtrol" layoutX="347.0" layoutY="194.0" prefHeight="30.0" prefWidth="356.0" />
+                                                <TextField fx:id="txtcedula" layoutX="347.0" layoutY="59.0" prefHeight="30.0" prefWidth="356.0" />
+                                                <Label layoutX="294.0" layoutY="67.0" text="Cedula:*">
+                                                   <font>
+                                                      <Font name="Arial Bold" size="12.0" />
+                                                   </font></Label>
                                              </children>
                                           </AnchorPane>
                                        </children>
                                     </AnchorPane>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="576.0" prefWidth="765.0">
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="765.0">
                                        <children>
-                                          <AnchorPane layoutY="1.0" prefHeight="576.0" prefWidth="765.0">
+                                          <AnchorPane layoutY="1.0" prefHeight="439.0" prefWidth="900.0">
                                              <children>
-                                                <Label layoutX="201.0" layoutY="14.0" text="Información de usuario">
+                                                <Label layoutX="400.0" layoutY="14.0" text="Información de usuario">
                                                    <font>
-                                                      <Font size="20.0" />
+                                                      <Font name="Arial Bold" size="20.0" />
                                                    </font></Label>
-                                                <Label layoutX="141.0" layoutY="61.0" text="Usuario:" />
-                                                <Label layoutX="121.0" layoutY="111.0" text="Contraseña:" />
-                                                <TextField fx:id="txtusuario" layoutX="201.0" layoutY="54.0" prefHeight="30.0" prefWidth="356.0" />
-                                                <TextField fx:id="txtcontrasena" layoutX="201.0" layoutY="104.0" prefHeight="30.0" prefWidth="356.0" />
-                                                <Button fx:id="btnregistrar" layoutX="201.0" layoutY="152.0" mnemonicParsing="false" onAction="#registrarPerson" prefHeight="36.0" prefWidth="89.0" text="Registrarse" />
+                                                <Label layoutX="289.0" layoutY="71.0" text="Usuario:*">
+                                                   <font>
+                                                      <Font name="Arial Bold" size="12.0" />
+                                                   </font></Label>
+                                                <Label layoutX="269.0" layoutY="106.0" text="Contraseña:*">
+                                                   <font>
+                                                      <Font name="Arial Bold" size="12.0" />
+                                                   </font></Label>
+                                                <TextField fx:id="txtusuario" layoutX="349.0" layoutY="64.0" prefHeight="30.0" prefWidth="356.0" />
+                                                <Button fx:id="btnregistrar" layoutX="346.0" layoutY="153.0" mnemonicParsing="false" onAction="#registrarPerson" prefHeight="39.0" prefWidth="108.0" style="-fx-background-color: #44C817;" text="Registrarse" textFill="WHITE">
+                                                   <font>
+                                                      <Font name="Arial Bold" size="15.0" />
+                                                   </font></Button>
+                                                <PasswordField fx:id="txtcontrasena" layoutX="349.0" layoutY="102.0" prefHeight="30.0" prefWidth="356.0" />
                                              </children>
                                           </AnchorPane>
                                        </children>
