@@ -3,6 +3,8 @@
  */
 package co.edu.uniquindio.subastaQuindio.models;
 
+import java.util.ArrayList;
+
 /**
  * @author GonzalezHDanielaA
  *
@@ -11,11 +13,13 @@ public class Anunciante extends Persona{
 	
 	
 	private int tiempoLimitadoPublicacion;
-	private Producto tipoProductoAnunciar;
+	private ArrayList<Producto> tipoProductoAnunciar;
 	private int cantidadAnunciosPermitidos;
 	
 	
-	public Anunciante(){}
+	public Anunciante(){
+		this.tipoProductoAnunciar=new ArrayList<>();
+	}
 	/**
 	 * @return the cantidadAnunciosPermitidos
 	 */
@@ -44,14 +48,14 @@ public class Anunciante extends Persona{
 	/**
 	 * @return the tipoProductoAnunciar
 	 */
-	public Producto getTipoProductoAnunciar() {
+	public ArrayList<Producto> getTipoProductoAnunciar() {
 		return tipoProductoAnunciar;
 	}
 	/**
 	 * @param tipoProductoAnunciar the tipoProductoAnunciar to set
 	 */
-	public void setTipoProductoAnunciar(Producto tipoProductoAnunciar) {
-		this.tipoProductoAnunciar = tipoProductoAnunciar;
+	public void addTipoProductoAnunciar(Producto tipoProductoAnunciar) {
+		this.tipoProductoAnunciar.add(tipoProductoAnunciar);
 	}
 	
 	

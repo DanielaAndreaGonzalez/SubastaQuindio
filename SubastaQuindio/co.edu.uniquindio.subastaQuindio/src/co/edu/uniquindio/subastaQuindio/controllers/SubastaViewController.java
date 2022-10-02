@@ -15,6 +15,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -43,10 +44,10 @@ public class SubastaViewController {
 	    private Button btnregistrar;
 
 	    @FXML
-	    private TextField txtcontrasena;
+	    private PasswordField txtcontrasena;
 
 	    @FXML
-	    private TextField txtcontrasenaautenticarse;
+	    private PasswordField txtcontrasenaautenticarse;
 
 	    @FXML
 	    private TextField txtedad;
@@ -113,7 +114,7 @@ public class SubastaViewController {
 				 showMessage("Notificación registro", "Usuario creado", "El usuario se ha creado con éxito", AlertType.INFORMATION);
 				 clearFields();
 			 }else {
-				 showMessage("Notificación registro", "Usuario no creado", "El usuario no se ha creado con éxito", AlertType.INFORMATION);
+				 showMessage("Notificación registro", "Usuario no creado", "El usuario no se ha creado con éxito", AlertType.WARNING);
 			 }
 		 
 		 }else {

@@ -19,6 +19,7 @@ public class Producto {
 	private Calendar fechaFinPublicacion;
 	private double valorInicial;
 	private TipoProducto tipoProducto;
+	private String foto;
 	
 	
 	public Producto(){}

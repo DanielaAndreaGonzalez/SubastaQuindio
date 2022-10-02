@@ -6,6 +6,7 @@ package co.edu.uniquindio.subastaQuindio.controllers;
 import java.util.ArrayList;
 
 import co.edu.uniquindio.subastaQuindio.exceptions.RegistroException;
+import co.edu.uniquindio.subastaQuindio.models.Archivos;
 import co.edu.uniquindio.subastaQuindio.models.Persona;
 import co.edu.uniquindio.subastaQuindio.models.SubastaQuindio;
 import co.edu.uniquindio.subastaQuindio.models.TipoPersona;
@@ -17,8 +18,10 @@ import co.edu.uniquindio.subastaQuindio.services.IModelFactoryService;
  */
 public class ModelFactoryController implements IModelFactoryService{
 
-	
+	Archivos archivo = new Archivos("Usuarios");
 	SubastaQuindio subastaQuindio;
+	
+	
 	
 	//***********************************Singleton***********************************************
 	//Clase estatica oculta. Tan solo se instanciara el singleton una vez
@@ -44,6 +47,7 @@ public class ModelFactoryController implements IModelFactoryService{
 	private void inicializarDatos()
 	{
 		subastaQuindio= new SubastaQuindio();  
+		archivo.crearArchivo();
 	}
 	
 	
@@ -60,12 +64,11 @@ public class ModelFactoryController implements IModelFactoryService{
 	@Override
 	public Persona registerPerson(String cedula, String nombre, int edad, String usuario, String contrasenia,TipoPersona rol){
 		Persona persona = null;
-		try {
+		try {			
 			persona = getSubastaQuindio().registerPerson(cedula, nombre, edad, usuario, contrasenia, rol);
-			
-		} catch (RegistroException e) {
-		
-			e.printStackTrace();
+			archivo.saveperson(persona);			
+		} catch (RegistroException e) {		
+			System.out.println(e.getMessage());
 		}
 		return persona;
 	}

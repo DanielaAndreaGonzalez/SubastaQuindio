@@ -14,7 +14,7 @@ import co.edu.uniquindio.subastaQuindio.services.ISubastaQuindioService;
  */
 public class SubastaQuindio implements ISubastaQuindioService{
 
-	
+	private Archivos archivo = new Archivos("Usuarios");
 	private static final long serialVersionUID = 1L;
 	
 	ArrayList<Persona> listaPersonas = new ArrayList<>();
@@ -27,7 +27,6 @@ public class SubastaQuindio implements ISubastaQuindioService{
 	}
 	
 	
-
 	@Override
 	public Persona registerPerson(String cedula, String nombre, int edad, String usuario, String contrasenia,TipoPersona rol) throws RegistroException {
 
@@ -51,13 +50,10 @@ public class SubastaQuindio implements ISubastaQuindioService{
 
 @Override
 	public boolean verifyPersonExists(String cedula) {
-		Persona persona= null;
-		persona = obtenerPerson(cedula);
-		if(persona==null)
-			return false;
-		else
+		if(archivo.searchPerson(cedula)) 
 			return true;
-		
+		else
+			return false;
 	}
 
 
