@@ -93,8 +93,7 @@ public class Archivos {
 				e2.printStackTrace();
 			}
 		}
-		return bandera;
-		
+		return bandera;	
 	}
 	
 	

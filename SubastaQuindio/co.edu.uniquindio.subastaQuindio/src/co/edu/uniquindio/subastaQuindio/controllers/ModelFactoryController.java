@@ -3,6 +3,7 @@
  */
 package co.edu.uniquindio.subastaQuindio.controllers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import co.edu.uniquindio.subastaQuindio.exceptions.RegistroException;
@@ -10,6 +11,7 @@ import co.edu.uniquindio.subastaQuindio.models.Archivos;
 import co.edu.uniquindio.subastaQuindio.models.Persona;
 import co.edu.uniquindio.subastaQuindio.models.SubastaQuindio;
 import co.edu.uniquindio.subastaQuindio.models.TipoPersona;
+import co.edu.uniquindio.subastaQuindio.persistence.Persistencia;
 import co.edu.uniquindio.subastaQuindio.services.IModelFactoryService;
 
 /**
@@ -20,7 +22,7 @@ public class ModelFactoryController implements IModelFactoryService{
 
 	Archivos archivo = new Archivos("Usuarios");
 	SubastaQuindio subastaQuindio;
-	
+	private static Persistencia persistencia =null;
 	
 	
 	//***********************************Singleton***********************************************
@@ -66,8 +68,12 @@ public class ModelFactoryController implements IModelFactoryService{
 		Persona persona = null;
 		try {			
 			persona = getSubastaQuindio().registerPerson(cedula, nombre, edad, usuario, contrasenia, rol);
-			archivo.saveperson(persona);			
+			archivo.saveperson(persona);	
+			
 		} catch (RegistroException e) {		
+			System.out.println(e.getMessage());
+		}catch(IOException e)
+		{
 			System.out.println(e.getMessage());
 		}
 		return persona;
