@@ -9,6 +9,10 @@ package co.edu.uniquindio.subastaQuindio.models;
  */
 public class Usuario {
 	
+	public static String NOMBRE_ARCHIVO_GUARDADO_EXTENCION = "archivoUsuarios.txt";
+	public static String NOMBRE_ARCHIVO_GUARDADO = "archivoUsuarios";	
+	public static String EXTENSION_ARCHIVO_GUARDADO = ".txt";
+	
 	
 	private String usuario;
 	private String contrasenia;

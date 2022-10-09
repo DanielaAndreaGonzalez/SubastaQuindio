@@ -8,6 +8,7 @@ import java.beans.XMLEncoder;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -20,6 +21,9 @@ import java.util.logging.SimpleFormatter;
 import java.util.logging.Level;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * @author GonzalezHDanielaA
@@ -212,4 +216,17 @@ public class ArchivoUtil {
 			codificadorXML.close();
 			
 		}
+		
+		public static void hacerBackupArchivo(String origenArchivo, String destinoArchivo) {
+            try {
+                Path origenPath = Paths.get(origenArchivo);
+                Path destinoPath = Paths.get(destinoArchivo);
+                //sobreescribir el fichero de destino si existe y lo copia
+                Files.copy(origenPath, destinoPath);
+            } catch (FileNotFoundException ex) {                
+                System.out.println(ex.getMessage());
+            } catch (IOException ex) {
+            	System.out.println(ex.getMessage());
+            }
+        }
 }

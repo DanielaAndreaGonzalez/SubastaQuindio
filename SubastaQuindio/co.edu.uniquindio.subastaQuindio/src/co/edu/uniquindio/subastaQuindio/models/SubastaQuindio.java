@@ -7,11 +7,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import co.edu.uniquindio.subastaQuindio.exceptions.RegistroException;
-import co.edu.uniquindio.subastaQuindio.persistence.ArchivoUtil;
 import co.edu.uniquindio.subastaQuindio.persistence.Persistencia;
 import co.edu.uniquindio.subastaQuindio.services.ISubastaQuindioService;
-import java.util.logging.Logger;
-import java.util.logging.Level;
 
 /**
  * @author GonzalezHDanielaA
@@ -21,7 +18,7 @@ public class SubastaQuindio implements ISubastaQuindioService{
 
 	private Archivos archivo = new Archivos("Usuarios");
 	private static final long serialVersionUID = 1L;
-	private static Persistencia persistencia =null;
+	//private static Persistencia persistencia =null; no es necesario declararla debido a que se puede acceder a la clase porque el metodo es estatico
 	
 	
 	ArrayList<Persona> listaPersonas = new ArrayList<>();
@@ -52,13 +49,14 @@ public class SubastaQuindio implements ISubastaQuindioService{
 			personaNueva.setContrasenia(contrasenia);
 			personaNueva.setTipoPersona(rol);
 			getListaPersona().add(personaNueva);
-			persistencia.guardarUsuarios(listaPersonas);
+			Persistencia.hacerBackupArchivo(Persona.NOMBRE_ARCHIVO_GUARDADO_EXTENCION, Persona.NOMBRE_ARCHIVO_GUARDADO);
+			Persistencia.guardarUsuarios(listaPersonas);
 			
 			mensaje = "Se guardó el usuario con cédula "+personaNueva.getCedula()+
-					  "nombre: "+personaNueva.getNombre()+" edad: "+personaNueva.getEdad()+
-					  "Usuario: "+personaNueva.getUsuario()+" contrasenia "+personaNueva.getContrasenia();
+					  "nombre: "+personaNueva.getNombre()+",edad: "+personaNueva.getEdad()+
+					  ",Usuario: "+personaNueva.getUsuario()+",contrasenia "+personaNueva.getContrasenia();
 					  
-			persistencia.guardarRegistroLog(mensaje,1, "Información Registrar Usuario");
+			Persistencia.guardarRegistroLog(mensaje,1, "Información Registrar Usuario");
 		}
 		return personaNueva;
 	}

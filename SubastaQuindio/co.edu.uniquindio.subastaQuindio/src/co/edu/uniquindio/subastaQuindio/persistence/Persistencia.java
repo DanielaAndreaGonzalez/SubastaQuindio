@@ -19,11 +19,14 @@ import co.edu.uniquindio.subastaQuindio.models.Usuario;
 public class Persistencia {
 	
 	//public static final String RUTA_ARCHIVO_EMPLEADOS = "src/resources/archivoEmpleados.txt";
-	public static final String RUTA_ARCHIVO_USUARIOS = "C://td//persistencia//Archivos//archivoUsuarios.txt";
+	public static final String RUTA_ARCHIVO_USUARIOS = "C://td//persistencia//Archivos//"+ Usuario.NOMBRE_ARCHIVO_GUARDADO_EXTENCION;
 	public static final String RUTA_ARCHIVO_LOG = "C://td//persistencia//log//SubastaQuindioLog.txt";
 	public static final String RUTA_ARCHIVO_OBJETOS = "src/resources/archivoObjetos.txt";
 	public static final String RUTA_ARCHIVO_MODELO_BANCO_BINARIO = "src/resources/model.dat";
 	public static final String RUTA_ARCHIVO_MODELO_BANCO_XML = "C://td//persistencia//model.xml";
+	
+	public static final String RUTA_ARCHIVO_COPIA_ORIGEN_GENERAL = "C://td//persistencia//Archivos//";
+	public static final String RUTA_ARCHIVO_COPIA_DESTINO_GENERAL = "C://td//persistencia//respaldo//";
 	
 	
 	public static void cargarDatosArchivos(SubastaQuindio subastaQuindio) throws FileNotFoundException,  IOException
@@ -102,6 +105,18 @@ public class Persistencia {
 	public static void guardarRegistroLog(String mensajeLog, int nivel, String accion)
 	{
 		ArchivoUtil.guardarRegistroLog(mensajeLog, nivel, accion, RUTA_ARCHIVO_LOG);
+	}
+	
+	
+	/**
+	 * 
+	 * @param nombreArchivoOrigen nombre del archivo destino con extencion
+	 * @param nombreArchivoDestino nombre del archivo destino sin extencion
+	 */
+	public static void hacerBackupArchivo(String nombreArchivoOrigen, String nombreArchivoDestino) {			
+		String rutaOrigen = RUTA_ARCHIVO_COPIA_ORIGEN_GENERAL + nombreArchivoOrigen;
+		String rutaOrigenDestino = RUTA_ARCHIVO_COPIA_DESTINO_GENERAL + nombreArchivoDestino+FechaUtil.fechaUtilPersisteciaBackup() + ".txt";
+		ArchivoUtil.hacerBackupArchivo(rutaOrigen,rutaOrigenDestino);
 	}
 
 }

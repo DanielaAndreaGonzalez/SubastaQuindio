@@ -11,6 +11,7 @@ import co.edu.uniquindio.subastaQuindio.models.Archivos;
 import co.edu.uniquindio.subastaQuindio.models.Persona;
 import co.edu.uniquindio.subastaQuindio.models.SubastaQuindio;
 import co.edu.uniquindio.subastaQuindio.models.TipoPersona;
+import co.edu.uniquindio.subastaQuindio.persistence.FechaUtil;
 import co.edu.uniquindio.subastaQuindio.persistence.Persistencia;
 import co.edu.uniquindio.subastaQuindio.services.IModelFactoryService;
 
@@ -47,7 +48,7 @@ public class ModelFactoryController implements IModelFactoryService{
 	}
 	
 	private void inicializarDatos()
-	{
+	{		
 		subastaQuindio= new SubastaQuindio();  
 		archivo.crearArchivo();
 	}
