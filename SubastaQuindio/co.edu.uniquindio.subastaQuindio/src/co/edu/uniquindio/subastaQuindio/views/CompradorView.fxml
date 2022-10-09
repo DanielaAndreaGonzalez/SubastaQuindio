@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="tblListaAnunciosParaPujar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="730.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TabPane fx:id="tblListaSolicitudAnuncios" layoutX="-2.0" layoutY="-3.0" prefHeight="730.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+            <Tab text="Pujar Producto">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="730.0" prefWidth="900.0" style="-fx-background-color: DEF3D7;">
+                     <children>
+                        <SplitPane dividerPositions="0.5" layoutX="1.0" layoutY="2.0" orientation="VERTICAL" prefHeight="730.0" prefWidth="900.0" style="-fx-background-color: DEF3D7;">
+                           <items>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="730.0" prefWidth="900.0">
+                                 <children>
+                                    <Label layoutX="370.0" layoutY="14.0" text="Listado Anuncios">
+                                       <font>
+                                          <Font name="Arial Bold" size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <TableView fx:id="tblListaProductosPujar" layoutX="16.0" layoutY="40.0" prefHeight="305.0" prefWidth="876.0" style="-fx-background-color: C4DDF6;">
+                                       <columns>
+                                          <TableColumn fx:id="columnNombre1" prefWidth="96.0" text="Nombre" />
+                                          <TableColumn fx:id="columnDescripcion1" prefWidth="107.0" text="Decscripción" />
+                                          <TableColumn fx:id="columnValorInicial1" prefWidth="88.0" text="Valor Inicial" />
+                                          <TableColumn fx:id="columnNombreAnunciante1" prefWidth="135.0" text="Nombre anunciante" />
+                                          <TableColumn fx:id="columnFechaPublicacion1" prefWidth="133.0" text="Fecha publicación" />
+                                          <TableColumn fx:id="columnFechaLimite1" prefWidth="134.0" text="Fecha limite" />
+                                       </columns>
+                                    </TableView>
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                 <children>
+                                    <Button fx:id="btnGuardarPuja" layoutX="351.0" layoutY="235.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="99.0" style="-fx-background-color: #198754;" text="Enviar Puja" textFill="WHITE">
+                                       <font>
+                                          <Font name="Arial Bold" size="12.0" />
+                                       </font>
+                                    </Button>
+                                    <Label layoutX="213.0" layoutY="189.0" prefHeight="15.0" prefWidth="98.0" text="Valor a pagar:*">
+                                       <font>
+                                          <Font name="Arial Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="txtMonto" layoutX="320.0" layoutY="181.0" prefHeight="30.0" prefWidth="377.0" promptText="Ingreses un valor a pagar por el producto" />
+                                    <Label layoutX="364.0" layoutY="14.0" text="Información pujas">
+                                       <font>
+                                          <Font name="Arial Bold" size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="199.0" layoutY="53.0" prefHeight="15.0" prefWidth="113.0" text="Nombre producto:*">
+                                       <font>
+                                          <Font name="Arial Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="txtNobreProductoSeleccionPuja" layoutX="322.0" layoutY="46.0" prefHeight="30.0" prefWidth="377.0" promptText="Ingrese el nombre del producto" />
+                                    <Label layoutX="223.0" layoutY="99.0" prefHeight="15.0" prefWidth="82.0" text="Valor inicial:*">
+                                       <font>
+                                          <Font name="Arial Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="txtValorInicialProductoSeleccionPuja" layoutX="322.0" layoutY="91.0" prefHeight="30.0" prefWidth="377.0" promptText="Ingrese el valor inicial" />
+                                    <ComboBox fx:id="cmboxTipoProductoSeleccionPuja" layoutX="322.0" layoutY="136.0" prefHeight="30.0" prefWidth="377.0" promptText="Seleccione un producto" />
+                                    <Label layoutX="213.0" layoutY="144.0" prefHeight="15.0" prefWidth="94.0" text="Tipo producto:*">
+                                       <font>
+                                          <Font name="Arial Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </AnchorPane>
+                           </items>
+                        </SplitPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

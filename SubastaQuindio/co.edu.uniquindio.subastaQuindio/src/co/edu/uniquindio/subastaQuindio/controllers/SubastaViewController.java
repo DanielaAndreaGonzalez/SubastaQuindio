@@ -16,10 +16,15 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleGroup;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 /**
  * @author GonzalezHDanielaA
  *
@@ -66,8 +71,14 @@ public class SubastaViewController {
 	    
 	    @FXML
 	    private TextField txtcedula;
+	    
+	    @FXML
+	    private RadioButton rdbAnunciante;
+	    
+	    @FXML
+	    private RadioButton rdbComprador;
 	
-	
+	    ToggleGroup tg = new ToggleGroup();
 	
 	@FXML
 	void initialize()
@@ -76,6 +87,21 @@ public class SubastaViewController {
 		crudRegistroViewController = new CrudRegistroViewController(modelFactoryController);
 		llenarComboRol();
 		
+		
+		rdbAnunciante.setToggleGroup(this.tg);
+		rdbComprador.setToggleGroup(this.tg);
+		
+		tg.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+			public void changed(ObservableValue<? extends Toggle> ob, Toggle oldSelection, Toggle newSelection)
+			{
+				RadioButton rb = (RadioButton)tg.getSelectedToggle();
+
+//				if (rb != null) {
+//					String s = rb.getText();
+//					JOptionPane.showMessageDialog(null,"Radio buton seleccionado: --> "+s);
+//				}
+			}
+		});
 	}
 	
 	public void llenarComboRol()
@@ -87,13 +113,33 @@ public class SubastaViewController {
 		this.txtrol.setItems(tipoPers);
 	}
 	
+	public Main getAplicacion() {
+		return aplication;
+	}
+	public void setAplicacion(Main aplicacion) {
+		this.aplication = aplicacion;
+	}
 	
 	 @FXML
     void registrarPerson(ActionEvent event) {
 		 registerPerson();	 
     }
+	 
+	 @FXML 
+    void ingresar(ActionEvent event) {
+		 ingresarLogin();
+    }
 	
-	 private void registerPerson()
+	 private void ingresarLogin() {
+		if(rdbAnunciante.isSelected()){
+			getAplicacion().mostrarVentanaAnunciante();
+	    }
+	    else{
+	    	getAplicacion().mostrarVentanaComprador();
+	    }		
+	}
+
+	private void registerPerson()
 	 {
 		 //1. Capturar los datos
 		 String cedula = txtcedula.getText(); 

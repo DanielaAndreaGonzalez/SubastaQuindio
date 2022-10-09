@@ -2,6 +2,8 @@ package co.edu.uniquindio.subastaQuindio;
 	
 import java.io.IOException;
 
+import co.edu.uniquindio.subastaQuindio.controllers.AnunciantesViewController;
+import co.edu.uniquindio.subastaQuindio.controllers.SubastaViewController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -15,10 +17,26 @@ public class Main extends Application {
 	
 	@Override
 	public void start(Stage primaryStage) {
+		this.primaryStage = primaryStage;
+		this.primaryStage.setTitle("Subastas UQ");
+		mostrarVentanaPrincipal();
+	}
+	
+	public static void main(String[] args) {
+		launch(args);
+	}
+	
+	
+	private void mostrarVentanaPrincipal(){
 		try {
-			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("views/SubastaView.fxml"));
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("views/SubastaView.fxml"));
+			AnchorPane root = (AnchorPane) loader.load();
+			//	AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("views/SubastaView.fxml"));
 			//AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("SampleController.fxml"));
-			Scene scene = new Scene(root,400,400);
+			SubastaViewController subastaViewController = loader.getController();
+			subastaViewController.setAplicacion(this);
+			Scene scene = new Scene(root,880,500);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
@@ -27,23 +45,19 @@ public class Main extends Application {
 		}
 	}
 	
-	public static void main(String[] args) {
-		launch(args);
-	}
-	
-	
 	public void mostrarVentanaAnunciante() {
 		try{
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("views/SubastaActorView.fxml"));
+			loader.setLocation(Main.class.getResource("views/AnuncianteView.fxml"));
 			AnchorPane rootLayout = (AnchorPane) loader.load();
-			//SubastaActorViewController subastaActorViewController = loader.getController();
-//			subastaActorViewController.setAplicacion(this);
+			AnunciantesViewController anunciantesViewController = loader.getController();
+			anunciantesViewController.setAplicacion(this);
 			Scene scene = new Scene(rootLayout);
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		}catch (IOException e) {
 			// TODO: handle exception
+			System.out.println(e.getMessage());
 		}
 		
 	}	
@@ -51,7 +65,7 @@ public class Main extends Application {
 	public void mostrarVentanaComprador() {
 		try{
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("views/SubastaWorkerView.fxml"));
+			loader.setLocation(Main.class.getResource("views/CompradorView.fxml"));
 			AnchorPane rootLayout = (AnchorPane) loader.load();
 			//SubastaWorkerViewController subastaWorkerViewController = loader.getController();
 //			subastaWorkerViewController.setAplicacion(this);
@@ -60,6 +74,7 @@ public class Main extends Application {
 			primaryStage.show();
 		}catch (IOException e) {
 			// TODO: handle exception
+			System.out.println(e.getMessage());
 		}
 	}
 }
