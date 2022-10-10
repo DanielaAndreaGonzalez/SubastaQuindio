@@ -7,6 +7,7 @@ import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -14,11 +15,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Logger;
 import java.util.Calendar;
 import java.util.logging.FileHandler;
 import java.util.logging.SimpleFormatter;
+import java.util.regex.Pattern;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.Files;
@@ -58,7 +60,7 @@ public class ArchivoUtil {
 		ArrayList<String>  contenido = new ArrayList<String>();
 		FileReader fr=new FileReader(ruta);
 		BufferedReader bfr=new BufferedReader(fr);
-		String linea="";
+		String linea="";	
 		while((linea = bfr.readLine())!=null) 
 		{
 			contenido.add(linea);
@@ -224,9 +226,53 @@ public class ArchivoUtil {
                 //sobreescribir el fichero de destino si existe y lo copia
                 Files.copy(origenPath, destinoPath);
             } catch (FileNotFoundException ex) {                
-                System.out.println(ex.getMessage());
-            } catch (IOException ex) {
-            	System.out.println(ex.getMessage());
+                Persistencia.guardarRegistroLog(ex.getMessage(),3, "ArchivoUtil - hacerBackupArchivo ");
+            } catch (IOException ex) {            	
+            	Persistencia.guardarRegistroLog(ex.getMessage(),3, "ArchivoUtil - hacerBackupArchivo ");
             }
         }
+		
+		public static boolean searchPerson(String cedula) {
+			boolean bandera=false;
+			File archivo = null;
+			FileReader fr = null;
+			BufferedReader br = null;			
+			try {
+				archivo = new File(Persistencia.RUTA_ARCHIVO_USUARIOS);
+				fr = new FileReader(archivo);
+				br = new BufferedReader(fr);
+				
+				// Lectura del fichero
+				String linea = "";
+				String separador = Pattern.quote(Persistencia.SEPARADOR);
+				while ((linea = br.readLine()) != null) {
+					// System.out.println(linea);
+					String lineaDividida[] = linea.split(separador);
+					if(lineaDividida[0].equals(cedula)) {
+						bandera= true;
+					}				
+				}
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally {
+				// En el finally cerramos el fichero, para asegurarnos
+				// que se cierra tanto si todo va bien como si salta
+				// una excepcion.
+				try {
+					if (null != fr) {
+						fr.close();
+					}
+				} catch (Exception e2) {
+					e2.printStackTrace();
+				}
+			}
+			return bandera;
+		}
+		
+		
+		
 }

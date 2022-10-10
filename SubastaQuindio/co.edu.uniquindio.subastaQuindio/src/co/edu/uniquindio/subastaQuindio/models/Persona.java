@@ -3,15 +3,18 @@
  */
 package co.edu.uniquindio.subastaQuindio.models;
 
+import java.io.Serializable;
+
 /**
  * @author GonzalezHDanielaA
  *
  */
-public class Persona extends Usuario{
+public class Persona extends Usuario implements Serializable{
 	
 	private String cedula;
 	private String nombre;
 	private int edad;
+	private static final long serialVersionUID = 1L;
 	
 	public Persona() {}
 	

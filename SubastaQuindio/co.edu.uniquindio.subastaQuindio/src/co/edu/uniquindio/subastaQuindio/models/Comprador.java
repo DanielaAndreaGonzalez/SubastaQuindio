@@ -3,14 +3,17 @@
  */
 package co.edu.uniquindio.subastaQuindio.models;
 
+import java.io.Serializable;
+
 /**
  * @author GonzalezHDanielaA
  *
  */
-public class Comprador extends Persona{
+public class Comprador extends Persona implements Serializable{
 	
 	private double montoDispuestoPagar;
 	private int[] ofertas = new int[3];
+	private static final long serialVersionUID = 1L;
 	
 	
 	public Comprador(){}

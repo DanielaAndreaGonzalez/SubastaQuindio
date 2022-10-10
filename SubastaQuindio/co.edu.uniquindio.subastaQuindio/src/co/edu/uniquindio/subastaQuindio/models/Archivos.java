@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -18,14 +19,17 @@ import java.util.regex.Pattern;
  * @author GonzalezHDanielaA
  *
  */
-public class Archivos {
+public class Archivos implements Serializable{
 	
 	
 	private String nombreArchivo;
-
+	private static final long serialVersionUID = 1L;
+	
 	public Archivos(String nombreArchivo) {
 		this.nombreArchivo = nombreArchivo;
 	}
+	
+	public Archivos() {}
 	
 	
 	public ArrayList<String> obtenerDatos() {

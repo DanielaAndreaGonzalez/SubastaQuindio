@@ -45,14 +45,50 @@ public class ModelFactoryController implements IModelFactoryService{
 		System.out.println("Invocación clase singleton");
 		inicializarDatos();
 		//OJO NOTA: ACÁ SE INICIALIZAN LOS DATOS
+		
+		//Guardar un registro serializado binario
+		guardarResourceXML();
+		guardarResourceBinario();
+		
+		
+		
 	}
+	
+	private void inicializarSalvarDatos() {
+		inicializarDatos();
+		try {
+			Persistencia.guardarUsuarios(getSubastaQuindio().getListaPersona());
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	
 	private void inicializarDatos()
 	{		
+		Persistencia.hacerBackupArchivosSerializados("model.xml", "model", ".xml");
+		Persistencia.hacerBackupArchivosSerializados("usuarioBin.dat", "usuarioBin", ".dat");
 		subastaQuindio= new SubastaQuindio();  
 		archivo.crearArchivo();
 	}
 	
+	
+	/**
+	 * Metodo que guarda en un archivo el texto en binario
+	 */
+	private void guardarResourceBinario() {
+		Persistencia.guardarRecursoSubastaBinario(subastaQuindio);			
+	}
+	
+	/**
+	 * Metodo que guarda en un archivo el texto en binario
+	 */
+	private void guardarResourceXML() {
+		Persistencia.guardarRecursoBancoXML(subastaQuindio);	
+	}
 	
 	public SubastaQuindio getSubastaQuindio()
 	{
@@ -69,13 +105,17 @@ public class ModelFactoryController implements IModelFactoryService{
 		Persona persona = null;
 		try {			
 			persona = getSubastaQuindio().registerPerson(cedula, nombre, edad, usuario, contrasenia, rol);
-			archivo.saveperson(persona);	
+			//guardar en archivo plano
+			archivo.saveperson(persona);
+			//guardar en binario
 			
-		} catch (RegistroException e) {		
-			System.out.println(e.getMessage());
+			//guardar en xml
+			
+		} catch (RegistroException e) {
+			Persistencia.guardarRegistroLog(e.getMessage(),3, "ModelFactoryController - registerPerson ");
 		}catch(IOException e)
 		{
-			System.out.println(e.getMessage());
+			Persistencia.guardarRegistroLog(e.getMessage(),3, "ModelFactoryController - registerPerson ");
 		}
 		return persona;
 	}

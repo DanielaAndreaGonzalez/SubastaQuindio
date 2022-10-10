@@ -3,18 +3,20 @@
  */
 package co.edu.uniquindio.subastaQuindio.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * @author GonzalezHDanielaA
  *
  */
-public class Anunciante extends Persona{
+public class Anunciante extends Persona implements Serializable{
 	
 	
 	private int tiempoLimitadoPublicacion;
 	private ArrayList<Producto> tipoProductoAnunciar;
 	private int cantidadAnunciosPermitidos;
+	private static final long serialVersionUID = 1L;
 	
 	
 	public Anunciante(){

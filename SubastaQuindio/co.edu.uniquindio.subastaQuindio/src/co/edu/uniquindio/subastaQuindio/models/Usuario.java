@@ -3,16 +3,18 @@
  */
 package co.edu.uniquindio.subastaQuindio.models;
 
+import java.io.Serializable;
+
 /**
  * @author GonzalezHDanielaA
  *
  */
-public class Usuario {
+public class Usuario implements Serializable{
 	
-	public static String NOMBRE_ARCHIVO_GUARDADO_EXTENCION = "archivoUsuarios.txt";
+	public static String NOMBRE_ARCHIVO_GUARDADO_EXTENSION = "archivoUsuarios.txt";
 	public static String NOMBRE_ARCHIVO_GUARDADO = "archivoUsuarios";	
 	public static String EXTENSION_ARCHIVO_GUARDADO = ".txt";
-	
+	private static final long serialVersionUID = 1L;
 	
 	private String usuario;
 	private String contrasenia;

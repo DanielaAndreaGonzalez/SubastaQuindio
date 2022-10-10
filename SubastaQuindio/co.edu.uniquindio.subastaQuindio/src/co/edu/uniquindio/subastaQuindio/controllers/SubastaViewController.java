@@ -4,12 +4,15 @@
 package co.edu.uniquindio.subastaQuindio.controllers;
 
 
+import java.io.IOException;
 import java.util.ResourceBundle;
 
 
 import co.edu.uniquindio.subastaQuindio.Main;
+import co.edu.uniquindio.subastaQuindio.exceptions.UsuarioExcepcion;
 import co.edu.uniquindio.subastaQuindio.models.Persona;
 import co.edu.uniquindio.subastaQuindio.models.TipoPersona;
+import co.edu.uniquindio.subastaQuindio.persistence.Persistencia;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -131,12 +134,27 @@ public class SubastaViewController {
     }
 	
 	 private void ingresarLogin() {
-		if(rdbAnunciante.isSelected()){
-			getAplicacion().mostrarVentanaAnunciante();
-	    }
-	    else{
-	    	getAplicacion().mostrarVentanaComprador();
-	    }		
+		 
+		//capturar usuario y contraseña
+		 String usuarioIngresado =  txtusuarioautenticarse.getText();
+		 String contraseñaIngresada =  txtcontrasenaautenticarse.getText();
+		// buscar usuario y conseña en archivo binario
+		try {
+			if (Persistencia.iniciarSesion(usuarioIngresado, contraseñaIngresada)) {
+				if(rdbAnunciante.isSelected()){
+					getAplicacion().mostrarVentanaAnunciante();
+			    }
+			    else{
+			    	getAplicacion().mostrarVentanaComprador();
+			    }	
+			}
+			Persistencia.guardarRegistroLog("Usuario Logueado", 1, "Ingreso al sistema  "+usuarioIngresado);
+		} catch (IOException | UsuarioExcepcion e) {
+			Persistencia.guardarRegistroLog("SubastaViewController - ingresarLogin", 3, e.getMessage());
+			e.printStackTrace();
+		}
+		
+			
 	}
 
 	private void registerPerson()

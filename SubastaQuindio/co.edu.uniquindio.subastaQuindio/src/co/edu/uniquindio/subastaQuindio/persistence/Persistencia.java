@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import co.edu.uniquindio.subastaQuindio.exceptions.UsuarioExcepcion;
 import co.edu.uniquindio.subastaQuindio.models.Persona;
 import co.edu.uniquindio.subastaQuindio.models.SubastaQuindio;
 import co.edu.uniquindio.subastaQuindio.models.TipoPersona;
@@ -19,28 +20,44 @@ import co.edu.uniquindio.subastaQuindio.models.Usuario;
 public class Persistencia {
 	
 	//public static final String RUTA_ARCHIVO_EMPLEADOS = "src/resources/archivoEmpleados.txt";
-	public static final String RUTA_ARCHIVO_USUARIOS = "C://td//persistencia//Archivos//"+ Usuario.NOMBRE_ARCHIVO_GUARDADO_EXTENCION;
+	public static final String RUTA_ARCHIVO_USUARIOS = "C://td//persistencia//Archivos//"+ Usuario.NOMBRE_ARCHIVO_GUARDADO_EXTENSION;
 	public static final String RUTA_ARCHIVO_LOG = "C://td//persistencia//log//SubastaQuindioLog.txt";
 	public static final String RUTA_ARCHIVO_OBJETOS = "src/resources/archivoObjetos.txt";
-	public static final String RUTA_ARCHIVO_MODELO_BANCO_BINARIO = "src/resources/model.dat";
+	public static final String RUTA_ARCHIVO_MODELO_SUBASTA_BINARIO = "C://td//persistencia//usuarioBin.dat";
 	public static final String RUTA_ARCHIVO_MODELO_BANCO_XML = "C://td//persistencia//model.xml";
 	
 	public static final String RUTA_ARCHIVO_COPIA_ORIGEN_GENERAL = "C://td//persistencia//Archivos//";
 	public static final String RUTA_ARCHIVO_COPIA_DESTINO_GENERAL = "C://td//persistencia//respaldo//";
 	
+	public static final String RUTA_ARCHIVO_COPIA_ORIGEN_GENERAL_SERIAL = "C://td//persistencia//";	
 	
-	public static void cargarDatosArchivos(SubastaQuindio subastaQuindio) throws FileNotFoundException,  IOException
+	public static final String SEPARADOR = "@@";
+	
+	
+	public static boolean iniciarSesion(String usuario, String contrasenia) throws FileNotFoundException, IOException, UsuarioExcepcion {
+		
+		if(validarUsuario(usuario,contrasenia)) {
+			return true;
+		}else {
+			throw new UsuarioExcepcion("Usuario no existe");
+		}
+		
+	}
+	
+	private static boolean validarUsuario(String usuario, String contrasenia) throws FileNotFoundException, IOException 
 	{
+		SubastaQuindio subastaQuindio=  Persistencia.cargarRecursoSubastaQuindioBinario();
 		
-		//Cargar Archivo de usuarios
-		ArrayList<Persona> usuarioCargados = cargarUSuarios();
+		ArrayList<Persona> usuarios = subastaQuindio.getListaPersona();
 		
-		if(usuarioCargados.size() >0)
-			subastaQuindio.getListaPersona().addAll(usuarioCargados);
-		
-		//Se carga el resto de archivos
-		//Cargar archivo anuncios
-		//Cargar archivos pujas 
+		for (int indiceUsuario = 0; indiceUsuario < usuarios.size(); indiceUsuario++) 
+		{
+			Usuario usuarioAux = usuarios.get(indiceUsuario);
+			if(usuarioAux.getUsuario().equalsIgnoreCase(usuario) && usuarioAux.getContrasenia().equalsIgnoreCase(contrasenia)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	
@@ -56,8 +73,8 @@ public class Persistencia {
 		
 		for(Persona persona: listaUsuario)
 		{
-			contenido+= persona.getCedula()+ ","+persona.getNombre()+","+persona.getEdad()+","
-					 +persona.getTipoPersona()+","+persona.getUsuario()+","+persona.getContrasenia()+"\n";
+			contenido+= persona.getCedula()+SEPARADOR+persona.getNombre()+SEPARADOR+persona.getEdad()+SEPARADOR
+					 +persona.getTipoPersona()+SEPARADOR+persona.getUsuario()+SEPARADOR+persona.getContrasenia()+"\n";
 		}
 		ArchivoUtil.guardarArchivo(RUTA_ARCHIVO_USUARIOS, contenido, true);
 	}
@@ -69,7 +86,7 @@ public class Persistencia {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	public static ArrayList<Persona> cargarUSuarios() throws FileNotFoundException, IOException
+	public static ArrayList<Persona> cargarUsuarios() throws FileNotFoundException, IOException
 	{
 		
 		ArrayList<Persona> personas = new ArrayList<Persona>();
@@ -117,6 +134,66 @@ public class Persistencia {
 		String rutaOrigen = RUTA_ARCHIVO_COPIA_ORIGEN_GENERAL + nombreArchivoOrigen;
 		String rutaOrigenDestino = RUTA_ARCHIVO_COPIA_DESTINO_GENERAL + nombreArchivoDestino+FechaUtil.fechaUtilPersisteciaBackup() + ".txt";
 		ArchivoUtil.hacerBackupArchivo(rutaOrigen,rutaOrigenDestino);
+	}
+	
+	/**
+	 * 
+	 * @param nombreArchivoOrigen nombre del archivo destino con extencion
+	 * @param nombreArchivoDestino nombre del archivo destino sin extencion
+	 */
+	public static void hacerBackupArchivosSerializados(String nombreArchivoOrigen, String nombreArchivoDestino, String extension) {			
+		String rutaOrigen = RUTA_ARCHIVO_COPIA_ORIGEN_GENERAL_SERIAL + nombreArchivoOrigen;
+		String rutaOrigenDestino = RUTA_ARCHIVO_COPIA_DESTINO_GENERAL + nombreArchivoDestino + FechaUtil.fechaUtilPersisteciaBackup() + extension;
+		ArchivoUtil.hacerBackupArchivo(rutaOrigen,rutaOrigenDestino);
+	}
+	
+	public static void guardarRecursoSubastaBinario(SubastaQuindio subasta) {
+		
+		try {
+			ArchivoUtil.salvarRecursoSerializado(RUTA_ARCHIVO_MODELO_SUBASTA_BINARIO, subasta);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.getMessage();
+			e.printStackTrace();
+		}
+	}
+	
+	public static SubastaQuindio cargarRecursoSubastaQuindioBinario() {
+		
+		SubastaQuindio subastaQuindio = null;
+		
+		try {
+			subastaQuindio = (SubastaQuindio)ArchivoUtil.cargarRecursoSerializado(RUTA_ARCHIVO_MODELO_SUBASTA_BINARIO);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return subastaQuindio;
+	}
+		
+	
+	public static void guardarRecursoBancoXML(SubastaQuindio subastaQuindio) {
+		
+		try {
+			ArchivoUtil.salvarRecursoSerializadoXML(RUTA_ARCHIVO_MODELO_BANCO_XML, subastaQuindio);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static boolean buscarPersona(String cedula)
+	{
+		boolean bandera=false;
+		try {
+			if(ArchivoUtil.searchPerson(cedula)) {
+				bandera= true;
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return bandera;
 	}
 
 }

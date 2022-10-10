@@ -3,13 +3,14 @@
  */
 package co.edu.uniquindio.subastaQuindio.models;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
 /**
  * @author GonzalezHDanielaA
  *
  */
-public class Producto {
+public class Producto implements Serializable{
 	
 	
 	private String nombreProducto;
@@ -20,6 +21,7 @@ public class Producto {
 	private double valorInicial;
 	private TipoProducto tipoProducto;
 	private String foto;
+	private static final long serialVersionUID = 1L;
 	
 	
 	public Producto(){}
