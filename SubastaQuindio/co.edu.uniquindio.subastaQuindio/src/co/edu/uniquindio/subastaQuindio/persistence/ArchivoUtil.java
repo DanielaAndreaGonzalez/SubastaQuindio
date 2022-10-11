@@ -209,16 +209,27 @@ public class ArchivoUtil {
 			
 		}
 
-		public static void salvarRecursoSerializadoXML(String rutaArchivo, Object objeto) throws IOException {
+		public static void salvarRecursoSerializadoXML(String rutaArchivo,Object objeto) throws Exception
+		{
 			
-			XMLEncoder codificadorXML;
-			
-			codificadorXML = new XMLEncoder(new FileOutputStream(rutaArchivo));
-			codificadorXML.writeObject(objeto);
-			codificadorXML.close();
-			
+			XMLEncoder codificadorXML=null;
+			try {
+				codificadorXML = new XMLEncoder(new FileOutputStream(rutaArchivo));
+				codificadorXML.writeObject(objeto);
+			}catch (Exception e) {
+				throw e;
+			} finally {
+				if (codificadorXML != null)
+					codificadorXML.close();
+			}	
 		}
 		
+		
+	/**
+	 * 	
+	 * @param origenArchivo
+	 * @param destinoArchivo
+	 */
 		public static void hacerBackupArchivo(String origenArchivo, String destinoArchivo) {
             try {
                 Path origenPath = Paths.get(origenArchivo);

@@ -24,7 +24,7 @@ public class Persistencia {
 	public static final String RUTA_ARCHIVO_LOG = "C://td//persistencia//log//SubastaQuindioLog.txt";
 	public static final String RUTA_ARCHIVO_OBJETOS = "src/resources/archivoObjetos.txt";
 	public static final String RUTA_ARCHIVO_MODELO_SUBASTA_BINARIO = "C://td//persistencia//usuarioBin.dat";
-	public static final String RUTA_ARCHIVO_MODELO_BANCO_XML = "C://td//persistencia//model.xml";
+	public static final String RUTA_ARCHIVO_MODELO_SUBASTAQUINDIO_XML = "C://td//persistencia//model.xml";
 	
 	public static final String RUTA_ARCHIVO_COPIA_ORIGEN_GENERAL = "C://td//persistencia//Archivos//";
 	public static final String RUTA_ARCHIVO_COPIA_DESTINO_GENERAL = "C://td//persistencia//respaldo//";
@@ -147,6 +147,24 @@ public class Persistencia {
 		ArchivoUtil.hacerBackupArchivo(rutaOrigen,rutaOrigenDestino);
 	}
 	
+	/**
+	 * 
+	 * @param subasta
+	 */
+	public static void guardarResourceSubastaXML(SubastaQuindio subasta)
+	{
+		
+		try {
+			ArchivoUtil.salvarRecursoSerializadoXML(RUTA_ARCHIVO_MODELO_SUBASTAQUINDIO_XML, subasta);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * 
+	 * @param subasta
+	 */
 	public static void guardarRecursoSubastaBinario(SubastaQuindio subasta) {
 		
 		try {
@@ -157,7 +175,10 @@ public class Persistencia {
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public static SubastaQuindio cargarRecursoSubastaQuindioBinario() {
 		
 		SubastaQuindio subastaQuindio = null;
@@ -170,18 +191,30 @@ public class Persistencia {
 		}
 		return subastaQuindio;
 	}
-		
-	
-	public static void guardarRecursoBancoXML(SubastaQuindio subastaQuindio) {
-		
+	/**
+	 * 
+	 * @return
+	 */
+	public static SubastaQuindio cargarRecursoSubastaQuindioXML() {
+
+		SubastaQuindio subasta = null;
+
 		try {
-			ArchivoUtil.salvarRecursoSerializadoXML(RUTA_ARCHIVO_MODELO_BANCO_XML, subastaQuindio);
+			subasta = (SubastaQuindio) ArchivoUtil.cargarRecursoSerializadoXML(RUTA_ARCHIVO_MODELO_SUBASTAQUINDIO_XML);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return subasta;
+
 	}
 	
+	
+	/**
+	 * 
+	 * @param cedula
+	 * @return
+	 */
 	public static boolean buscarPersona(String cedula)
 	{
 		boolean bandera=false;

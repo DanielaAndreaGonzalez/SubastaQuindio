@@ -47,10 +47,13 @@ public class ModelFactoryController implements IModelFactoryService{
 		//OJO NOTA: ACÁ SE INICIALIZAN LOS DATOS
 		
 		//Guardar un registro serializado binario
-		guardarResourceXML();
+		
 		guardarResourceBinario();
 		
 		
+		guardarResourceXML();
+		cargarResourceXML();
+	
 		
 	}
 	
@@ -58,7 +61,6 @@ public class ModelFactoryController implements IModelFactoryService{
 		inicializarDatos();
 		try {
 			Persistencia.guardarUsuarios(getSubastaQuindio().getListaPersona());
-			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -69,27 +71,33 @@ public class ModelFactoryController implements IModelFactoryService{
 	
 	private void inicializarDatos()
 	{		
-		Persistencia.hacerBackupArchivosSerializados("model.xml", "model", ".xml");
 		Persistencia.hacerBackupArchivosSerializados("usuarioBin.dat", "usuarioBin", ".dat");
+		Persistencia.hacerBackupArchivosSerializados("model.xml", "model", ".xml");
 		subastaQuindio= new SubastaQuindio();  
 		archivo.crearArchivo();
 	}
 	
 	
+	private void cargarResourceXML() {
+		subastaQuindio = Persistencia.cargarRecursoSubastaQuindioXML();
+	}
 	/**
 	 * Metodo que guarda en un archivo el texto en binario
 	 */
 	private void guardarResourceBinario() {
 		Persistencia.guardarRecursoSubastaBinario(subastaQuindio);			
 	}
-	
 	/**
-	 * Metodo que guarda en un archivo el texto en binario
+	 * 
 	 */
-	private void guardarResourceXML() {
-		Persistencia.guardarRecursoBancoXML(subastaQuindio);	
+	private void guardarResourceXML()
+	{
+		Persistencia.guardarResourceSubastaXML(subastaQuindio);
 	}
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public SubastaQuindio getSubastaQuindio()
 	{
 		return this.subastaQuindio;
@@ -110,6 +118,7 @@ public class ModelFactoryController implements IModelFactoryService{
 			//guardar en binario
 			
 			//guardar en xml
+			Persistencia.guardarResourceSubastaXML(subastaQuindio);
 			
 		} catch (RegistroException e) {
 			Persistencia.guardarRegistroLog(e.getMessage(),3, "ModelFactoryController - registerPerson ");
