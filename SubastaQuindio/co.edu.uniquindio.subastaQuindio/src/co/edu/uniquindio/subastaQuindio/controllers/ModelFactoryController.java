@@ -3,6 +3,7 @@
  */
 package co.edu.uniquindio.subastaQuindio.controllers;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -11,7 +12,6 @@ import co.edu.uniquindio.subastaQuindio.models.Archivos;
 import co.edu.uniquindio.subastaQuindio.models.Persona;
 import co.edu.uniquindio.subastaQuindio.models.SubastaQuindio;
 import co.edu.uniquindio.subastaQuindio.models.TipoPersona;
-import co.edu.uniquindio.subastaQuindio.persistence.FechaUtil;
 import co.edu.uniquindio.subastaQuindio.persistence.Persistencia;
 import co.edu.uniquindio.subastaQuindio.services.IModelFactoryService;
 
@@ -23,7 +23,7 @@ public class ModelFactoryController implements IModelFactoryService{
 
 	Archivos archivo = new Archivos("Usuarios");
 	SubastaQuindio subastaQuindio;
-	private static Persistencia persistencia =null;
+	
 	
 	
 	//***********************************Singleton***********************************************
@@ -45,27 +45,42 @@ public class ModelFactoryController implements IModelFactoryService{
 		System.out.println("Invocación clase singleton");
 		inicializarDatos();
 		//OJO NOTA: ACÁ SE INICIALIZAN LOS DATOS
-		
 		//Guardar un registro serializado binario
-		
 		guardarResourceBinario();
-		
-		
+		cargarResourceBinario();
 		guardarResourceXML();
 		cargarResourceXML();
 	
 		
 	}
 	
-	private void inicializarSalvarDatos() {
-		inicializarDatos();
+//	private void inicializarSalvarDatos() {
+//		inicializarDatos();
+//		try {
+//			Persistencia.guardarUsuarios(getSubastaQuindio().getListaPersonas());
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//	}
+	
+	private void cargarDatos()
+	{
+		ArrayList<Persona> listaPersonas = null;
 		try {
-			Persistencia.guardarUsuarios(getSubastaQuindio().getListaPersona());
+			
+			listaPersonas = Persistencia.cargarUsuarios();
+			if (listaPersonas !=null && listaPersonas.size()>0) {
+				subastaQuindio.setListaPersonas(listaPersonas);
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
+		}		
 	}
 	
 	
@@ -75,8 +90,14 @@ public class ModelFactoryController implements IModelFactoryService{
 		Persistencia.hacerBackupArchivosSerializados("model.xml", "model", ".xml");
 		subastaQuindio= new SubastaQuindio();  
 		archivo.crearArchivo();
+		cargarDatos();
 	}
 	
+	
+	private void cargarResourceBinario()
+	{
+		subastaQuindio = Persistencia.cargarRecursoSubastaQuindioBinario();
+	}
 	
 	private void cargarResourceXML() {
 		subastaQuindio = Persistencia.cargarRecursoSubastaQuindioXML();
@@ -116,9 +137,10 @@ public class ModelFactoryController implements IModelFactoryService{
 			//guardar en archivo plano
 			archivo.saveperson(persona);
 			//guardar en binario
-			
+			Persistencia.guardarRecursoSubastaBinario(subastaQuindio);
 			//guardar en xml
 			Persistencia.guardarResourceSubastaXML(subastaQuindio);
+			
 			
 		} catch (RegistroException e) {
 			Persistencia.guardarRegistroLog(e.getMessage(),3, "ModelFactoryController - registerPerson ");
@@ -131,7 +153,7 @@ public class ModelFactoryController implements IModelFactoryService{
 
 	@Override
 	public ArrayList<Persona> obtenerPerson(String cedula) {
-		return getSubastaQuindio().getListaPersona();
+		return getSubastaQuindio().getListaPersonas();
 	}
 
 	

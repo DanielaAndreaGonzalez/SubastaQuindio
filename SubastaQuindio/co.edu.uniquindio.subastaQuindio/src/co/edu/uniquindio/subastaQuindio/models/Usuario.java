@@ -11,16 +11,19 @@ import java.io.Serializable;
  */
 public class Usuario implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
 	public static String NOMBRE_ARCHIVO_GUARDADO_EXTENSION = "archivoUsuarios.txt";
 	public static String NOMBRE_ARCHIVO_GUARDADO = "archivoUsuarios";	
 	public static String EXTENSION_ARCHIVO_GUARDADO = ".txt";
-	private static final long serialVersionUID = 1L;
+	
 	
 	private String usuario;
 	private String contrasenia;
 	private TipoPersona tipoPersona;
 	
 	public Usuario() {}
+	
+	
 	
 	/**
 	 * @return the usuario
@@ -57,6 +60,13 @@ public class Usuario implements Serializable{
 	 */
 	public void setTipoPersona(TipoPersona tipoPersona) {
 		this.tipoPersona = tipoPersona;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "Usuario [usuario=" + usuario + ", contrasenia=" + contrasenia + ", tipoPersona=" + tipoPersona + "]";
 	}
 	
 	

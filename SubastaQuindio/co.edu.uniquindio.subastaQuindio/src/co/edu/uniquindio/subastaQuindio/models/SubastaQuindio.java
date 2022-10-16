@@ -16,59 +16,65 @@ import co.edu.uniquindio.subastaQuindio.services.ISubastaQuindioService;
  * @author GonzalezHDanielaA
  *
  */
-public class SubastaQuindio implements ISubastaQuindioService, Serializable{
+public class SubastaQuindio implements  Serializable, ISubastaQuindioService{
 
-	private Archivos archivo = new Archivos("Usuarios");
 	private static final long serialVersionUID = 1L;
+	private Archivos archivo = new Archivos("Usuarios");
 	//private static Persistencia persistencia =null; no es necesario declararla debido a que se puede acceder a la clase porque el metodo es estatico
 	
 	
 	ArrayList<Persona> listaPersonas = new ArrayList<>();
 	
+	
+	
 	public SubastaQuindio() {
-		try {
-			ArrayList<String> contenidoArchivo = ArchivoUtil.leerArchivo(Persistencia.RUTA_ARCHIVO_COPIA_ORIGEN_GENERAL+Usuario.NOMBRE_ARCHIVO_GUARDADO_EXTENSION);
-			Persona persona = null;
-			String separador =  Persistencia.SEPARADOR;
-			TipoPersona t=null;
-			if (contenidoArchivo.size() > 0) {
-				for (String string : contenidoArchivo) {
-					persona = new Persona();
-					persona.setCedula(string.split(separador)[0]);
-					persona.setNombre(string.split(separador)[1]);
-					persona.setEdad(Integer.parseInt(string.split(separador)[2]));
-					
-					switch(string.split(separador)[3]) {
-						case "USUARIOCOMPRADOR":
-							t= TipoPersona.USUARIOCOMPRADOR;
-							break;
-						case "USUARIOANUNCIANTES":
-							t= TipoPersona.USUARIOANUNCIANTES;
-							break;
-						default:
-							t=TipoPersona.USUARIOANUNCIANTES;
-							
-					}
-					persona.setTipoPersona(t);
-					persona.setUsuario(string.split(separador)[4]);
-					persona.setContrasenia(string.split(separador)[5]);
-					listaPersonas.add(persona);
-				}
-			}
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 	}
 	
-	public ArrayList<Persona> getListaPersona()
-	{
+
+	
+	
+	/**
+	 * @return the archivo
+	 */
+	public Archivos getArchivo() {
+		return archivo;
+	}
+
+
+
+
+	/**
+	 * @param archivo the archivo to set
+	 */
+	public void setArchivo(Archivos archivo) {
+		this.archivo = archivo;
+	}
+
+
+
+
+	/**
+	 * @return the serialversionuid
+	 */
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	/**
+	 * @return the listaPersonas
+	 */
+	public ArrayList<Persona> getListaPersonas() {
 		return listaPersonas;
 	}
-	
-	
+
+	/**
+	 * @param listaPersonas the listaPersonas to set
+	 */
+	public void setListaPersonas(ArrayList<Persona> listaPersonas) {
+		this.listaPersonas = listaPersonas;
+	}
+
 	@Override
 	public Persona registerPerson(String cedula, String nombre, int edad, String usuario, String contrasenia,TipoPersona rol) throws RegistroException,IOException {
 
@@ -86,7 +92,7 @@ public class SubastaQuindio implements ISubastaQuindioService, Serializable{
 			personaNueva.setUsuario(usuario);
 			personaNueva.setContrasenia(contrasenia);
 			personaNueva.setTipoPersona(rol);
-			getListaPersona().add(personaNueva);
+			getListaPersonas().add(personaNueva);
 			Persistencia.hacerBackupArchivo(Persona.NOMBRE_ARCHIVO_GUARDADO_EXTENSION, Persona.NOMBRE_ARCHIVO_GUARDADO);
 			Persistencia.guardarUsuarios(listaPersonas);
 			
@@ -112,13 +118,21 @@ public class SubastaQuindio implements ISubastaQuindioService, Serializable{
 	public Persona obtenerPerson(String cedula) {
 
 		Persona personaEncontrada = null;
-		for (Persona persona : getListaPersona()) {
+		for (Persona persona : getListaPersonas()) {
 			if (persona.getCedula().equalsIgnoreCase(cedula)) {
 				personaEncontrada = persona;
 				break;
 			}
 		}
 		return personaEncontrada;
+	}
+
+
+
+
+	@Override
+	public String toString() {
+		return "SubastaQuindio [listaPersonas=" + listaPersonas + "]";
 	}
 	
 

@@ -11,10 +11,11 @@ import java.io.Serializable;
  */
 public class Persona extends Usuario implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
 	private String cedula;
 	private String nombre;
 	private int edad;
-	private static final long serialVersionUID = 1L;
+	
 	
 	public Persona() {}
 	
@@ -64,6 +65,14 @@ public class Persona extends Usuario implements Serializable{
 	 */
 	public void setEdad(int edad) {
 		this.edad = edad;
+	}
+
+
+
+
+	@Override
+	public String toString() {
+		return "Persona [cedula=" + cedula + ", nombre=" + nombre + ", edad=" + edad + "]";
 	}
 	
 	

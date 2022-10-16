@@ -33,7 +33,7 @@ public class Persistencia {
 	
 	public static final String SEPARADOR = "@@";
 	
-	
+
 	public static boolean iniciarSesion(String usuario, String contrasenia) throws FileNotFoundException, IOException, UsuarioExcepcion {
 		
 		if(validarUsuario(usuario,contrasenia)) {
@@ -48,7 +48,7 @@ public class Persistencia {
 	{
 		SubastaQuindio subastaQuindio=  Persistencia.cargarRecursoSubastaQuindioBinario();
 		
-		ArrayList<Persona> usuarios = subastaQuindio.getListaPersona();
+		ArrayList<Persona> usuarios = subastaQuindio.getListaPersonas();
 		
 		for (int indiceUsuario = 0; indiceUsuario < usuarios.size(); indiceUsuario++) 
 		{
@@ -88,34 +88,42 @@ public class Persistencia {
 	 */
 	public static ArrayList<Persona> cargarUsuarios() throws FileNotFoundException, IOException
 	{
-		
-		ArrayList<Persona> personas = new ArrayList<Persona>();
-		
-		ArrayList<String> contenido = ArchivoUtil.leerArchivo(RUTA_ARCHIVO_USUARIOS);
-		String linea = "";
-		TipoPersona t = null;
-		String tipoPersona = linea.split(",")[3];
-		switch(t) {
-			case USUARIOANUNCIANTES:
-				tipoPersona = t.name();
-				break;
-			case USUARIOCOMPRADOR: 
-				tipoPersona = t.name();
-				break;
+		ArrayList<Persona> listaPersonas = new ArrayList<>();
+		try {
+			ArrayList<String> contenidoArchivo = ArchivoUtil.leerArchivo(Persistencia.RUTA_ARCHIVO_COPIA_ORIGEN_GENERAL+Usuario.NOMBRE_ARCHIVO_GUARDADO_EXTENSION);
+			Persona persona = null;
+			String separador =  Persistencia.SEPARADOR;
+			TipoPersona t=null;
+			if (contenidoArchivo.size() > 0) {
+				for (String string : contenidoArchivo) {
+					persona = new Persona();
+					persona.setCedula(string.split(separador)[0]);
+					persona.setNombre(string.split(separador)[1]);
+					persona.setEdad(Integer.parseInt(string.split(separador)[2]));
+					
+					switch(string.split(separador)[3]) {
+						case "USUARIOCOMPRADOR":
+							t= TipoPersona.USUARIOCOMPRADOR;
+							break;
+						case "USUARIOANUNCIANTES":
+							t= TipoPersona.USUARIOANUNCIANTES;
+							break;
+						default:
+							t=TipoPersona.USUARIOANUNCIANTES;
+							
+					}
+					persona.setTipoPersona(t);
+					persona.setUsuario(string.split(separador)[4]);
+					persona.setContrasenia(string.split(separador)[5]);
+					listaPersonas.add(persona);
+					//subasta.setListaPersonas(listaPersonas);
+				}				
+			}	
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.getMessage();
 		}
-		for(int i = 0; i < contenido.size(); i++)
-		{
-			linea = contenido.get(i);
-			Persona persona = new Persona();
-			persona.setCedula(linea.split(",")[0]);
-			persona.setNombre(linea.split(",")[1]);
-			persona.setEdad(Integer.parseInt(linea.split(",")[2]));
-			persona.setTipoPersona(t);
-			persona.setUsuario(linea.split(",")[4]);
-			persona.setContrasenia(linea.split(",")[5]);
-			personas.add(persona);
-		}
-		return personas;
+		return listaPersonas;
 	}
 	
 	
