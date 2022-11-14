@@ -41,6 +41,8 @@ public class SubastaViewController {
 	
 	CrudRegistroViewController crudRegistroViewController;
 	
+	CrudProductoController crudProductoController;
+	
 	
 	@FXML 
 	private ResourceBundle resources;
@@ -88,6 +90,7 @@ public class SubastaViewController {
 	{
 		modelFactoryController = ModelFactoryController.getInstance();
 		crudRegistroViewController = new CrudRegistroViewController(modelFactoryController);
+		crudProductoController = new CrudProductoController(modelFactoryController);
 		llenarComboRol();
 		
 		

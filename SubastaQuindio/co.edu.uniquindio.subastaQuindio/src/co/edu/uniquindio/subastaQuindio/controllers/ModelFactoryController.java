@@ -6,12 +6,16 @@ package co.edu.uniquindio.subastaQuindio.controllers;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
+import co.edu.uniquindio.subastaQuindio.exceptions.ProductoException;
 import co.edu.uniquindio.subastaQuindio.exceptions.RegistroException;
 import co.edu.uniquindio.subastaQuindio.models.Archivos;
 import co.edu.uniquindio.subastaQuindio.models.Persona;
+import co.edu.uniquindio.subastaQuindio.models.Producto;
 import co.edu.uniquindio.subastaQuindio.models.SubastaQuindio;
 import co.edu.uniquindio.subastaQuindio.models.TipoPersona;
+import co.edu.uniquindio.subastaQuindio.models.TipoProducto;
 import co.edu.uniquindio.subastaQuindio.persistence.Persistencia;
 import co.edu.uniquindio.subastaQuindio.services.IModelFactoryService;
 
@@ -19,11 +23,14 @@ import co.edu.uniquindio.subastaQuindio.services.IModelFactoryService;
  * @author GonzalezHDanielaA
  *
  */
-public class ModelFactoryController implements IModelFactoryService{
+public class ModelFactoryController implements IModelFactoryService,Runnable{
 
 	Archivos archivo = new Archivos("Usuarios");
 	SubastaQuindio subastaQuindio;
-	
+	Thread hiloServicio1GuardarXML;
+	Thread hiloServicio2GuardarBinario;
+	Thread hiloSerivcio3GuardarRegistroLog;
+	boolean run;
 	
 	
 	//***********************************Singleton***********************************************
@@ -46,9 +53,9 @@ public class ModelFactoryController implements IModelFactoryService{
 		inicializarDatos();
 		//OJO NOTA: ACÁ SE INICIALIZAN LOS DATOS
 		//Guardar un registro serializado binario
-		guardarResourceBinario();
+		//guardarResourceBinario();
 		cargarResourceBinario();
-		guardarResourceXML();
+		//guardarResourceXML();
 		cargarResourceXML();
 	
 		
@@ -106,14 +113,20 @@ public class ModelFactoryController implements IModelFactoryService{
 	 * Metodo que guarda en un archivo el texto en binario
 	 */
 	private void guardarResourceBinario() {
-		Persistencia.guardarRecursoSubastaBinario(subastaQuindio);			
+		hiloServicio2GuardarBinario = new Thread(this);
+		run=true;
+		hiloServicio2GuardarBinario.start();
+		//Persistencia.guardarRecursoSubastaBinario(subastaQuindio);			
 	}
 	/**
 	 * 
 	 */
 	private void guardarResourceXML()
 	{
-		Persistencia.guardarResourceSubastaXML(subastaQuindio);
+		hiloServicio1GuardarXML = new Thread(this);
+		run=true;
+		hiloServicio1GuardarXML.start();
+		//Persistencia.guardarResourceSubastaXML(subastaQuindio);
 	}
 	/**
 	 * 
@@ -156,13 +169,43 @@ public class ModelFactoryController implements IModelFactoryService{
 		return getSubastaQuindio().getListaPersonas();
 	}
 
+	@Override
+	public void run() {
+		Thread current = Thread.currentThread();
+		
+		if(hiloServicio1GuardarXML == current)
+		{
+			Persistencia.guardarResourceSubastaXML(subastaQuindio);
+		}
+		if(hiloServicio2GuardarBinario == current)
+		{
+			Persistencia.guardarRecursoSubastaBinario(subastaQuindio);
+		}
+	}
+
+	@Override
+	public Producto crearProducto(String codigo,String nombreProducto, String descripcion, String nombreAnunciante,
+			Calendar fechaPublicacion, Calendar fechaFinPublicacion, double valorInicial, TipoProducto tipoProducto,
+			String foto) {
+		Producto producto = null; 
+		
+		try {
+			producto = getSubastaQuindio().crearProducto(codigo, nombreProducto, descripcion, nombreAnunciante, fechaPublicacion, fechaFinPublicacion, valorInicial, tipoProducto, foto);
+			
+			
+			
+		} catch (ProductoException | IOException e) {
+			// TODO Auto-generated catch block
+			Persistencia.guardarRegistroLog(e.getMessage(),3, "ModelFactoryController - crearProducto ");
+		}
+		
+		
+		return producto;
+	}
+
 	
 	
-	
-	
-	
-	
-	
+
 	//Verificar persona Existe
 	
 	

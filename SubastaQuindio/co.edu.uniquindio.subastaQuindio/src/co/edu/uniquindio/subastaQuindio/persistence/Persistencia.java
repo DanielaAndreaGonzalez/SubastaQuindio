@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import co.edu.uniquindio.subastaQuindio.exceptions.UsuarioExcepcion;
 import co.edu.uniquindio.subastaQuindio.models.Persona;
+import co.edu.uniquindio.subastaQuindio.models.Producto;
 import co.edu.uniquindio.subastaQuindio.models.SubastaQuindio;
 import co.edu.uniquindio.subastaQuindio.models.TipoPersona;
 import co.edu.uniquindio.subastaQuindio.models.Usuario;
@@ -33,15 +34,16 @@ public class Persistencia {
 	
 	public static final String SEPARADOR = "@@";
 	
+	public static final String RUTA_ARCHIVO_PRODUCTOS = "C://td//persistencia//Archivos//"+ Usuario.NOMBRE_ARCHIVO_GUARDADO_EXTENSION;
+	
+	
 
 	public static boolean iniciarSesion(String usuario, String contrasenia) throws FileNotFoundException, IOException, UsuarioExcepcion {
-		
 		if(validarUsuario(usuario,contrasenia)) {
 			return true;
 		}else {
 			throw new UsuarioExcepcion("Usuario no existe");
-		}
-		
+		}	
 	}
 	
 	private static boolean validarUsuario(String usuario, String contrasenia) throws FileNotFoundException, IOException 
@@ -77,6 +79,21 @@ public class Persistencia {
 					 +persona.getTipoPersona()+SEPARADOR+persona.getUsuario()+SEPARADOR+persona.getContrasenia()+"\n";
 		}
 		ArchivoUtil.guardarArchivo(RUTA_ARCHIVO_USUARIOS, contenido, true);
+	}
+	
+	public static void guardarProducto(ArrayList<Producto> listaProducto)throws IOException{
+		
+		String contenido = "";
+		
+		for(Producto producto:listaProducto )
+		{
+			contenido += producto.getCodigo()+SEPARADOR+producto.getNombreProducto()+SEPARADOR+
+					producto.getDescripcion()+SEPARADOR+producto.getNombreAnunciante()+SEPARADOR+
+					producto.getFechaPublicacion()+SEPARADOR+producto.getFechaFinPublicacion()+SEPARADOR+
+					producto.getValorInicial()+SEPARADOR+producto.getTipoProducto()+SEPARADOR+
+					producto.getFoto();		
+		}
+		ArchivoUtil.guardarArchivo(RUTA_ARCHIVO_PRODUCTOS, contenido, true);	
 	}
 	
 	/**
@@ -125,14 +142,10 @@ public class Persistencia {
 		}
 		return listaPersonas;
 	}
-	
-	
 	public static void guardarRegistroLog(String mensajeLog, int nivel, String accion)
 	{
 		ArchivoUtil.guardarRegistroLog(mensajeLog, nivel, accion, RUTA_ARCHIVO_LOG);
 	}
-	
-	
 	/**
 	 * 
 	 * @param nombreArchivoOrigen nombre del archivo destino con extencion
@@ -143,7 +156,6 @@ public class Persistencia {
 		String rutaOrigenDestino = RUTA_ARCHIVO_COPIA_DESTINO_GENERAL + nombreArchivoDestino+FechaUtil.fechaUtilPersisteciaBackup() + ".txt";
 		ArchivoUtil.hacerBackupArchivo(rutaOrigen,rutaOrigenDestino);
 	}
-	
 	/**
 	 * 
 	 * @param nombreArchivoOrigen nombre del archivo destino con extencion
@@ -154,7 +166,6 @@ public class Persistencia {
 		String rutaOrigenDestino = RUTA_ARCHIVO_COPIA_DESTINO_GENERAL + nombreArchivoDestino + FechaUtil.fechaUtilPersisteciaBackup() + extension;
 		ArchivoUtil.hacerBackupArchivo(rutaOrigen,rutaOrigenDestino);
 	}
-	
 	/**
 	 * 
 	 * @param subasta

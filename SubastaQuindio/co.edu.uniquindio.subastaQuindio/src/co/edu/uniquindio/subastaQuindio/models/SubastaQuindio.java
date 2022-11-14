@@ -6,7 +6,9 @@ package co.edu.uniquindio.subastaQuindio.models;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 
+import co.edu.uniquindio.subastaQuindio.exceptions.ProductoException;
 import co.edu.uniquindio.subastaQuindio.exceptions.RegistroException;
 import co.edu.uniquindio.subastaQuindio.persistence.ArchivoUtil;
 import co.edu.uniquindio.subastaQuindio.persistence.Persistencia;
@@ -24,15 +26,12 @@ public class SubastaQuindio implements  Serializable, ISubastaQuindioService{
 	
 	
 	ArrayList<Persona> listaPersonas = new ArrayList<>();
-	
+	ArrayList<Producto> listaProducto = new ArrayList<>();
 	
 	
 	public SubastaQuindio() {
 		
 	}
-	
-
-	
 	
 	/**
 	 * @return the archivo
@@ -67,12 +66,24 @@ public class SubastaQuindio implements  Serializable, ISubastaQuindioService{
 	public ArrayList<Persona> getListaPersonas() {
 		return listaPersonas;
 	}
-
+	/**
+	 * @return the listaProducto
+	 */
+	public ArrayList<Producto> getListaProductos() {
+		return listaProducto;
+	}
+	
 	/**
 	 * @param listaPersonas the listaPersonas to set
 	 */
 	public void setListaPersonas(ArrayList<Persona> listaPersonas) {
 		this.listaPersonas = listaPersonas;
+	}
+	/**
+	 * @param listaProducto the listaProducto to set
+	 */
+	public void setistaProductos(ArrayList<Producto> listaProducto) {
+		this.listaProducto = listaProducto;
 	}
 
 	@Override
@@ -105,14 +116,25 @@ public class SubastaQuindio implements  Serializable, ISubastaQuindioService{
 		return personaNueva;
 	}
 
-@Override
+	@Override
 	public boolean verifyPersonExists(String cedula) {
 		if(ArchivoUtil.searchPerson(cedula)) 
 			return true;
 		else
 			return false;
 	}
+	
+	
 
+	@Override
+	public boolean verificarProductoExistente(String codigo) {	
+		if(ArchivoUtil.buscarProducto(codigo))
+		{
+			return true;
+		}else {
+			return false;
+		}	
+	}
 
 	@Override
 	public Persona obtenerPerson(String cedula) {
@@ -127,13 +149,47 @@ public class SubastaQuindio implements  Serializable, ISubastaQuindioService{
 		return personaEncontrada;
 	}
 
-
-
-
 	@Override
 	public String toString() {
 		return "SubastaQuindio [listaPersonas=" + listaPersonas + "]";
 	}
+
+	@Override
+	public Producto crearProducto(String codigo,String nombreProducto, String descripcion, String nombreAnunciante,
+			Calendar fechaPublicacion, Calendar fechaFinPublicacion, double valorInicial, TipoProducto tipoProducto,
+			String foto)throws ProductoException,IOException {
+		
+		Producto producto = null; 
+		boolean productoExistente = verificarProductoExistente(codigo);
+		String mensaje = "";
+		if(productoExistente == true)
+		{
+			throw new ProductoException("El producto con código: " +codigo+ " ya existe");
+
+		}else {
+			
+			producto = new Producto();
+			producto.setCodigo("SUB"+codigo);
+			producto.setNombreProducto(nombreProducto);
+			producto.setDescripcion(descripcion);
+			producto.setNombreAnunciante(nombreAnunciante);
+			producto.setFechaPublicacion(fechaPublicacion);
+			producto.setFechaFinPublicacion(fechaFinPublicacion);
+			producto.setValorInicial(valorInicial);
+			producto.setTipoProducto(tipoProducto);
+			producto.setFoto(foto);
+			getListaProductos().add(producto);
+			
+			mensaje = "Se guardó el producto con código: "+producto.getCodigo()+
+					" nombre"+producto.getNombreProducto() +" descripcion: "+producto.getDescripcion()+
+					" anunciante "+producto.getNombreAnunciante()+" tipo Producto"+producto.getTipoProducto();
+					
+			Persistencia.guardarRegistroLog(mensaje, 1, "Se creó el producto, crear Producto - Subasta quindío");	
+		}
+		return producto;
+	}
+
+	
 	
 
 		
