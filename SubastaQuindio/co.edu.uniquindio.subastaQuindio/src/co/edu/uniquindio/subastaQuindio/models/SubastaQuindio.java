@@ -155,9 +155,9 @@ public class SubastaQuindio implements  Serializable, ISubastaQuindioService{
 	}
 
 	@Override
-	public Producto crearProducto(String codigo,String nombreProducto, String descripcion, String nombreAnunciante,
-			Calendar fechaPublicacion, Calendar fechaFinPublicacion, double valorInicial, TipoProducto tipoProducto,
-			String foto)throws ProductoException,IOException {
+	public Producto crearProducto(String codigo,String nombreProducto,String descripcion,
+			double valorInicial,TipoProducto tipoProducto,String foto)throws ProductoException,IOException 
+	{
 		
 		Producto producto = null; 
 		boolean productoExistente = verificarProductoExistente(codigo);
@@ -172,9 +172,6 @@ public class SubastaQuindio implements  Serializable, ISubastaQuindioService{
 			producto.setCodigo("SUB"+codigo);
 			producto.setNombreProducto(nombreProducto);
 			producto.setDescripcion(descripcion);
-			producto.setNombreAnunciante(nombreAnunciante);
-			producto.setFechaPublicacion(fechaPublicacion);
-			producto.setFechaFinPublicacion(fechaFinPublicacion);
 			producto.setValorInicial(valorInicial);
 			producto.setTipoProducto(tipoProducto);
 			producto.setFoto(foto);
@@ -182,7 +179,7 @@ public class SubastaQuindio implements  Serializable, ISubastaQuindioService{
 			
 			mensaje = "Se guardó el producto con código: "+producto.getCodigo()+
 					" nombre"+producto.getNombreProducto() +" descripcion: "+producto.getDescripcion()+
-					" anunciante "+producto.getNombreAnunciante()+" tipo Producto"+producto.getTipoProducto();
+					"valor inicial "+producto.getValorInicial()+" tipo Producto"+producto.getTipoProducto();
 					
 			Persistencia.guardarRegistroLog(mensaje, 1, "Se creó el producto, crear Producto - Subasta quindío");	
 		}

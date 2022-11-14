@@ -88,8 +88,7 @@ public class Persistencia {
 		for(Producto producto:listaProducto )
 		{
 			contenido += producto.getCodigo()+SEPARADOR+producto.getNombreProducto()+SEPARADOR+
-					producto.getDescripcion()+SEPARADOR+producto.getNombreAnunciante()+SEPARADOR+
-					producto.getFechaPublicacion()+SEPARADOR+producto.getFechaFinPublicacion()+SEPARADOR+
+					producto.getDescripcion()+SEPARADOR+
 					producto.getValorInicial()+SEPARADOR+producto.getTipoProducto()+SEPARADOR+
 					producto.getFoto();		
 		}

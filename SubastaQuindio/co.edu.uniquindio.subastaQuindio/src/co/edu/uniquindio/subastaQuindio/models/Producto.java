@@ -15,9 +15,6 @@ public class Producto implements Serializable{
 	private String codigo;
 	private String nombreProducto;
 	private String descripcion;
-	private String nombreAnunciante;
-	private Calendar fechaPublicacion;
-	private Calendar fechaFinPublicacion;
 	private double valorInicial;
 	private TipoProducto tipoProducto;
 	private String foto;
@@ -38,24 +35,7 @@ public class Producto implements Serializable{
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	public String getNombreAnunciante() {
-		return nombreAnunciante;
-	}
-	public void setNombreAnunciante(String nombreAnunciante) {
-		this.nombreAnunciante = nombreAnunciante;
-	}
-	public Calendar getFechaPublicacion() {
-		return fechaPublicacion;
-	}
-	public void setFechaPublicacion(Calendar fechaPublicacion) {
-		this.fechaPublicacion = fechaPublicacion;
-	}
-	public Calendar getFechaFinPublicacion() {
-		return fechaFinPublicacion;
-	}
-	public void setFechaFinPublicacion(Calendar fechaFinPublicacion) {
-		this.fechaFinPublicacion = fechaFinPublicacion;
-	}
+	
 	public double getValorInicial() {
 		return valorInicial;
 	}
@@ -108,10 +88,11 @@ public class Producto implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Producto [nombreProducto=" + nombreProducto + ", descripcion=" + descripcion + ", nombreAnunciante="
-				+ nombreAnunciante + ", fechaPublicacion=" + fechaPublicacion + ", fechaFinPublicacion="
-				+ fechaFinPublicacion + ", valorInicial=" + valorInicial + "]";
+		return "Producto [codigo=" + codigo + ", nombreProducto=" + nombreProducto + ", descripcion=" + descripcion
+				+ ", valorInicial=" + valorInicial + ", tipoProducto=" + tipoProducto + ", foto=" + foto + "]";
 	}
+
+	
 	
 	
 	

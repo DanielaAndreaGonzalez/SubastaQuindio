@@ -34,13 +34,10 @@ public class CrudProductoController {
 		this.subastaQuindio = subasta;
 	}
 	
-	public Producto crearProducto(String codigo,String nombreProducto,String descripcion,String nombreAnunciante,
-			Calendar fechaPublicacion,Calendar fechaFinPublicacion,double valorInicial,
-			TipoProducto tipoProducto,String foto)
+	public Producto crearProducto(String codigo,String nombreProducto,String descripcion,
+			double valorInicial,TipoProducto tipoProducto,String foto)
 	{
-		
-		
-		return modelFactoryController.crearProducto(codigo, nombreProducto, descripcion, nombreAnunciante, fechaPublicacion, fechaFinPublicacion, valorInicial, tipoProducto, foto);
+		return modelFactoryController.crearProducto(codigo, nombreProducto, descripcion, valorInicial, tipoProducto, foto);
 	}
 	
 

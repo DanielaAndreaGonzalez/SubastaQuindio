@@ -26,9 +26,8 @@ public interface ISubastaQuindioService {
 	
 	public Persona obtenerPerson(String cedula);
 	
-	public Producto crearProducto(String codigo,String nombreProducto,String descripcion,String nombreAnunciante,
-			Calendar fechaPublicacion,Calendar fechaFinPublicacion,double valorInicial,
-			TipoProducto tipoProducto,String foto) throws ProductoException,IOException;
+	public Producto crearProducto(String codigo,String nombreProducto,String descripcion,
+			double valorInicial,TipoProducto tipoProducto,String foto) throws ProductoException,IOException;
 	
 	public boolean verificarProductoExistente(String codigo);
 	

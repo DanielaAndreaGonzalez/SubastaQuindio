@@ -12,6 +12,7 @@ import co.edu.uniquindio.subastaQuindio.Main;
 import co.edu.uniquindio.subastaQuindio.exceptions.UsuarioExcepcion;
 import co.edu.uniquindio.subastaQuindio.models.Persona;
 import co.edu.uniquindio.subastaQuindio.models.TipoPersona;
+import co.edu.uniquindio.subastaQuindio.models.TipoProducto;
 import co.edu.uniquindio.subastaQuindio.persistence.Persistencia;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -84,6 +85,29 @@ public class SubastaViewController {
 	    private RadioButton rdbComprador;
 	
 	    ToggleGroup tg = new ToggleGroup();
+	    
+	    //Producto
+	    @FXML
+	    private TextField txtCodigoProductoAnuncio;
+	    
+	    @FXML
+	    private TextField txtNombreProductoAnuncio;
+	    
+	    @FXML
+	    private TextField txtDescripcionProductoAnuncio;
+	    
+	    @FXML
+	    private TextField txtValorInicialProductoAnuncio;
+	    
+	    @FXML
+	    private TextField txtFotoProductoAnuncio;
+	    
+	    @FXML
+	    private ComboBox<TipoProducto> txtTipoProducto;
+	    
+	    @FXML
+	    private Button btnCrearProducto;
+	    
 	
 	@FXML
 	void initialize()
@@ -92,7 +116,7 @@ public class SubastaViewController {
 		crudRegistroViewController = new CrudRegistroViewController(modelFactoryController);
 		crudProductoController = new CrudProductoController(modelFactoryController);
 		llenarComboRol();
-		
+		llenarComboTipoProducto();
 		
 		rdbAnunciante.setToggleGroup(this.tg);
 		rdbComprador.setToggleGroup(this.tg);
@@ -119,6 +143,21 @@ public class SubastaViewController {
 		this.txtrol.setItems(tipoPers);
 	}
 	
+	public void llenarComboTipoProducto()
+	{
+		ObservableList<TipoProducto> tipoProd = FXCollections.observableArrayList();
+		
+		TipoProducto t1 = TipoProducto.HOGAR;
+		TipoProducto t2 = TipoProducto.TECNOLOGIA;
+		TipoProducto t3 = TipoProducto.DEPORTES;
+		TipoProducto t4 = TipoProducto.VEHICULOS;
+		TipoProducto t5 = TipoProducto.BIEN_RAIZ;
+		
+		tipoProd.add(t5);
+		this.txtTipoProducto.setItems(tipoProd);
+		
+	}
+	
 	public Main getAplicacion() {
 		return aplication;
 	}
@@ -135,6 +174,23 @@ public class SubastaViewController {
     void ingresar(ActionEvent event) {
 		 ingresarLogin();
     }
+	 
+	 @FXML
+	 void crearProductoAction(ActionEvent event) {
+		 	 crearProducto();
+	 }
+	 
+	 private void crearProducto()
+	 {
+		 String codigo = txtCodigoProductoAnuncio.getText();
+		 String nombre = txtNombreProductoAnuncio.getText();
+		 String descripcion = txtDescripcionProductoAnuncio.getText();
+		 double valorInicial = Double.parseDouble(txtValorInicialProductoAnuncio.getText());
+		 String foto = txtFotoProductoAnuncio.getText();
+		 TipoProducto tipo = txtTipoProducto.getValue();
+		 
+		 
+	 }
 	
 	 private void ingresarLogin() {
 		 

@@ -184,22 +184,16 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 	}
 
 	@Override
-	public Producto crearProducto(String codigo,String nombreProducto, String descripcion, String nombreAnunciante,
-			Calendar fechaPublicacion, Calendar fechaFinPublicacion, double valorInicial, TipoProducto tipoProducto,
-			String foto) {
+	public Producto crearProducto(String codigo,String nombreProducto,String descripcion,
+			double valorInicial,TipoProducto tipoProducto,String foto) 
+	{
 		Producto producto = null; 
-		
 		try {
-			producto = getSubastaQuindio().crearProducto(codigo, nombreProducto, descripcion, nombreAnunciante, fechaPublicacion, fechaFinPublicacion, valorInicial, tipoProducto, foto);
-			
-			
-			
+			producto = getSubastaQuindio().crearProducto(codigo, nombreProducto, descripcion,valorInicial, tipoProducto, foto);	
 		} catch (ProductoException | IOException e) {
 			// TODO Auto-generated catch block
 			Persistencia.guardarRegistroLog(e.getMessage(),3, "ModelFactoryController - crearProducto ");
 		}
-		
-		
 		return producto;
 	}
 
