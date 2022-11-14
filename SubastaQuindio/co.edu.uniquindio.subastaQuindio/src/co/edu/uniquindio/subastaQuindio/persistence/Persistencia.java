@@ -34,7 +34,7 @@ public class Persistencia {
 	
 	public static final String SEPARADOR = "@@";
 	
-	public static final String RUTA_ARCHIVO_PRODUCTOS = "C://td//persistencia//Archivos//"+ Usuario.NOMBRE_ARCHIVO_GUARDADO_EXTENSION;
+	public static final String RUTA_ARCHIVO_PRODUCTOS = "C://td//persistencia//Archivos//archivoProducto.txt";
 	
 	
 

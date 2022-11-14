@@ -19,11 +19,16 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.AnchorPane;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -86,27 +91,8 @@ public class SubastaViewController {
 	
 	    ToggleGroup tg = new ToggleGroup();
 	    
-	    //Producto
-	    @FXML
-	    private TextField txtCodigoProductoAnuncio;
 	    
-	    @FXML
-	    private TextField txtNombreProductoAnuncio;
-	    
-	    @FXML
-	    private TextField txtDescripcionProductoAnuncio;
-	    
-	    @FXML
-	    private TextField txtValorInicialProductoAnuncio;
-	    
-	    @FXML
-	    private TextField txtFotoProductoAnuncio;
-	    
-	    @FXML
-	    private ComboBox<TipoProducto> txtTipoProducto;
-	    
-	    @FXML
-	    private Button btnCrearProducto;
+
 	    
 	
 	@FXML
@@ -116,7 +102,7 @@ public class SubastaViewController {
 		crudRegistroViewController = new CrudRegistroViewController(modelFactoryController);
 		crudProductoController = new CrudProductoController(modelFactoryController);
 		llenarComboRol();
-		llenarComboTipoProducto();
+		
 		
 		rdbAnunciante.setToggleGroup(this.tg);
 		rdbComprador.setToggleGroup(this.tg);
@@ -143,20 +129,7 @@ public class SubastaViewController {
 		this.txtrol.setItems(tipoPers);
 	}
 	
-	public void llenarComboTipoProducto()
-	{
-		ObservableList<TipoProducto> tipoProd = FXCollections.observableArrayList();
-		
-		TipoProducto t1 = TipoProducto.HOGAR;
-		TipoProducto t2 = TipoProducto.TECNOLOGIA;
-		TipoProducto t3 = TipoProducto.DEPORTES;
-		TipoProducto t4 = TipoProducto.VEHICULOS;
-		TipoProducto t5 = TipoProducto.BIEN_RAIZ;
-		
-		tipoProd.add(t5);
-		this.txtTipoProducto.setItems(tipoProd);
-		
-	}
+	
 	
 	public Main getAplicacion() {
 		return aplication;
@@ -175,23 +148,7 @@ public class SubastaViewController {
 		 ingresarLogin();
     }
 	 
-	 @FXML
-	 void crearProductoAction(ActionEvent event) {
-		 	 crearProducto();
-	 }
-	 
-	 private void crearProducto()
-	 {
-		 String codigo = txtCodigoProductoAnuncio.getText();
-		 String nombre = txtNombreProductoAnuncio.getText();
-		 String descripcion = txtDescripcionProductoAnuncio.getText();
-		 double valorInicial = Double.parseDouble(txtValorInicialProductoAnuncio.getText());
-		 String foto = txtFotoProductoAnuncio.getText();
-		 TipoProducto tipo = txtTipoProducto.getValue();
-		 
-		 
-	 }
-	
+
 	 private void ingresarLogin() {
 		 
 		//capturar usuario y contraseña

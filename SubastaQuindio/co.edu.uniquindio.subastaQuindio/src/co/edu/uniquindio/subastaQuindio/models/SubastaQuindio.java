@@ -180,8 +180,11 @@ public class SubastaQuindio implements  Serializable, ISubastaQuindioService{
 			mensaje = "Se guardó el producto con código: "+producto.getCodigo()+
 					" nombre"+producto.getNombreProducto() +" descripcion: "+producto.getDescripcion()+
 					"valor inicial "+producto.getValorInicial()+" tipo Producto"+producto.getTipoProducto();
-					
-			Persistencia.guardarRegistroLog(mensaje, 1, "Se creó el producto, crear Producto - Subasta quindío");	
+			
+			
+			Persistencia.guardarRegistroLog(mensaje, 1, "Se creó el producto, crear Producto - Subasta quindío");
+			
+			Persistencia.guardarProducto(listaProducto);
 		}
 		return producto;
 	}

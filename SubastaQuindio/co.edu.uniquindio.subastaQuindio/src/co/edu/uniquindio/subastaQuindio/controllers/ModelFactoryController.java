@@ -189,7 +189,8 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 	{
 		Producto producto = null; 
 		try {
-			producto = getSubastaQuindio().crearProducto(codigo, nombreProducto, descripcion,valorInicial, tipoProducto, foto);	
+			producto = getSubastaQuindio().crearProducto(codigo, nombreProducto, descripcion,valorInicial, tipoProducto, foto);
+			
 		} catch (ProductoException | IOException e) {
 			// TODO Auto-generated catch block
 			Persistencia.guardarRegistroLog(e.getMessage(),3, "ModelFactoryController - crearProducto ");
