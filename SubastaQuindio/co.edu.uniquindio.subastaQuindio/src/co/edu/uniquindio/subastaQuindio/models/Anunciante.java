@@ -14,13 +14,39 @@ public class Anunciante extends Persona implements Serializable{
 	
 	
 	private int tiempoLimitadoPublicacion;
-	private ArrayList<Producto> tipoProductoAnunciar;
+	private ArrayList<Producto> productosAnunciar;
+	/**
+	 * @return the productosAnunciar
+	 */
+	public ArrayList<Producto> getProductosAnunciar() {
+		return productosAnunciar;
+	}
+	/**
+	 * @param productosAnunciar the productosAnunciar to set
+	 */
+	public void setProductosAnunciar(ArrayList<Producto> productosAnunciar) {
+		this.productosAnunciar = productosAnunciar;
+	}
+	private ArrayList<Anuncio> lista_anuncio;	
 	private int cantidadAnunciosPermitidos;
+	private Usuario usuarioAsociado; 
+	/**
+	 * @return the usuarioAsociado
+	 */
+	public Usuario getUsuarioAsociado() {
+		return usuarioAsociado;
+	}
+	/**
+	 * @param usuarioAsociado the usuarioAsociado to set
+	 */
+	public void setUsuarioAsociado(Usuario usuarioAsociado) {
+		this.usuarioAsociado = usuarioAsociado;
+	}
 	private static final long serialVersionUID = 1L;
 	
 	
 	public Anunciante(){
-		//this.tipoProductoAnunciar=new ArrayList<>();
+		this.productosAnunciar=new ArrayList<>();
 	}
 	/**
 	 * @return the cantidadAnunciosPermitidos
@@ -47,21 +73,17 @@ public class Anunciante extends Persona implements Serializable{
 	public void setTiempoLimitadoPublicacion(int tiempoLimitadoPublicacion) {
 		this.tiempoLimitadoPublicacion = tiempoLimitadoPublicacion;
 	}
+		
 	/**
-	 * @return the tipoProductoAnunciar
+	 * @return the lista_anuncio
 	 */
-	public ArrayList<Producto> getTipoProductoAnunciar() {
-		return tipoProductoAnunciar;
+	public ArrayList<Anuncio> getLista_anuncio() {
+		return lista_anuncio;
 	}
 	/**
-	 * @param tipoProductoAnunciar the tipoProductoAnunciar to set
+	 * @param lista_anuncio the lista_anuncio to set
 	 */
-	public void addTipoProductoAnunciar(Producto tipoProductoAnunciar) {
-		this.tipoProductoAnunciar.add(tipoProductoAnunciar);
+	public void setLista_anuncio(ArrayList<Anuncio> lista_anuncio) {
+		this.lista_anuncio = lista_anuncio;
 	}
-	
-	
-	
-	
-
 }

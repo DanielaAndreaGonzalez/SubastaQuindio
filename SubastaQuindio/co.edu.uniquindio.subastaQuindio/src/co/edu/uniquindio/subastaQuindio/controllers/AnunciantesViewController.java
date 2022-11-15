@@ -7,8 +7,12 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import co.edu.uniquindio.subastaQuindio.Main;
+import co.edu.uniquindio.subastaQuindio.models.Anunciante;
+import co.edu.uniquindio.subastaQuindio.models.Anuncio;
+import co.edu.uniquindio.subastaQuindio.models.Persona;
 import co.edu.uniquindio.subastaQuindio.models.Producto;
 import co.edu.uniquindio.subastaQuindio.models.TipoProducto;
+import co.edu.uniquindio.subastaQuindio.models.Usuario;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -31,6 +35,8 @@ import javafx.scene.layout.AnchorPane;
 public class AnunciantesViewController {
 
 	Main aplication;
+	
+	Persona usuarioLogueado;
 	
 	CrudProductoController crudProductoController;
 	
@@ -79,7 +85,7 @@ public class AnunciantesViewController {
     private TableColumn<?, ?> columnDescripcion1;
 
     @FXML
-    private TableColumn<?, ?> columnDescripcion11;
+    private TableColumn<Producto, String> columnDescripcion11;
 
     @FXML
     private TableColumn<?, ?> columnFechaLimite1;
@@ -118,16 +124,18 @@ public class AnunciantesViewController {
     private TableColumn<?, ?> columnValorInicial1;
 
     @FXML
-    private TableColumn<?, ?> columnValorInicial11;
-
+    private TableColumn<Producto, Double> columnValorInicial11;
+    
     @FXML
-    private TableColumn<?, ?> columnnombreanuncio;
+    private TableColumn<Producto, TipoProducto> columnTipoProducto;
+    @FXML
+    private TableColumn<Producto, String> columnnombreanuncio;
 
     @FXML
     private TableView<?> tableListaAnunciosRealizados;
 
     @FXML
-    private TableView<?> tableListaProductos;
+    private TableView<Producto> tableListaProductos;
 
     @FXML
     private AnchorPane tblListaAnunciosParaPujar;
@@ -171,14 +179,21 @@ public class AnunciantesViewController {
     public Main getAplicacion() {
 		return aplication;
 	}
-	public void setAplicacion(Main aplicacion) {
+	public void setAplicacion(Main aplicacion, Persona usuarioLogueado) {
 		this.aplication = aplicacion;
+		this.usuarioLogueado = usuarioLogueado;
 	}
 	
 	 @FXML
 	 void crearProductoAction(ActionEvent event) {
 		 	 crearProducto();
 	 }
+	 
+	 @FXML
+    void crearAnuncioAction(ActionEvent event) {
+		 
+    }
+	 
 	 
 	 public void llenarComboTipoProducto()
 		{
@@ -187,8 +202,7 @@ public class AnunciantesViewController {
 			TipoProducto t2 = TipoProducto.TECNOLOGIA;
 			TipoProducto t3 = TipoProducto.BIEN_RAIZ;
 			TipoProducto t4 = TipoProducto.VEHICULOS;
-			TipoProducto t5 = TipoProducto.DEPORTES;
-			
+			TipoProducto t5 = TipoProducto.DEPORTES;			
 			tipoProducto.addAll(t1,t2,t3,t4,t5);
 			this.txtTipoProducto.setItems(tipoProducto);
 			
@@ -204,8 +218,8 @@ public class AnunciantesViewController {
 		 
 		 
 		 if(datosValidos(codigo, nombre, descripcion, valorInicial, foto, tipo)) {
-			 Producto producto = null;
-			 producto = crudProductoController.crearProducto(codigo, nombre, descripcion, valorInicial, tipo, foto);
+			 Producto producto = null;			 
+			 producto = crudProductoController.crearProducto(codigo, nombre, descripcion, valorInicial, tipo, foto, this.usuarioLogueado);
 			 
 			 if(producto!=null)
 			 {
@@ -218,8 +232,7 @@ public class AnunciantesViewController {
 		 }
 		 
 	 }
-	
-	
+
 	private boolean datosValidos(String codigo, String nombre,String descripcion, double valorInicial,
 			String foto, TipoProducto tipo)
 	{
@@ -252,5 +265,8 @@ public class AnunciantesViewController {
 		 alert.setContentText(contenido);
 		 alert.showAndWait();	 
 	 }
+	
+	
+	
 	
 }

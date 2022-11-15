@@ -10,12 +10,15 @@ import java.util.Calendar;
 
 import co.edu.uniquindio.subastaQuindio.exceptions.ProductoException;
 import co.edu.uniquindio.subastaQuindio.exceptions.RegistroException;
+import co.edu.uniquindio.subastaQuindio.models.Anunciante;
+import co.edu.uniquindio.subastaQuindio.models.Anuncio;
 import co.edu.uniquindio.subastaQuindio.models.Archivos;
 import co.edu.uniquindio.subastaQuindio.models.Persona;
 import co.edu.uniquindio.subastaQuindio.models.Producto;
 import co.edu.uniquindio.subastaQuindio.models.SubastaQuindio;
 import co.edu.uniquindio.subastaQuindio.models.TipoPersona;
 import co.edu.uniquindio.subastaQuindio.models.TipoProducto;
+import co.edu.uniquindio.subastaQuindio.models.Usuario;
 import co.edu.uniquindio.subastaQuindio.persistence.Persistencia;
 import co.edu.uniquindio.subastaQuindio.services.IModelFactoryService;
 
@@ -185,11 +188,17 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 
 	@Override
 	public Producto crearProducto(String codigo,String nombreProducto,String descripcion,
-			double valorInicial,TipoProducto tipoProducto,String foto) 
+			double valorInicial,TipoProducto tipoProducto,String foto, Persona usuarioLogueado)
 	{
 		Producto producto = null; 
-		try {
-			producto = getSubastaQuindio().crearProducto(codigo, nombreProducto, descripcion,valorInicial, tipoProducto, foto);
+		try {			
+			
+			producto = getSubastaQuindio().crearProducto(codigo, nombreProducto, descripcion,valorInicial, tipoProducto, foto, usuarioLogueado);
+			
+			//guardar en binario
+			Persistencia.guardarRecursoSubastaBinario(subastaQuindio);
+			//guardar en xml
+			Persistencia.guardarResourceSubastaXML(subastaQuindio);
 			
 		} catch (ProductoException | IOException e) {
 			// TODO Auto-generated catch block
@@ -197,14 +206,5 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 		}
 		return producto;
 	}
-
-	
-	
-
 	//Verificar persona Existe
-	
-	
-	
-	
-
 }

@@ -62,6 +62,22 @@ public class Persistencia {
 		return false;
 	}
 	
+	public static Persona obtenerUsuario(String usuario, String contrasenia) throws FileNotFoundException, IOException 
+	{
+		SubastaQuindio subastaQuindio=  Persistencia.cargarRecursoSubastaQuindioBinario();
+		
+		ArrayList<Persona> usuarios = subastaQuindio.getListaPersonas();
+		Persona usuarioAux = null;
+		for (int indiceUsuario = 0; indiceUsuario < usuarios.size(); indiceUsuario++) 
+		{
+			usuarioAux = usuarios.get(indiceUsuario);
+			if(usuarioAux.getUsuario().equalsIgnoreCase(usuario) && usuarioAux.getContrasenia().equalsIgnoreCase(contrasenia)) {
+				return usuarioAux;
+			}
+		}
+		return usuarioAux;
+	}
+	
 	
 	/**
 	 * Guarda en un archivo de texto todos la información de las personas

@@ -26,9 +26,9 @@ public class SubastaQuindio implements  Serializable, ISubastaQuindioService{
 	
 	
 	ArrayList<Persona> listaPersonas = new ArrayList<>();
-	ArrayList<Producto> listaProducto = new ArrayList<>();
-	
-	
+	//ArrayList<Producto> listaProducto = new ArrayList<>();
+	ArrayList<Anunciante> listaAnunciante = new ArrayList<>();	
+
 	public SubastaQuindio() {
 		
 	}
@@ -65,25 +65,25 @@ public class SubastaQuindio implements  Serializable, ISubastaQuindioService{
 	 */
 	public ArrayList<Persona> getListaPersonas() {
 		return listaPersonas;
-	}
-	/**
-	 * @return the listaProducto
-	 */
-	public ArrayList<Producto> getListaProductos() {
-		return listaProducto;
-	}
-	
+	}	
 	/**
 	 * @param listaPersonas the listaPersonas to set
 	 */
 	public void setListaPersonas(ArrayList<Persona> listaPersonas) {
 		this.listaPersonas = listaPersonas;
-	}
+	}	
 	/**
-	 * @param listaProducto the listaProducto to set
+	 * @return the listaAnunciante
 	 */
-	public void setistaProductos(ArrayList<Producto> listaProducto) {
-		this.listaProducto = listaProducto;
+	public ArrayList<Anunciante> getListaAnunciante() {
+		return listaAnunciante;
+	}
+
+	/**
+	 * @param listaAnunciante the listaAnunciante to set
+	 */
+	public void setListaAnunciante(ArrayList<Anunciante> listaAnunciante) {
+		this.listaAnunciante = listaAnunciante;
 	}
 
 	@Override
@@ -156,7 +156,7 @@ public class SubastaQuindio implements  Serializable, ISubastaQuindioService{
 
 	@Override
 	public Producto crearProducto(String codigo,String nombreProducto,String descripcion,
-			double valorInicial,TipoProducto tipoProducto,String foto)throws ProductoException,IOException 
+			double valorInicial,TipoProducto tipoProducto,String foto, Persona usuarioLogueado)throws ProductoException,IOException 
 	{
 		
 		Producto producto = null; 
@@ -175,7 +175,30 @@ public class SubastaQuindio implements  Serializable, ISubastaQuindioService{
 			producto.setValorInicial(valorInicial);
 			producto.setTipoProducto(tipoProducto);
 			producto.setFoto(foto);
-			getListaProductos().add(producto);
+			
+			Anunciante anunciante = new Anunciante();						
+			//buscar anunciante en lista de subasta quindio y si esta capturar ese anunciante 
+			// si no esta se crear nuevo anunciante
+			if (buscarAnunciante(usuarioLogueado.getCedula())!= null) {
+				anunciante = buscarAnunciante(usuarioLogueado.getCedula());
+				anunciante.getProductosAnunciar().add(producto);
+				// modificar anunciante en lista de anunciantes
+				moficiarListaAnunciante(anunciante);
+			}else {
+				anunciante.setCedula(usuarioLogueado.getCedula());
+				anunciante.setContrasenia(usuarioLogueado.getContrasenia());
+				anunciante.setNombre(usuarioLogueado.getNombre());
+				anunciante.setUsuario(usuarioLogueado.getUsuario());
+				anunciante.setEdad(usuarioLogueado.getEdad());
+				anunciante.setCantidadAnunciosPermitidos(10);
+				anunciante.setTiempoLimitadoPublicacion(3);
+				anunciante.setTipoPersona(usuarioLogueado.getTipoPersona());
+				anunciante.setUsuarioAsociado(usuarioLogueado);
+				anunciante.getProductosAnunciar().add(producto);
+				getListaAnunciante().add(anunciante);
+			}
+			
+			
 			
 			mensaje = "Se guardó el producto con código: "+producto.getCodigo()+
 					" nombre"+producto.getNombreProducto() +" descripcion: "+producto.getDescripcion()+
@@ -184,13 +207,33 @@ public class SubastaQuindio implements  Serializable, ISubastaQuindioService{
 			
 			Persistencia.guardarRegistroLog(mensaje, 1, "Se creó el producto, crear Producto - Subasta quindío");
 			
-			Persistencia.guardarProducto(listaProducto);
+			//Persistencia.guardarProducto(listaProducto);
 		}
 		return producto;
 	}
 
 	
-	
+	private void moficiarListaAnunciante(Anunciante nuevoAnunciante) {		
+		int index=0;
+		for (Anunciante anunciante : listaAnunciante) {
+			if (anunciante.getCedula().equals(nuevoAnunciante.getCedula())) {
+				break;
+			}
+			index++;
+		}	
+		listaAnunciante.set(index, nuevoAnunciante);
+	}
+
+	public Anunciante buscarAnunciante(String cedula) {
+		Anunciante anuncianteAux = null;
+		for (Anunciante anunciante : listaAnunciante) {
+			if (anunciante.getCedula().equals(cedula)) {
+				anuncianteAux = anunciante;
+				break;
+			}
+		}
+		return anuncianteAux;
+	}
 
 		
 	

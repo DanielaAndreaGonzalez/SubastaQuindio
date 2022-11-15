@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import co.edu.uniquindio.subastaQuindio.exceptions.RegistroException;
+import co.edu.uniquindio.subastaQuindio.models.Anunciante;
+import co.edu.uniquindio.subastaQuindio.models.Anuncio;
 import co.edu.uniquindio.subastaQuindio.models.Persona;
 import co.edu.uniquindio.subastaQuindio.models.Producto;
 import co.edu.uniquindio.subastaQuindio.models.TipoPersona;
@@ -24,7 +26,7 @@ public interface IModelFactoryService {
 	public ArrayList<Persona> obtenerPerson(String cedula);
 	
 	public Producto crearProducto(String codigo,String nombreProducto,String descripcion,
-			double valorInicial,TipoProducto tipoProducto,String foto);
+			double valorInicial,TipoProducto tipoProducto,String foto, Persona usuarioLogeado);
 	
 	
 

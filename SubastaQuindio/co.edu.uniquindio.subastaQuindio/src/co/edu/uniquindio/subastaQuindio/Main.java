@@ -4,6 +4,9 @@ import java.io.IOException;
 
 import co.edu.uniquindio.subastaQuindio.controllers.AnunciantesViewController;
 import co.edu.uniquindio.subastaQuindio.controllers.SubastaViewController;
+import co.edu.uniquindio.subastaQuindio.models.Anuncio;
+import co.edu.uniquindio.subastaQuindio.models.Persona;
+import co.edu.uniquindio.subastaQuindio.models.Usuario;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -45,13 +48,14 @@ public class Main extends Application {
 		}
 	}
 	
-	public void mostrarVentanaAnunciante() {
+	public void mostrarVentanaAnunciante(Persona usuariosLogueado) {
 		try{
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("views/AnuncianteView.fxml"));
 			AnchorPane rootLayout = (AnchorPane) loader.load();
 			AnunciantesViewController anunciantesViewController = loader.getController();
-			anunciantesViewController.setAplicacion(this);
+			
+			anunciantesViewController.setAplicacion(this,usuariosLogueado);
 			Scene scene = new Scene(rootLayout);
 			primaryStage.setScene(scene);
 			primaryStage.show();

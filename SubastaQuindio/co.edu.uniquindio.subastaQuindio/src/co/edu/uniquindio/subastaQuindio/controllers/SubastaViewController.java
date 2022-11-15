@@ -10,9 +10,11 @@ import java.util.ResourceBundle;
 
 import co.edu.uniquindio.subastaQuindio.Main;
 import co.edu.uniquindio.subastaQuindio.exceptions.UsuarioExcepcion;
+import co.edu.uniquindio.subastaQuindio.models.Anuncio;
 import co.edu.uniquindio.subastaQuindio.models.Persona;
 import co.edu.uniquindio.subastaQuindio.models.TipoPersona;
 import co.edu.uniquindio.subastaQuindio.models.TipoProducto;
+import co.edu.uniquindio.subastaQuindio.models.Usuario;
 import co.edu.uniquindio.subastaQuindio.persistence.Persistencia;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -157,8 +159,9 @@ public class SubastaViewController {
 		// buscar usuario y conseña en archivo binario
 		try {
 			if (Persistencia.iniciarSesion(usuarioIngresado, contraseñaIngresada)) {
-				if(rdbAnunciante.isSelected()){
-					getAplicacion().mostrarVentanaAnunciante();
+				if(rdbAnunciante.isSelected()){	
+					Persona usuarioLogueado = Persistencia.obtenerUsuario(usuarioIngresado, contraseñaIngresada);
+					getAplicacion().mostrarVentanaAnunciante(usuarioLogueado);
 			    }
 			    else{
 			    	getAplicacion().mostrarVentanaComprador();
