@@ -3,8 +3,16 @@
  */
 package co.edu.uniquindio.subastaQuindio.controllers;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -36,6 +44,24 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 	boolean run;
 	
 	
+	String host = "localhost";
+	//int puerto = 8081;
+	ServerSocket server;
+	
+	Socket socketComunicacion;
+	Socket socketTranferenciaObjeto;
+	
+	DataOutputStream flujoSalidaComunicacion;
+	DataInputStream flujoEntradaComunicacion;
+	
+	ObjectInputStream flujoEntradaObjeto;
+	ObjectOutputStream flujoSalidaObjeto;
+	
+	BufferedReader entrada;
+	boolean is;
+	
+	
+	
 	//***********************************Singleton***********************************************
 	//Clase estatica oculta. Tan solo se instanciara el singleton una vez
 	private static class SingletonHolder{
@@ -53,28 +79,18 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 	public ModelFactoryController()
 	{
 		System.out.println("Invocación clase singleton");
-		inicializarDatos();
-		//OJO NOTA: ACÁ SE INICIALIZAN LOS DATOS
-		//Guardar un registro serializado binario
-		//guardarResourceBinario();
-		cargarResourceBinario();
-		//guardarResourceXML();
-		cargarResourceXML();
-	
-		
-	}
-	
-//	private void inicializarSalvarDatos() {
-//		inicializarDatos();
-//		try {
-//			Persistencia.guardarUsuarios(getSubastaQuindio().getListaPersonas());
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//	}
-	
+		System.out.println("Llamado... ");
+		//inicializarDatos();
+		try {
+			crearConexion();
+			solicitarInformacionPersistencia();			
+			leerObjetoPersistenciaTransferido();
+			
+			Persistencia.guardarRegistroLog("Inicio sesion del usuario",1, "Inicio sesion");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+	}	
 	private void cargarDatos()
 	{
 		ArrayList<Persona> listaPersonas = null;
@@ -174,13 +190,22 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 
 	@Override
 	public void run() {
-		Thread current = Thread.currentThread();
-		
-		if(hiloServicio1GuardarXML == current)
+		Thread hiloEjecucion = Thread.currentThread();
+		System.out.println("Entro al run ");
+		if(hiloServicio1GuardarXML == hiloEjecucion)
 		{
-			Persistencia.guardarResourceSubastaXML(subastaQuindio);
+		
+			try {
+				//crearConexion();
+				//solicitarGuardarPersistencia();
+				//enviarObjetoPersistenciaTransferido();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//Persistencia.guardarResourceSubastaXML(subastaQuindio);
 		}
-		if(hiloServicio2GuardarBinario == current)
+		if(hiloServicio2GuardarBinario == hiloEjecucion)
 		{
 			Persistencia.guardarRecursoSubastaBinario(subastaQuindio);
 		}
@@ -207,4 +232,96 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 		return producto;
 	}
 	//Verificar persona Existe
+	
+	
+	private void crearConexion() throws UnknownHostException, IOException {
+		// TODO Auto-generated method stub
+		 socketComunicacion = new Socket("localhost", 9998);
+		 socketTranferenciaObjeto = new Socket("localhost", 9999);
+
+		 flujoEntradaComunicacion = new DataInputStream(socketComunicacion.getInputStream());
+		 flujoSalidaComunicacion = new DataOutputStream(socketComunicacion.getOutputStream());
+
+
+			flujoEntradaObjeto = new ObjectInputStream(socketTranferenciaObjeto.getInputStream());
+			flujoSalidaObjeto = new ObjectOutputStream(socketTranferenciaObjeto.getOutputStream());
+
+	}
+		
+	private void leerObjetoPersistenciaTransferido() throws IOException, ClassNotFoundException
+	{
+		subastaQuindio =  (SubastaQuindio) flujoEntradaObjeto.readObject();
+		System.out.println("Objeto recibido");subastaQuindio.getListaPersonas().size();
+		flujoEntradaObjeto.close();	
+	}
+	
+	private void solicitarInformacionPersistencia() throws IOException
+	{
+		// TODO Auto-generated method stub
+		try {
+			flujoSalidaComunicacion.writeInt(1);
+			//flujoSalidaComunicacion.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * @return the flujoSalidaComunicacion
+	 */
+	public DataOutputStream getFlujoSalidaComunicacion() {
+		return flujoSalidaComunicacion;
+	}
+
+	/**
+	 * @param flujoSalidaComunicacion the flujoSalidaComunicacion to set
+	 */
+	public void setFlujoSalidaComunicacion(DataOutputStream flujoSalidaComunicacion) {
+		this.flujoSalidaComunicacion = flujoSalidaComunicacion;
+	}
+
+	/**
+	 * @return the flujoEntradaComunicacion
+	 */
+	public DataInputStream getFlujoEntradaComunicacion() {
+		return flujoEntradaComunicacion;
+	}
+
+	/**
+	 * @param flujoEntradaComunicacion the flujoEntradaComunicacion to set
+	 */
+	public void setFlujoEntradaComunicacion(DataInputStream flujoEntradaComunicacion) {
+		this.flujoEntradaComunicacion = flujoEntradaComunicacion;
+	}
+
+	/**
+	 * @return the flujoEntradaObjeto
+	 */
+	public ObjectInputStream getFlujoEntradaObjeto() {
+		return flujoEntradaObjeto;
+	}
+
+	/**
+	 * @param flujoEntradaObjeto the flujoEntradaObjeto to set
+	 */
+	public void setFlujoEntradaObjeto(ObjectInputStream flujoEntradaObjeto) {
+		this.flujoEntradaObjeto = flujoEntradaObjeto;
+	}
+
+	/**
+	 * @return the flujoSalidaObjeto
+	 */
+	public ObjectOutputStream getFlujoSalidaObjeto() {
+		return flujoSalidaObjeto;
+	}
+
+	/**
+	 * @param flujoSalidaObjeto the flujoSalidaObjeto to set
+	 */
+	public void setFlujoSalidaObjeto(ObjectOutputStream flujoSalidaObjeto) {
+		this.flujoSalidaObjeto = flujoSalidaObjeto;
+	}
+	
+	
 }

@@ -4,6 +4,7 @@
 package co.edu.uniquindio.subastaQuindio.controllers;
 
 
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
@@ -158,7 +159,11 @@ public class SubastaViewController {
 		 String contraseñaIngresada =  txtcontrasenaautenticarse.getText();
 		// buscar usuario y conseña en archivo binario
 		try {
-			if (Persistencia.iniciarSesion(usuarioIngresado, contraseñaIngresada)) {
+			modelFactoryController.getFlujoSalidaComunicacion().writeInt(3);
+			modelFactoryController.getFlujoSalidaComunicacion().writeUTF(usuarioIngresado);
+			modelFactoryController.getFlujoSalidaComunicacion().writeUTF(contraseñaIngresada);
+			boolean respuesta =  modelFactoryController.getFlujoEntradaComunicacion().readBoolean();
+			if (respuesta) {
 				if(rdbAnunciante.isSelected()){	
 					Persona usuarioLogueado = Persistencia.obtenerUsuario(usuarioIngresado, contraseñaIngresada);
 					getAplicacion().mostrarVentanaAnunciante(usuarioLogueado);
@@ -168,7 +173,7 @@ public class SubastaViewController {
 			    }	
 			}
 			Persistencia.guardarRegistroLog("Usuario Logueado", 1, "Ingreso al sistema  "+usuarioIngresado);
-		} catch (IOException | UsuarioExcepcion e) {
+		} catch (IOException e) {
 			Persistencia.guardarRegistroLog("SubastaViewController - ingresarLogin", 3, e.getMessage());
 			e.printStackTrace();
 		}
