@@ -219,6 +219,11 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 		Anuncio anuncio = null;
 		try {
 			anuncio = getSubastaQuindio().crearAnuncio(fechaPublicacion, fechaFin, producto, anunciante);
+			
+			//guardar en binario
+			Persistencia.guardarRecursoSubastaBinario(subastaQuindio);
+			//guardar en xml
+			Persistencia.guardarResourceSubastaXML(subastaQuindio);
 		} catch (AnuncioException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -87,4 +87,12 @@ public class Anunciante extends Persona implements Serializable{
 	public void setLista_anuncio(ArrayList<Anuncio> lista_anuncio) {
 		this.lista_anuncio = lista_anuncio;
 	}
+	@Override
+	public String toString() {
+		return "Anunciante [tiempoLimitadoPublicacion=" + tiempoLimitadoPublicacion + ", productosAnunciar="
+				+ productosAnunciar + ", lista_anuncio=" + lista_anuncio + ", cantidadAnunciosPermitidos="
+				+ cantidadAnunciosPermitidos + ", usuarioAsociado=" + usuarioAsociado + "]";
+	}
+	
+	
 }
