@@ -9,6 +9,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
@@ -27,8 +28,40 @@
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <Pane layoutX="22.0" layoutY="20.0" prefHeight="217.0" prefWidth="858.0" style="-fx-border-color: black;">
+                                          <Pane layoutX="22.0" layoutY="367.0" prefHeight="243.0" prefWidth="858.0" style="-fx-border-color: black;">
                                              <children>
+                                                <Label layoutX="11.0" layoutY="4.0" prefHeight="20.0" prefWidth="165.0" text="Información del anuncio">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                </Label>
+                                                <TableView fx:id="tableListaAnunciosRealizados" layoutX="11.0" layoutY="35.0" prefHeight="212.0" prefWidth="839.0" style="-fx-background-color: C4DDF6;">
+                                                   <columns>
+                                                      <TableColumn fx:id="columnDescripcion1" prefWidth="110.0" text="Nombre Producto" />
+                                                      <TableColumn fx:id="columnNombreAnunciante1" prefWidth="127.0" text="Nombre anunciante" />
+                                                      <TableColumn fx:id="columnFechaLimite1" prefWidth="162.0" text="Fecha limite" />
+                                                      <TableColumn fx:id="columnFechaPublicacion1" prefWidth="148.0" text="Fecha publicación" />
+                                                      <TableColumn fx:id="columnValorInicial1" prefWidth="92.0" text="Valor Inicial" />
+                                                   </columns>
+                                                </TableView>
+                                             </children>
+                                          </Pane>
+                                          <Pane layoutX="34.0" layoutY="14.0" prefHeight="173.0" prefWidth="835.0" style="-fx-border-color: black;">
+                                             <children>
+                                                <Pane layoutX="-10.0" layoutY="-13.0" prefHeight="345.0" prefWidth="858.0" style="-fx-border-color: black;">
+                                                   <children>
+                                                      <Button fx:id="btnCrearAnuncio" layoutX="310.0" layoutY="297.0" mnemonicParsing="false" onAction="#crearAnuncioAction" prefHeight="34.0" prefWidth="121.0" style="-fx-background-color: #0d6efd;" text="Crear Anuncio" textFill="WHITE">
+                                                         <font>
+                                                            <Font name="Arial Bold" size="12.0" />
+                                                         </font>
+                                                      </Button>
+                                                      <Button fx:id="btnActualizarAnuncio" layoutX="450.0" layoutY="297.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="129.0" style="-fx-background-color: #0d6efd;" text="Actualizar Anuncio" textFill="WHITE">
+                                                         <font>
+                                                            <Font name="Arial Bold" size="12.0" />
+                                                         </font>
+                                                      </Button>
+                                                   </children>
+                                                </Pane>
                                                 <Label layoutX="156.0" layoutY="43.0" text="Nombre anunciante:*">
                                                    <font>
                                                       <Font name="Arial Bold" size="12.0" />
@@ -52,49 +85,21 @@
                                                       <Font size="14.0" />
                                                    </font>
                                                 </Label>
-                                                <Button fx:id="btnCrearAnuncio" layoutX="295.0" layoutY="165.0" mnemonicParsing="false" onAction="#crearAnuncioAction" prefHeight="34.0" prefWidth="107.0" style="-fx-background-color: #0d6efd;" text="Crear" textFill="WHITE">
-                                                   <font>
-                                                      <Font name="Arial Bold" size="12.0" />
-                                                   </font>
-                                                </Button>
-                                                <Button fx:id="btnActualizarAnuncio" layoutX="417.0" layoutY="165.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="107.0" style="-fx-background-color: #0d6efd;" text="Actualizar" textFill="WHITE">
-                                                   <font>
-                                                      <Font name="Arial Bold" size="12.0" />
-                                                   </font>
-                                                </Button>
                                              </children>
                                           </Pane>
-                                          <Pane layoutX="22.0" layoutY="245.0" prefHeight="102.0" prefWidth="858.0" style="-fx-border-color: black;">
+                                          <Pane layoutX="32.0" layoutY="198.0" prefHeight="84.0" prefWidth="836.0" style="-fx-border-color: black;">
                                              <children>
                                                 <Label layoutX="14.0" layoutY="4.0" prefHeight="20.0" prefWidth="165.0" text="Información del producto">
                                                    <font>
                                                       <Font size="14.0" />
                                                    </font>
                                                 </Label>
-                                                <ComboBox layoutX="312.0" layoutY="39.0" prefWidth="150.0" promptText="Seleccione producto" />
-                                                <Label layoutX="186.0" layoutY="43.0" text="Producto: ">
+                                                <ComboBox fx:id="cboProducto" layoutX="295.0" layoutY="25.0" prefHeight="30.0" prefWidth="269.0" promptText="Seleccione producto" />
+                                                <Label layoutX="205.0" layoutY="33.0" text="Producto: *">
                                                    <font>
                                                       <Font name="Arial Bold" size="12.0" />
                                                    </font>
                                                 </Label>
-                                             </children>
-                                          </Pane>
-                                          <Pane layoutX="22.0" layoutY="355.0" prefHeight="255.0" prefWidth="858.0" style="-fx-border-color: black;">
-                                             <children>
-                                                <Label layoutX="11.0" layoutY="4.0" prefHeight="20.0" prefWidth="165.0" text="Información del anuncio">
-                                                   <font>
-                                                      <Font size="14.0" />
-                                                   </font>
-                                                </Label>
-                                                <TableView fx:id="tableListaAnunciosRealizados" layoutX="11.0" layoutY="35.0" prefHeight="212.0" prefWidth="839.0" style="-fx-background-color: C4DDF6;">
-                                                   <columns>
-                                                      <TableColumn fx:id="columnDescripcion1" prefWidth="110.0" text="Nombre Producto" />
-                                                      <TableColumn fx:id="columnNombreAnunciante1" prefWidth="127.0" text="Nombre anunciante" />
-                                                      <TableColumn fx:id="columnFechaLimite1" prefWidth="162.0" text="Fecha limite" />
-                                                      <TableColumn fx:id="columnFechaPublicacion1" prefWidth="148.0" text="Fecha publicación" />
-                                                      <TableColumn fx:id="columnValorInicial1" prefWidth="92.0" text="Valor Inicial" />
-                                                   </columns>
-                                                </TableView>
                                              </children>
                                           </Pane>
                                        </children>
@@ -112,10 +117,9 @@
                                                       <Font size="14.0" />
                                                    </font>
                                                 </Label>
-                                                <TextField fx:id="txtNombreProductoAnuncio" layoutX="294.0" layoutY="68.0" prefHeight="30.0" prefWidth="265.0" promptText="Ingrese el nombre del producto" />
+                                                <TextField fx:id="txtNombreProductoAnuncio" layoutX="292.0" layoutY="68.0" prefHeight="30.0" prefWidth="267.0" promptText="Ingrese el nombre del producto" />
                                                 <TextField fx:id="txtDescripcionProductoAnuncio" layoutX="294.0" layoutY="106.0" prefHeight="30.0" prefWidth="264.0" promptText="Ingrese la dicreccion del producto" />
                                                 <TextField fx:id="txtValorInicialProductoAnuncio" layoutX="295.0" layoutY="145.0" prefHeight="30.0" prefWidth="260.0" promptText="Ingrese el valor inicial del producto" />
-                                                <TextField fx:id="txtFotoProductoAnuncio" layoutX="296.0" layoutY="182.0" prefHeight="30.0" prefWidth="258.0" promptText="Seleccione una foto" />
                                                 <ComboBox fx:id="txtTipoProducto" layoutX="293.0" layoutY="217.0" prefHeight="35.0" prefWidth="260.0" promptText="Seleccione un tipo de producto" />
                                                 <Label layoutX="166.0" layoutY="75.0" prefHeight="17.0" prefWidth="112.0" text="Nombre Producto:*">
                                                    <font>
@@ -157,7 +161,9 @@
                                                    <font>
                                                       <Font name="Arial Bold" size="12.0" />
                                                    </font>
-                                                </Label>                                                
+                                                </Label>
+                                                <Button fx:id="txtFotoProductoAnuncio" layoutX="294.0" layoutY="185.0" mnemonicParsing="false" onAction="#seleccionFotoProducto" prefHeight="25.0" prefWidth="261.0" text="Seleccionar foto producto" />
+                                                <ImageView fx:id="imagenProducto" fitHeight="150.0" fitWidth="200.0" layoutX="567.0" layoutY="47.0" pickOnBounds="true" preserveRatio="true" />                                                
                                              </children>
                                           </Pane>
                                           <Pane layoutX="9.0" layoutY="353.0" prefHeight="243.0" prefWidth="867.0" style="-fx-border-color: black;">

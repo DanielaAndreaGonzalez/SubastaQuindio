@@ -13,9 +13,11 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import co.edu.uniquindio.subastaQuindio.exceptions.AnuncioException;
 import co.edu.uniquindio.subastaQuindio.exceptions.ProductoException;
 import co.edu.uniquindio.subastaQuindio.exceptions.RegistroException;
 import co.edu.uniquindio.subastaQuindio.models.Anunciante;
@@ -210,6 +212,20 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 			Persistencia.guardarRecursoSubastaBinario(subastaQuindio);
 		}
 	}
+	
+	@Override
+	public Anuncio crearAnuncio(LocalDate fechaPublicacion, LocalDate fechaFin,Producto producto,Persona anunciante) {
+		
+		Anuncio anuncio = null;
+		try {
+			anuncio = getSubastaQuindio().crearAnuncio(fechaPublicacion, fechaFin, producto, anunciante);
+		} catch (AnuncioException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return anuncio;
+	}
+	
 
 	@Override
 	public Producto crearProducto(String codigo,String nombreProducto,String descripcion,
@@ -322,6 +338,8 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 	public void setFlujoSalidaObjeto(ObjectOutputStream flujoSalidaObjeto) {
 		this.flujoSalidaObjeto = flujoSalidaObjeto;
 	}
+
+	
 	
 	
 }

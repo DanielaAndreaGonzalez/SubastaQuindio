@@ -3,7 +3,15 @@
  */
 package co.edu.uniquindio.subastaQuindio.controllers;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.net.URL;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import co.edu.uniquindio.subastaQuindio.Main;
@@ -25,8 +33,12 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 
 /**
  * @author GonzalezHDanielaA
@@ -40,7 +52,11 @@ public class AnunciantesViewController {
 	
 	CrudProductoController crudProductoController;
 	
+	CrudAnuncioController crudAnuncioController;
+	
 	ModelFactoryController modelFactoryController;
+	
+	File fotoProductoCreado;
 	
 	//Producto
     @FXML
@@ -56,10 +72,13 @@ public class AnunciantesViewController {
     private TextField txtValorInicialProductoAnuncio;
     
     @FXML
-    private TextField txtFotoProductoAnuncio;
+    private Button txtFotoProductoAnuncio;
     
     @FXML
     private ComboBox<TipoProducto> txtTipoProducto;
+    
+    @FXML
+    private ComboBox<Producto> cboProducto;
     
     @FXML
     private Button btnCrearProducto;
@@ -159,7 +178,8 @@ public class AnunciantesViewController {
     @FXML
     private TextField txtNombreAnunciante;
 	
-	
+	@FXML
+	private ImageView imagenProducto;
 	
 	
 	@FXML
@@ -172,8 +192,9 @@ public class AnunciantesViewController {
     void initialize() {
     	modelFactoryController = ModelFactoryController.getInstance();
     	crudProductoController = new CrudProductoController(modelFactoryController);
-    	
+    	crudAnuncioController = new CrudAnuncioController(modelFactoryController);
     	llenarComboTipoProducto();
+    	llenarComboProductos();
     }
     
     public Main getAplicacion() {
@@ -191,10 +212,33 @@ public class AnunciantesViewController {
 	 
 	 @FXML
     void crearAnuncioAction(ActionEvent event) {
-		 
+		 crearAnuncio();
     }
-	 
-	 
+	
+	 @FXML
+    void seleccionFotoProducto(ActionEvent event) {
+		 List<String> listaExtensiones = new ArrayList<>();
+		 listaExtensiones.add("*.png");
+		 listaExtensiones.add("*.jpg");
+		 
+		 FileChooser fc = new FileChooser();
+		 fc.getExtensionFilters().add(new ExtensionFilter("Archivos", listaExtensiones));
+		 fotoProductoCreado = fc.showOpenDialog(null);
+		 if (fotoProductoCreado != null) {
+			 System.out.println("Seleccion archivo: " + fotoProductoCreado.getAbsolutePath());
+			 InputStream stream;
+			try {
+				stream = new FileInputStream(fotoProductoCreado.getAbsolutePath());
+				Image image = new Image(stream);
+				imagenProducto.setImage(image);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		     
+		     
+		 }
+    }
 	 public void llenarComboTipoProducto()
 		{
 			ObservableList<TipoProducto> tipoProducto = FXCollections.observableArrayList();
@@ -207,13 +251,18 @@ public class AnunciantesViewController {
 			this.txtTipoProducto.setItems(tipoProducto);
 			
 		}
+	 public void llenarComboProductos() {
+		 ObservableList<Producto> productos = FXCollections.observableArrayList();
+		 productos.addAll(modelFactoryController.getSubastaQuindio().getListaAnunciante().get(0).getProductosAnunciar());
+		 this.cboProducto.setItems(productos);
+	 }
 	private void crearProducto()
 	 {
 		 String codigo = txtCodigoProductoAnuncio.getText();
 		 String nombre = txtNombreProductoAnuncio.getText();
 		 String descripcion = txtDescripcionProductoAnuncio.getText();
 		 double valorInicial = Double.parseDouble(txtValorInicialProductoAnuncio.getText());
-		 String foto = txtFotoProductoAnuncio.getText();
+		 String foto = fotoProductoCreado.getAbsolutePath();
 		 TipoProducto tipo = txtTipoProducto.getValue();
 		 
 		 
@@ -227,11 +276,36 @@ public class AnunciantesViewController {
 			 }
 			 else {
 				 showMessage("Notificación registro", "Producto no creado", "Los datos ingresados son inválidos", AlertType.ERROR);
-			 }
-			 
+			 }	 
 		 }
-		 
 	 }
+	
+	
+	private void crearAnuncio()
+	{
+		txtNombreAnunciante.setText(this.usuarioLogueado.getNombre());
+		LocalDate fechaPu = txtFechaPublicacion.getValue();
+		LocalDate fechaLimite = txtFechaLimite.getValue();
+		Producto producto = cboProducto.getValue();
+		
+		
+		if(datosValidosAnuncio(fechaPu, fechaLimite, producto))
+		{
+			Anuncio anuncio = null;
+			
+			anuncio = crudAnuncioController.crearAnuncio(fechaPu, fechaLimite, producto,this.usuarioLogueado);
+			
+			if(anuncio != null)
+			{
+				showMessage("Notificación registro anuncio ", "Anuncio creado", "El anuncio se ha creado con éxito", AlertType.INFORMATION);
+			}else {
+				 showMessage("Notificación registro anuncio", "Anuncio no creado", "Los datos ingresados no son válidos", AlertType.ERROR);
+			 }
+		}
+		
+		
+		
+	}
 
 	private boolean datosValidos(String codigo, String nombre,String descripcion, double valorInicial,
 			String foto, TipoProducto tipo)
@@ -256,6 +330,25 @@ public class AnunciantesViewController {
 			 return false;
 		}
 	}
+	
+	private boolean datosValidosAnuncio(LocalDate fechaPublicacion, LocalDate fechaFin,Producto producto)
+	{
+		String mensaje = " ";
+		if( fechaPublicacion == null)
+			mensaje += "fecha publicacion no es válida";
+		if(fechaFin == null)
+			mensaje += "fecha fin no es válida";
+		if(producto == null)
+			mensaje += "producto no es válido";
+		if(mensaje.equals(" "))
+			return true;
+		else {
+			showMessage("Notificación registro", "Datos inválidos", mensaje, AlertType.WARNING);
+			 return false;
+		}
+		
+	}
+	
 	
 	private void showMessage(String titulo, String header, String contenido, AlertType alertType)
 	 {

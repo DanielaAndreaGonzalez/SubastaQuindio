@@ -4,8 +4,10 @@
 package co.edu.uniquindio.subastaQuindio.services;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Calendar;
 
+import co.edu.uniquindio.subastaQuindio.exceptions.AnuncioException;
 import co.edu.uniquindio.subastaQuindio.exceptions.ProductoException;
 import co.edu.uniquindio.subastaQuindio.exceptions.RegistroException;
 import co.edu.uniquindio.subastaQuindio.models.Anunciante;
@@ -34,6 +36,9 @@ public interface ISubastaQuindioService {
 	
 	public boolean verificarProductoExistente(String codigo);
 	
-	
+	public Anuncio crearAnuncio(LocalDate fechaPublicacion,LocalDate fechaFin, Producto producto,Persona usuarioLogueado) throws AnuncioException,IOException;
 
+	
+	
+	
 }

@@ -3,6 +3,7 @@
  */
 package co.edu.uniquindio.subastaQuindio.services;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -28,6 +29,7 @@ public interface IModelFactoryService {
 	public Producto crearProducto(String codigo,String nombreProducto,String descripcion,
 			double valorInicial,TipoProducto tipoProducto,String foto, Persona usuarioLogeado);
 	
+	public Anuncio crearAnuncio(LocalDate fechaPublicacion,LocalDate fechaFin,Producto producto, Persona anunciante);
 	
 
 }

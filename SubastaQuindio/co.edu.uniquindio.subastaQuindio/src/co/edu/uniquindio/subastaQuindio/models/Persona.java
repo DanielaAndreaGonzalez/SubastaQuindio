@@ -72,7 +72,7 @@ public class Persona extends Usuario implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Persona [cedula=" + cedula + ", nombre=" + nombre + ", edad=" + edad + "]";
+		return cedula + "-"+nombre ;
 	}
 	
 	

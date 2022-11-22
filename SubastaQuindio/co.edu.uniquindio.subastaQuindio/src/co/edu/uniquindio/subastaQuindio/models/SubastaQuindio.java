@@ -5,9 +5,11 @@ package co.edu.uniquindio.subastaQuindio.models;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import co.edu.uniquindio.subastaQuindio.exceptions.AnuncioException;
 import co.edu.uniquindio.subastaQuindio.exceptions.ProductoException;
 import co.edu.uniquindio.subastaQuindio.exceptions.RegistroException;
 import co.edu.uniquindio.subastaQuindio.persistence.ArchivoUtil;
@@ -28,6 +30,9 @@ public class SubastaQuindio implements  Serializable, ISubastaQuindioService{
 	ArrayList<Persona> listaPersonas = new ArrayList<>();
 	//ArrayList<Producto> listaProducto = new ArrayList<>();
 	ArrayList<Anunciante> listaAnunciante = new ArrayList<>();	
+	
+	ArrayList<Anuncio> listaAnuncios = new ArrayList<>();
+	
 
 	public SubastaQuindio() {
 		
@@ -135,6 +140,9 @@ public class SubastaQuindio implements  Serializable, ISubastaQuindioService{
 			return false;
 		}	
 	}
+	
+	
+	
 
 	@Override
 	public Persona obtenerPerson(String cedula) {
@@ -153,6 +161,43 @@ public class SubastaQuindio implements  Serializable, ISubastaQuindioService{
 	public String toString() {
 		return "SubastaQuindio [listaPersonas=" + listaPersonas + "]";
 	}
+	
+	@Override
+	public Anuncio crearAnuncio(LocalDate fechaPublicacion,LocalDate fechaFin, Producto producto,Persona usuarioLogueado)
+			throws AnuncioException, IOException {
+		
+		String mensaje = "";
+		Anuncio anuncio = null;
+		
+		anuncio = new Anuncio();
+		anuncio.setFechaPublicacion(fechaPublicacion);
+		anuncio.setFechaLimitePublicacion(fechaFin);
+		anuncio.setProducto(producto);
+		anuncio.setAnunciante(usuarioLogueado);
+		
+		Anunciante anunciante = new Anunciante();						
+		//buscar anunciante en lista de subasta quindio y si esta capturar ese anunciante 
+		// si no esta se crear nuevo anunciante
+		if (buscarAnunciante(usuarioLogueado.getCedula())!= null) {
+			anunciante = buscarAnunciante(usuarioLogueado.getCedula());
+			if(anunciante.getLista_anuncio()==null)
+			{
+				anunciante.setLista_anuncio(new ArrayList<>());
+			}
+			anunciante.getLista_anuncio().add(anuncio);
+			// modificar anunciante en lista de anunciantes
+			moficiarListaAnunciante(anunciante);
+		}
+		mensaje = "Se creó el anuncio fecha publicacion "+fechaPublicacion+
+					" fecha fin "+fechaFin+ " nombre anunciante "+usuarioLogueado.getNombre()+
+					" con el producto "+producto;
+		
+		
+		Persistencia.guardarRegistroLog(mensaje, 1, "Se creó el anuncio, crear Anuncio - Subasta quindío");
+		
+		return anuncio;
+	}
+
 
 	@Override
 	public Producto crearProducto(String codigo,String nombreProducto,String descripcion,
@@ -223,6 +268,9 @@ public class SubastaQuindio implements  Serializable, ISubastaQuindioService{
 		}	
 		listaAnunciante.set(index, nuevoAnunciante);
 	}
+	
+	
+	
 
 	public Anunciante buscarAnunciante(String cedula) {
 		Anunciante anuncianteAux = null;
@@ -234,6 +282,7 @@ public class SubastaQuindio implements  Serializable, ISubastaQuindioService{
 		}
 		return anuncianteAux;
 	}
+
 
 		
 	

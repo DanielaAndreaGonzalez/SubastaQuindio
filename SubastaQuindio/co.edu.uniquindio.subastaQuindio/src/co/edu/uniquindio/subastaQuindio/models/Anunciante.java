@@ -47,6 +47,7 @@ public class Anunciante extends Persona implements Serializable{
 	
 	public Anunciante(){
 		this.productosAnunciar=new ArrayList<>();
+		this.lista_anuncio = new ArrayList<>();
 	}
 	/**
 	 * @return the cantidadAnunciosPermitidos

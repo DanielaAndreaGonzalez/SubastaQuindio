@@ -4,26 +4,22 @@
 package co.edu.uniquindio.subastaQuindio.controllers;
 
 import java.time.LocalDate;
-import java.util.Calendar;
 
-import co.edu.uniquindio.subastaQuindio.models.Anunciante;
 import co.edu.uniquindio.subastaQuindio.models.Anuncio;
 import co.edu.uniquindio.subastaQuindio.models.Persona;
 import co.edu.uniquindio.subastaQuindio.models.Producto;
 import co.edu.uniquindio.subastaQuindio.models.SubastaQuindio;
-import co.edu.uniquindio.subastaQuindio.models.TipoProducto;
-import co.edu.uniquindio.subastaQuindio.models.Usuario;
 
 /**
  * @author GonzalezHDanielaA
  *
  */
-public class CrudProductoController {
+public class CrudAnuncioController {
 	
 	ModelFactoryController modelFactoryController;
 	SubastaQuindio subastaQuindio;
 	
-	public CrudProductoController(ModelFactoryController modelFactoryController)
+	public CrudAnuncioController(ModelFactoryController modelFactoryController)
 	{
 		this.modelFactoryController = modelFactoryController;
 		subastaQuindio = modelFactoryController.getSubastaQuindio();
@@ -39,10 +35,12 @@ public class CrudProductoController {
 		this.subastaQuindio = subasta;
 	}
 	
-	public Producto crearProducto(String codigo,String nombreProducto,String descripcion,
-			double valorInicial,TipoProducto tipoProducto,String foto, Persona usuariologueado)
+	
+	
+	public Anuncio crearAnuncio(LocalDate fechaPublicacion,LocalDate fechaFin,Producto producto,Persona anunciante)
 	{
-		return modelFactoryController.crearProducto(codigo, nombreProducto, descripcion, valorInicial, tipoProducto, foto, usuariologueado);
+		return modelFactoryController.crearAnuncio(fechaPublicacion, fechaFin, producto, anunciante);
+		
 	}
 	
 	
