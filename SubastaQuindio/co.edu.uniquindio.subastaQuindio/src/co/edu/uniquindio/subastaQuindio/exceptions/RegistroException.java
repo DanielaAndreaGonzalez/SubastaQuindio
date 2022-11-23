@@ -12,16 +12,9 @@ import java.io.IOException;
  */
 public class RegistroException extends Exception{
 	
-	
+
 	public RegistroException(String mensaje)
 	{
 		super(mensaje);
 	}
-	
-	
-	
-	
-	
-	
-
 }

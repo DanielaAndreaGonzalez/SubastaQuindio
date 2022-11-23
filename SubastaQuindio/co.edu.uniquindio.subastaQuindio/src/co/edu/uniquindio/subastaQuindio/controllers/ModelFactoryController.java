@@ -196,10 +196,9 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 		System.out.println("Entro al run ");
 		if(hiloServicio1GuardarXML == hiloEjecucion)
 		{
-		
 			try {
-				//crearConexion();
-				//solicitarGuardarPersistencia();
+				crearConexion();
+				solicitarGuardarInformacionPersistencia();
 				//enviarObjetoPersistenciaTransferido();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -220,10 +219,12 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 		try {
 			anuncio = getSubastaQuindio().crearAnuncio(fechaPublicacion, fechaFin, producto, anunciante);
 			
-			//guardar en binario
-			Persistencia.guardarRecursoSubastaBinario(subastaQuindio);
+			//guardar en binario}
+			if(anuncio != null)
+				guardarResourceXML();		
+			//Persistencia.guardarRecursoSubastaBinario(subastaQuindio);
 			//guardar en xml
-			Persistencia.guardarResourceSubastaXML(subastaQuindio);
+			//Persistencia.guardarResourceSubastaXML(subastaQuindio);
 		} catch (AnuncioException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -264,8 +265,8 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 		 flujoSalidaComunicacion = new DataOutputStream(socketComunicacion.getOutputStream());
 
 
-			flujoEntradaObjeto = new ObjectInputStream(socketTranferenciaObjeto.getInputStream());
-			flujoSalidaObjeto = new ObjectOutputStream(socketTranferenciaObjeto.getOutputStream());
+		 flujoEntradaObjeto = new ObjectInputStream(socketTranferenciaObjeto.getInputStream());
+		 flujoSalidaObjeto = new ObjectOutputStream(socketTranferenciaObjeto.getOutputStream());
 
 	}
 		
@@ -288,6 +289,29 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 		}
 	}
 
+	private void solicitarGuardarInformacionPersistencia() throws IOException
+	{
+		// TODO Auto-generated method stub
+		try {
+			flujoSalidaComunicacion.writeInt(2);
+			flujoSalidaObjeto.writeObject(subastaQuindio);
+			flujoSalidaComunicacion.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void enviarObjetoPersistenciaTransferido() throws IOException
+	{
+		flujoSalidaObjeto.writeObject(subastaQuindio);
+		System.out.println("Objeto enviado");
+		flujoSalidaObjeto.close();
+	}
+	
+	
+	
+	
 	/**
 	 * @return the flujoSalidaComunicacion
 	 */

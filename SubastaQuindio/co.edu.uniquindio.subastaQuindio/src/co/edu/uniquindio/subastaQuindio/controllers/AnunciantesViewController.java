@@ -3,10 +3,14 @@
  */
 package co.edu.uniquindio.subastaQuindio.controllers;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.Writer;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -187,6 +191,9 @@ public class AnunciantesViewController {
 
     @FXML
     private URL location;
+    
+    @FXML
+    private Button btnDescargarAnuncios;
 
     @FXML
     void initialize() {
@@ -214,8 +221,13 @@ public class AnunciantesViewController {
     void crearAnuncioAction(ActionEvent event) {
 		 crearAnuncio();
     }
-	
+	 
 	 @FXML
+    void descargarAnunciosReporte(ActionEvent event) {
+		 crearReporteAnuncios();
+    }
+
+	@FXML
     void seleccionFotoProducto(ActionEvent event) {
 		 List<String> listaExtensiones = new ArrayList<>();
 		 listaExtensiones.add("*.png");
@@ -360,6 +372,43 @@ public class AnunciantesViewController {
 	 }
 	
 	
-	
+	private void crearReporteAnuncios() {
+		FileChooser fileChooser = new FileChooser();		 
+        //Set extension filter for text files
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.csv)", "*.csv");
+        fileChooser.getExtensionFilters().add(extFilter);
+
+        //Show save file dialog
+        File file = fileChooser.showSaveDialog(null);
+        Writer writer = null;
+        if (file != null) {
+       	 try {
+				writer = new BufferedWriter(new FileWriter(file));
+				writer.write("");
+				int indexAnunciante = 0;
+				for (int i = 0; i < modelFactoryController.getSubastaQuindio().getListaAnunciante().size(); i++) {
+					if (modelFactoryController.getSubastaQuindio().getListaAnunciante().get(i).getCedula().equals(this.usuarioLogueado.getCedula())) {
+						indexAnunciante = i;
+						break;
+					}
+				}				
+				for (Anuncio anuncio : modelFactoryController.getSubastaQuindio().getListaAnunciante().get(indexAnunciante).getLista_anuncio()) {
+	                 String text = anuncio.getFechaLimitePublicacion() + ";" + anuncio.getFechaLimitePublicacion() + ";" + anuncio.getProducto().getNombreProducto() + "\n";
+	                 writer.write(text);
+	             }
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally {
+				try {
+					writer.flush();
+					writer.close();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}	            
+			}
+        }
+	}
 	
 }

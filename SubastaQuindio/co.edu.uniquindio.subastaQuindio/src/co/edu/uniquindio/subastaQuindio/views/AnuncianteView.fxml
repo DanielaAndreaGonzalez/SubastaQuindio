@@ -14,28 +14,28 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="tblListaAnunciosParaPujar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="730.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.subastaQuindio.controllers.AnunciantesViewController">
+<AnchorPane fx:id="tblListaAnunciosParaPujar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="774.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.subastaQuindio.controllers.AnunciantesViewController">
    <children>
-      <TabPane fx:id="tblListaSolicitudAnuncios" layoutX="-2.0" layoutY="-3.0" prefHeight="730.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE" tabMinHeight="40.0" tabMinWidth="250.0">
+      <TabPane fx:id="tblListaSolicitudAnuncios" layoutX="-2.0" layoutY="-3.0" prefHeight="774.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE" tabMinHeight="40.0" tabMinWidth="250.0">
         <tabs>
             <Tab text="Gestión Anuncios">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="900.0">
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="723.0" prefWidth="900.0">
                      <children>
-                        <TabPane layoutX="11.0" layoutY="22.0" prefHeight="676.0" prefWidth="886.0" tabClosingPolicy="UNAVAILABLE" tabMinHeight="40.0" tabMinWidth="300.0">
+                        <TabPane layoutX="11.0" layoutY="22.0" prefHeight="703.0" prefWidth="886.0" tabClosingPolicy="UNAVAILABLE" tabMinHeight="40.0" tabMinWidth="300.0">
                           <tabs>
                             <Tab text="Anuncio">
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <Pane layoutX="22.0" layoutY="367.0" prefHeight="243.0" prefWidth="858.0" style="-fx-border-color: black;">
+                                          <Pane layoutX="22.0" layoutY="367.0" prefHeight="279.0" prefWidth="858.0" style="-fx-border-color: black;">
                                              <children>
                                                 <Label layoutX="11.0" layoutY="4.0" prefHeight="20.0" prefWidth="165.0" text="Información del anuncio">
                                                    <font>
                                                       <Font size="14.0" />
                                                    </font>
                                                 </Label>
-                                                <TableView fx:id="tableListaAnunciosRealizados" layoutX="11.0" layoutY="35.0" prefHeight="212.0" prefWidth="839.0" style="-fx-background-color: C4DDF6;">
+                                                <TableView fx:id="tableListaAnunciosRealizados" layoutX="10.0" layoutY="25.0" prefHeight="197.0" prefWidth="839.0" style="-fx-background-color: C4DDF6;">
                                                    <columns>
                                                       <TableColumn fx:id="columnDescripcion1" prefWidth="110.0" text="Nombre Producto" />
                                                       <TableColumn fx:id="columnNombreAnunciante1" prefWidth="127.0" text="Nombre anunciante" />
@@ -56,6 +56,11 @@
                                                          </font>
                                                       </Button>
                                                       <Button fx:id="btnActualizarAnuncio" layoutX="450.0" layoutY="297.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="129.0" style="-fx-background-color: #0d6efd;" text="Actualizar Anuncio" textFill="WHITE">
+                                                         <font>
+                                                            <Font name="Arial Bold" size="12.0" />
+                                                         </font>
+                                                      </Button>
+                                                      <Button fx:id="btnDescargarAnuncios" layoutX="41.0" layoutY="298.0" mnemonicParsing="false" onAction="#descargarAnunciosReporte" prefHeight="34.0" prefWidth="140.0" style="-fx-background-color: #0d6efd;" text="Descargar Anuncios" textFill="WHITE">
                                                          <font>
                                                             <Font name="Arial Bold" size="12.0" />
                                                          </font>

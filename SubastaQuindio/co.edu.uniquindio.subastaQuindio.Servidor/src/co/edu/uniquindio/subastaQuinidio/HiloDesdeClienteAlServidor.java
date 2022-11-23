@@ -27,14 +27,10 @@ public class HiloDesdeClienteAlServidor  extends Thread{
 		this.flujoEntradaComunicacion = flujoEntradaComunicacion;
 		this.flujoSalidaComunicacion = flujoSalidaComunicacion;
 		this.flujoEntradaObjeto = flujoEntradaObjeto;
-		this.flujoSalidaObjeto = flujoSalidaObjeto;
-		
+		this.flujoSalidaObjeto = flujoSalidaObjeto;	
 //		this.flujoEntradaLoginComunicacion =flujoEntradaLoginComunicacion; 
 //		this.flujoSalidaLoginComunicacion =flujoSalidaLoginComunicacion; 
-		
-		this.servidor = servidor;
-		
-		
+		this.servidor = servidor;	
 	}
 	
 	public void run() {
@@ -54,12 +50,6 @@ public class HiloDesdeClienteAlServidor  extends Thread{
 				// TODO Auto-generated catch block
 				e2.printStackTrace();
 			}
-//			try {
-//				Persistencia.cargarAutores(aplicacion);
-//			} catch (IOException e1) {
-//				// TODO Auto-generated catch block
-//				e1.printStackTrace();
-//			}
 			break;
 		case 2:
 			try { 
@@ -68,12 +58,6 @@ public class HiloDesdeClienteAlServidor  extends Thread{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-//			try {
-//				//Persistencia.cargarAutores(aplicacion);
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
 		    break;
 		}	
 		try {
@@ -96,9 +80,7 @@ public class HiloDesdeClienteAlServidor  extends Thread{
 			e.printStackTrace();
 		}
 	}
-	private void guardarInformacionPersistencia() throws Exception {
-		// TODO Auto-generated method stub
-		
+	private void guardarInformacionPersistencia() throws Exception {		
 		subastaQuindio = (SubastaQuindio) flujoEntradaObjeto.readObject();
 		Persistencia.guardarResourceSubastaXML(subastaQuindio);	
 	}
@@ -107,7 +89,6 @@ public class HiloDesdeClienteAlServidor  extends Thread{
 		//aplicacion = Persistencia.guardarRecursivoXMLBlockBuster(aplicacion);
 		subastaQuindio = Persistencia.cargarRecursoSubastaQuindioXML();
 		flujoSalidaObjeto.writeObject(subastaQuindio);
-		
 	}
 
 	/**
