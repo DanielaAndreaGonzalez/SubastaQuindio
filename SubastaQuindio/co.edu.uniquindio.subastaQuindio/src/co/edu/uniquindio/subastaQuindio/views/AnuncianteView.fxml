@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="tblListaAnunciosParaPujar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="774.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.subastaQuindio.controllers.AnunciantesViewController">
+<AnchorPane fx:id="tblListaAnunciosParaPujar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="774.0" prefWidth="917.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.subastaQuindio.controllers.AnunciantesViewController">
    <children>
       <ScrollPane prefHeight="774.0" prefWidth="910.0">
         <content>
@@ -42,11 +42,11 @@
                                                             </Label>
                                                             <TableView fx:id="tableListaAnunciosRealizados" layoutX="10.0" layoutY="25.0" prefHeight="197.0" prefWidth="839.0" style="-fx-background-color: C4DDF6;">
                                                                <columns>
-                                                                  <TableColumn fx:id="columnNombreProductoAnuncio" prefWidth="110.0" text="Nombre Producto" />
-                                                                  <TableColumn fx:id="columnNombreAnuncianteAnuncio" prefWidth="127.0" text="Nombre anunciante" />
-                                                                  <TableColumn fx:id="columnFechaLimiteAnuncio" prefWidth="162.0" text="Fecha limite" />
-                                                                  <TableColumn fx:id="columnFechaPublicacionAnuncio" prefWidth="148.0" text="Fecha publicación" />
-                                                                  <TableColumn fx:id="columnValorInicialAnuncio" prefWidth="92.0" text="Valor Inicial" />
+                                                                  <TableColumn fx:id="columnNombreProductoAnuncio" prefWidth="138.0" text="Nombre Producto" />
+                                                                  <TableColumn fx:id="columnNombreAnuncianteAnuncio" prefWidth="154.0" text="Nombre anunciante" />
+                                                                  <TableColumn fx:id="columnFechaLimiteAnuncio" prefWidth="169.0" text="Fecha limite" />
+                                                                  <TableColumn fx:id="columnFechaPublicacionAnuncio" prefWidth="173.0" text="Fecha publicación" />
+                                                                  <TableColumn fx:id="columnValorInicialAnuncio" prefWidth="203.0" text="Valor Inicial" />
                                                                </columns>
                                                             </TableView>
                                                          </children>
@@ -178,11 +178,20 @@
                                                       </Pane>
                                                       <Pane layoutX="9.0" layoutY="353.0" prefHeight="243.0" prefWidth="867.0" style="-fx-border-color: black;">
                                                          <children>
-                                                            <Button fx:id="btnEliminarProducto" layoutX="10.0" layoutY="191.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="107.0" style="-fx-background-color: red;" text="Eliminar" textFill="WHITE">
+                                                            <Button fx:id="btnEliminarProducto" layoutX="14.0" layoutY="202.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="107.0" style="-fx-background-color: red;" text="Eliminar" textFill="WHITE">
                                                                <font>
                                                                   <Font name="Arial Bold" size="12.0" />
                                                                </font>
                                                             </Button>
+                                                            <TableView fx:id="tblTablaProductos" layoutX="13.0" layoutY="6.0" prefHeight="187.0" prefWidth="848.0">
+                                                              <columns>
+                                                                <TableColumn fx:id="columnCodigoProducto" prefWidth="171.0" text="Codigo" />
+                                                                <TableColumn fx:id="columnNombreProducto" prefWidth="159.0" text="Nombre" />
+                                                                  <TableColumn fx:id="columnDescripcionProducto" prefWidth="157.0" text="Descripcion" />
+                                                                  <TableColumn fx:id="colunmValorInicalProducto" prefWidth="183.0" text="Valor Inicial" />
+                                                                  <TableColumn fx:id="columnTipoProductoProducto" prefWidth="177.0" text="Tipo Producto" />
+                                                              </columns>
+                                                            </TableView>
                                                          </children>
                                                       </Pane>
                                                    </children>

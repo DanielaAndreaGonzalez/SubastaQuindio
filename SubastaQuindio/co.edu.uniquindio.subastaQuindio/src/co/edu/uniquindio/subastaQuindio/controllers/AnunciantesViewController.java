@@ -66,8 +66,11 @@ public class AnunciantesViewController {
 	
 	File fotoProductoCreado;
 	
-	List<InformacionAnuncioDto> listaInformacionAnuncios = new ArrayList<>();
+	List<InformacionAnuncioDto> listaInformacionAnuncios = new ArrayList<>();	
 	ObservableList<InformacionAnuncioDto> listaInformacionAnunciosData = FXCollections.observableArrayList();
+	List<Producto> listaInformaProducto = new ArrayList<>();
+	ObservableList<Producto> listaInformacionProductoData = FXCollections.observableArrayList();
+	
 	ObservableList<Producto> productos = FXCollections.observableArrayList();
 	//Producto
     @FXML
@@ -125,6 +128,19 @@ public class AnunciantesViewController {
     private TableColumn<InformacionAnuncioDto, String> columnValorInicialAnuncio;
     
     @FXML
+    private TableView<Producto> tblTablaProductos;
+    @FXML
+    private TableColumn<Producto, String> columnCodigoProducto;
+    @FXML
+    private TableColumn<Producto, String>columnNombreProducto;
+    @FXML
+    private TableColumn<Producto, String>columnDescripcionProducto;
+    @FXML
+    private TableColumn<Producto, String>colunmValorInicalProducto;
+    @FXML
+    private TableColumn<Producto, String>columnTipoProductoProducto;
+    
+    @FXML
     private AnchorPane tblListaAnunciosParaPujar;
     @FXML
     private TabPane tblListaSolicitudAnuncios;    
@@ -152,11 +168,19 @@ public class AnunciantesViewController {
 
     @FXML
     void initialize() {
+    	// para la tabla de anuncios
     	this.columnNombreProductoAnuncio.setCellValueFactory(new PropertyValueFactory<>("nombreProducto"));
     	this.columnNombreAnuncianteAnuncio.setCellValueFactory(new PropertyValueFactory<>("nombreAnunciante"));
     	this.columnFechaLimiteAnuncio.setCellValueFactory(new PropertyValueFactory<>("fechaLimite"));
     	this.columnFechaPublicacionAnuncio.setCellValueFactory(new PropertyValueFactory<>("fechaPublicacion"));
     	this.columnValorInicialAnuncio.setCellValueFactory(new PropertyValueFactory<>("valorInicial"));
+    	//para la tabla de producto
+    	this.columnCodigoProducto.setCellValueFactory(new PropertyValueFactory<>("codigo"));
+    	this.columnNombreProducto.setCellValueFactory(new PropertyValueFactory<>("nombreProducto"));
+    	this.columnDescripcionProducto.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+    	this.colunmValorInicalProducto.setCellValueFactory(new PropertyValueFactory<>("valorInicial"));
+    	this.columnTipoProductoProducto.setCellValueFactory(new PropertyValueFactory<>("tipoProducto"));
+    	
     	
     	modelFactoryController = ModelFactoryController.getInstance();
     	crudProductoController = new CrudProductoController(modelFactoryController);
@@ -172,6 +196,7 @@ public class AnunciantesViewController {
 		this.txtNombreAnunciante.setText(this.usuarioLogueado.getNombre());
 		llenarComboProductos();
 		llenarInformacionAnunciosTabla();
+		llenarInformacionProductoTabla();
 	}
 	
 	 @FXML
@@ -251,12 +276,17 @@ public class AnunciantesViewController {
 		 if(datosValidos(codigo, nombre, descripcion, valorInicial, foto, tipo)) {
 			 Producto producto = null;			 
 			 producto = crudProductoController.crearProducto(codigo, nombre, descripcion, valorInicial, tipo, foto, this.usuarioLogueado);
-			 productos.add(producto);
-			 this.cboProducto.setItems(productos);
-			 
+			 			
 			 if(producto!=null)
 			 {
-				 showMessage("Notificación registro", "Producto creado", "El producto se ha creado con éxito", AlertType.INFORMATION);
+				productos.add(producto);
+				this.cboProducto.setItems(productos);
+				
+			 	listaInformaProducto.add(producto);
+				listaInformacionProductoData.clear();
+				listaInformacionProductoData.addAll(listaInformaProducto);
+				tblTablaProductos.setItems(listaInformacionProductoData);
+				showMessage("Notificación registro", "Producto creado", "El producto se ha creado con éxito", AlertType.INFORMATION);
 			 }
 			 else {
 				 showMessage("Notificación registro", "Producto no creado", "Los datos ingresados son inválidos", AlertType.ERROR);
@@ -388,6 +418,28 @@ public class AnunciantesViewController {
 			}
 		}			
 	}
+	
+	private void llenarInformacionProductoTabla() {
+		if (modelFactoryController.getSubastaQuindio().getListaAnunciante() != null && modelFactoryController.getSubastaQuindio().getListaAnunciante().size() > 0 ) {
+	    	int indexAnunciante = 0;
+			for (int i = 0; i < modelFactoryController.getSubastaQuindio().getListaAnunciante().size(); i++) {
+				if (modelFactoryController.getSubastaQuindio().getListaAnunciante().get(i).getCedula().equals(this.usuarioLogueado.getCedula())) {
+					indexAnunciante = i;
+					break;
+				}
+			}				
+			
+			if (modelFactoryController.getSubastaQuindio().getListaAnunciante().get(indexAnunciante).getLista_anuncio() != null && modelFactoryController.getSubastaQuindio().getListaAnunciante().get(indexAnunciante).getProductosAnunciar().size()>0) {				
+				for (Producto producto : modelFactoryController.getSubastaQuindio().getListaAnunciante().get(indexAnunciante).getProductosAnunciar()) {
+					listaInformaProducto.add(producto);            
+				}
+				
+				listaInformacionProductoData.addAll(listaInformaProducto);
+				tblTablaProductos.setItems(listaInformacionProductoData);			
+			}
+		}			
+	}
+	
 	private void crearReporteAnuncios() {
 		FileChooser fileChooser = new FileChooser();		 
         //Set extension filter for text files
