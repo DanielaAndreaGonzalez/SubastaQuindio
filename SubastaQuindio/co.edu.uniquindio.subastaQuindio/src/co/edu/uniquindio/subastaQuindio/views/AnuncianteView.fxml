@@ -244,7 +244,7 @@
                                               <TableColumn fx:id="columnProductoPuja" prefWidth="75.0" text="Producto" />
                                                 <TableColumn fx:id="columnValorInicialPujaRealizada" prefWidth="75.0" text="Valor inicial" />
                                                 <TableColumn fx:id="columnValorPagarPujaRealizada" prefWidth="93.0" text="Valor a pagar" />
-                                                <TableColumn fx:id="columnFechaPujaRealizada" prefWidth="93.0" text="Fecha" />
+                                                <TableColumn fx:id="columnFechaPujaRealizada" prefWidth="92.0" text="Fecha" />
                                             </columns>
                                           </TableView>
                                        </children>

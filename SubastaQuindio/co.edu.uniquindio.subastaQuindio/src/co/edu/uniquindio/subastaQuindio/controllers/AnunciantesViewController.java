@@ -26,6 +26,7 @@ import co.edu.uniquindio.subastaQuindio.models.Anunciante;
 import co.edu.uniquindio.subastaQuindio.models.Anuncio;
 import co.edu.uniquindio.subastaQuindio.models.Persona;
 import co.edu.uniquindio.subastaQuindio.models.Producto;
+import co.edu.uniquindio.subastaQuindio.models.Puja;
 import co.edu.uniquindio.subastaQuindio.models.TipoProducto;
 import co.edu.uniquindio.subastaQuindio.models.Usuario;
 import javafx.collections.FXCollections;
@@ -69,9 +70,11 @@ public class AnunciantesViewController {
 	List<InformacionAnuncioDto> listaInformacionAnuncios = new ArrayList<>();	
 	ObservableList<InformacionAnuncioDto> listaInformacionAnunciosData = FXCollections.observableArrayList();
 	List<Producto> listaInformaProducto = new ArrayList<>();
-	ObservableList<Producto> listaInformacionProductoData = FXCollections.observableArrayList();
-	
+	ObservableList<Producto> listaInformacionProductoData = FXCollections.observableArrayList();	
 	ObservableList<Producto> productos = FXCollections.observableArrayList();
+			
+	InformacionAnuncioDto informacionAnuncioDtoSeleccionado;
+	
 	//Producto
     @FXML
     private TextField txtCodigoProductoAnuncio;
@@ -200,10 +203,10 @@ public class AnunciantesViewController {
     	
     	
     	//Para la tabla Anuncios en pujas
+    	this.columnProductoPuja.setCellValueFactory(new PropertyValueFactory<>("codigoProducto"));
     	this.columnAnunciantePuja.setCellValueFactory(new PropertyValueFactory<>("nombreAnunciante"));
     	this.columnDescripcionPuja.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
-    	this.columnValorInicialPuja.setCellValueFactory(new PropertyValueFactory<>("valorInicial"));
-    	this.columnProductoPuja.setCellValueFactory(new PropertyValueFactory<>("nombreProducto"));
+    	this.columnValorInicialPuja.setCellValueFactory(new PropertyValueFactory<>("valorInicial"));    	
     	this.columnTipoProductoPuja.setCellValueFactory(new PropertyValueFactory<>("tipoProducto"));
     	
     	
@@ -211,9 +214,29 @@ public class AnunciantesViewController {
     	crudProductoController = new CrudProductoController(modelFactoryController);
     	crudAnuncioController = new CrudAnuncioController(modelFactoryController);
     	
+    	tblAnunciosPujas.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+
+			informacionAnuncioDtoSeleccionado = newSelection;
+
+			mostrarPujasDeInformacionAnuncioSeleccionado(informacionAnuncioDtoSeleccionado);
+
+		});
+    	
     	llenarComboTipoProducto();
     }
-    public Main getAplicacion() {
+    private void mostrarPujasDeInformacionAnuncioSeleccionado(InformacionAnuncioDto informacionAnuncioDtoSeleccionado2) {
+    	String codigoProducto =  informacionAnuncioDtoSeleccionado2.getCodigoProducto();
+    	List<Puja> listaPujas = new ArrayList<Puja>();
+    	for (Puja puja : modelFactoryController.getSubastaQuindio().getListaPujas()) {
+			if (puja.getCodigoProducto().equals(codigoProducto)) {
+				listaPujas.add(puja);
+			}
+		}
+    	
+    	System.out.println("Hola");
+    	
+	}
+	public Main getAplicacion() {
 		return aplication;
 	}
 	public void setAplicacion(Main aplicacion, Persona usuarioLogueado) {
@@ -342,13 +365,16 @@ public class AnunciantesViewController {
 				informacionAnuncioDto.setNombreAnunciante(usuarioLogueado.getNombre());
 				informacionAnuncioDto.setNombreProducto(anuncio.getProducto().getNombreProducto());
 				informacionAnuncioDto.setFechaLimite(anuncio.getFechaLimitePublicacion().toString());
-				informacionAnuncioDto.setFechaPublicacion(anuncio.getFechaLimitePublicacion().toString());
+				informacionAnuncioDto.setFechaPublicacion(anuncio.getFechaPublicacion().toString());
 				informacionAnuncioDto.setValorInicial(""+ anuncio.getProducto().getValorInicial());
+				informacionAnuncioDto.setCodigoProducto(anuncio.getProducto().getCodigo());
+				informacionAnuncioDto.setDescripcion(anuncio.getProducto().getDescripcion());
+				informacionAnuncioDto.setTipoProducto(anuncio.getProducto().getTipoProducto().toString());
 				listaInformacionAnuncios.add(informacionAnuncioDto);
 				listaInformacionAnunciosData.clear();
 				listaInformacionAnunciosData.addAll(listaInformacionAnuncios);
 				tableListaAnunciosRealizados.setItems(listaInformacionAnunciosData);
-				
+				tblAnunciosPujas.setItems(listaInformacionAnunciosData);
 				showMessage("Notificación registro anuncio ", "Anuncio creado", "El anuncio se ha creado con éxito", AlertType.INFORMATION);
 			}else {
 				 showMessage("Notificación registro anuncio", "Anuncio no creado", "Los datos ingresados no son válidos", AlertType.ERROR);
