@@ -11,31 +11,23 @@ import java.util.Date;
  *
  */
 public class Puja implements Serializable{
-	private static final long serialVersionUID = 1L;
+private static final long serialVersionUID = 1L;
 	
 	protected String codigoPuja;
 	protected String codigoProducto;
 	protected String nombreProducto;
-	protected String tipoProducto;
-	protected String valorInicialProducto;
-	protected String nombreAnunciante;
+	protected String valorInicialProductoPuja;
 	protected double ofertaInicial;
 	protected Date fechaPuja;
+	protected String tipoProducto;
+	protected String nombreAnunciante;
+	
+	
 	
 	public Puja() {
 		
 	}
-	public Puja(String codigoProducto, String nombreProducto, String tipoProducto, String valorInicialProducto,
-			String nombreAnunciante, double ofertaInicial, Date fechaPuja) {
-		super();
-		this.codigoProducto = codigoProducto;
-		this.nombreProducto = nombreProducto;
-		this.tipoProducto = tipoProducto;
-		this.valorInicialProducto = valorInicialProducto;
-		this.nombreAnunciante = nombreAnunciante;
-		this.ofertaInicial = ofertaInicial;
-		this.fechaPuja = fechaPuja;
-	}
+	
 	/**
 	 * @return the codigoPuja
 	 */
@@ -59,6 +51,41 @@ public class Puja implements Serializable{
 	 */
 	public void setCodigoProducto(String codigoProducto) {
 		this.codigoProducto = codigoProducto;
+	}
+	
+	public String getValorInicialProducto() {
+		return valorInicialProductoPuja;
+	}
+	/**
+	 * @param valorInicialProducto the valorInicialProducto to set
+	 */
+	public void setValorInicialProducto(String valorInicialProducto) {
+		this.valorInicialProductoPuja = valorInicialProducto;
+	}
+	/**
+	 * @return the ofertaInicial
+	 */
+	public double getOfertaInicial() {
+		return ofertaInicial;
+	}
+	/**
+	 * @param ofertaInicial the ofertaInicial to set
+	 */
+	public void setOfertaInicial(double ofertaInicial) {
+		this.ofertaInicial = ofertaInicial;
+	}
+	/**
+	 * 
+	 * @return
+	 */
+	public Date getFechaPuja() {
+		return fechaPuja;
+	}
+	/**
+	 * @param fechaPuja the fechaPuja to set
+	 */
+	public void setFechaPuja(Date fechaPuja) {
+		this.fechaPuja = fechaPuja;
 	}
 	/**
 	 * @return the nombreProducto
@@ -87,15 +114,7 @@ public class Puja implements Serializable{
 	/**
 	 * @return the valorInicialProducto
 	 */
-	public String getValorInicialProducto() {
-		return valorInicialProducto;
-	}
-	/**
-	 * @param valorInicialProducto the valorInicialProducto to set
-	 */
-	public void setValorInicialProducto(String valorInicialProducto) {
-		this.valorInicialProducto = valorInicialProducto;
-	}
+	
 	/**
 	 * @return the nombreAnunciante
 	 */
@@ -108,37 +127,15 @@ public class Puja implements Serializable{
 	public void setNombreAnunciante(String nombreAnunciante) {
 		this.nombreAnunciante = nombreAnunciante;
 	}
-	/**
-	 * @return the ofertaInicial
-	 */
-	public double getOfertaInicial() {
-		return ofertaInicial;
-	}
-	/**
-	 * @param ofertaInicial the ofertaInicial to set
-	 */
-	public void setOfertaInicial(double ofertaInicial) {
-		this.ofertaInicial = ofertaInicial;
-	}
-	/**
-	 * @return the fechaPuja
-	 */
-	public Date getFechaPuja() {
-		return fechaPuja;
-	}
-	/**
-	 * @param fechaPuja the fechaPuja to set
-	 */
-	public void setFechaPuja(Date fechaPuja) {
-		this.fechaPuja = fechaPuja;
-	}
-	
+
 	@Override
 	public String toString() {
-		return "Puja [codigoProducto=" + codigoProducto + ", nombreProducto=" + nombreProducto + ", tipoProducto="
-				+ tipoProducto + ", valorInicialProducto=" + valorInicialProducto + ", nombreAnunciante="
-				+ nombreAnunciante + ", ofertaInicial=" + ofertaInicial + ", fechaPuja=" + fechaPuja + "]";
-	};
+		return "Puja [codigoPuja=" + codigoPuja + ", codigoProducto=" + codigoProducto + ", nombreProducto="
+				+ nombreProducto + ", valorInicialProducto=" + valorInicialProductoPuja + ", ofertaInicial=" + ofertaInicial
+				+ ", fechaPuja=" + fechaPuja + ", tipoProducto=" + tipoProducto + ", nombreAnunciante="
+				+ nombreAnunciante + "]";
+	}
+	
 	
 	
 

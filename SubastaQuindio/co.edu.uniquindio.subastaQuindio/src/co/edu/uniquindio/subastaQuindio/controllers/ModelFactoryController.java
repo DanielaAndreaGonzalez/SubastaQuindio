@@ -43,6 +43,7 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 	Thread hiloServicio1GuardarXML;
 	Thread hiloServicio2GuardarBinario;
 	Thread hiloSerivcio3GuardarRegistroLog;
+	Thread hiloServicio4GuardarPersona;
 	boolean run;
 	
 	
@@ -138,6 +139,13 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 		hiloServicio2GuardarBinario.start();
 		//Persistencia.guardarRecursoSubastaBinario(subastaQuindio);			
 	}
+	
+	private void guardarPersona()
+	{
+		hiloServicio4GuardarPersona = new Thread(this);
+		run=true;
+		hiloServicio4GuardarPersona.start();
+	}
 	/**
 	 * 
 	 */
@@ -174,12 +182,16 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 		Persona persona = null;
 		try {			
 			persona = getSubastaQuindio().registerPerson(cedula, nombre, edad, usuario, contrasenia, rol);
+
+			if(persona != null)
+				guardarResourceXML();
+				guardarResourceBinario();
 			//guardar en archivo plano
 			archivo.saveperson(persona);
 			//guardar en binario
-			Persistencia.guardarRecursoSubastaBinario(subastaQuindio);
+			//Persistencia.guardarRecursoSubastaBinario(subastaQuindio);
 			//guardar en xml
-			Persistencia.guardarResourceSubastaXML(subastaQuindio);
+			//Persistencia.guardarResourceSubastaXML(subastaQuindio);
 			
 			
 		} catch (RegistroException e) {
@@ -228,11 +240,17 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 		}
 		if(hiloSerivcio3GuardarRegistroLog== hiloEjecucion)
 		{
-			
+			try {
+				crearConexion();
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			Persistencia.guardarRecursoSubastaBinario(subastaQuindio);
-		}
-		
-		
+		}	
 	}
 	
 	@Override
@@ -284,9 +302,13 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 			producto = getSubastaQuindio().crearProducto(codigo, nombreProducto, descripcion,valorInicial, tipoProducto, foto, usuarioLogueado);
 			
 			//guardar en binario
-			Persistencia.guardarRecursoSubastaBinario(subastaQuindio);
+			if(producto != null)
+				guardarResourceXML();
+				guardarResourceBinario();
+				
+			//Persistencia.guardarRecursoSubastaBinario(subastaQuindio);
 			//guardar en xml
-			Persistencia.guardarResourceSubastaXML(subastaQuindio);
+			//Persistencia.guardarResourceSubastaXML(subastaQuindio);
 			
 		} catch (ProductoException | IOException e) {
 			// TODO Auto-generated catch block
@@ -355,6 +377,7 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 			e.printStackTrace();
 		}
 	}
+	
 	
 	private void enviarObjetoPersistenciaTransferido() throws IOException
 	{

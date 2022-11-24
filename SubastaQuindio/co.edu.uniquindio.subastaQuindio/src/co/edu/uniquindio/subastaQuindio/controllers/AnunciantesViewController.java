@@ -72,7 +72,9 @@ public class AnunciantesViewController {
 	List<Producto> listaInformaProducto = new ArrayList<>();
 	ObservableList<Producto> listaInformacionProductoData = FXCollections.observableArrayList();	
 	ObservableList<Producto> productos = FXCollections.observableArrayList();
-			
+	List<Puja> listaPujas = new ArrayList<Puja>();
+	ObservableList<Puja> listaInformacionPuja = FXCollections.observableArrayList();
+	
 	InformacionAnuncioDto informacionAnuncioDtoSeleccionado;
 	
 	//Producto
@@ -163,6 +165,21 @@ public class AnunciantesViewController {
     @FXML
     private TableView<InformacionAnuncioDto> tblAnunciosPujas;
     
+    
+    //Puja Realizada
+    @FXML
+    private TableView<Puja> tblPujasRealizadas;
+    
+    @FXML
+    private TableColumn<Puja, String> colunmCodigoPujaR;
+    @FXML
+    private TableColumn<Puja, String> columnProductoPujaRealizada;
+    @FXML
+    private TableColumn<Puja, String> columnValorInicialPujaRealizada;
+    @FXML
+    private TableColumn<Puja, String> columnValorPagarPujaRealizada;
+    @FXML
+    private TableColumn<Puja, String> columnFechaPujaRealizada;
  
     @FXML
     private DatePicker txtFechaLimite;
@@ -185,6 +202,9 @@ public class AnunciantesViewController {
     
     @FXML
     private Button btnDescargarAnuncios;
+    
+    @FXML
+    private Button  btnElegirPuja;
 
     @FXML
     void initialize() {
@@ -210,29 +230,45 @@ public class AnunciantesViewController {
     	this.columnTipoProductoPuja.setCellValueFactory(new PropertyValueFactory<>("tipoProducto"));
     	
     	
+    	//Para la tabla de pujas respecto a un anuncio
+    	this.colunmCodigoPujaR.setCellValueFactory(new PropertyValueFactory<>("codigoPuja"));
+    	this.columnProductoPujaRealizada.setCellValueFactory(new PropertyValueFactory<>("codigoProducto"));
+    	this.columnValorInicialPujaRealizada.setCellValueFactory(new PropertyValueFactory<>("valorInicialProductoPuja"));
+    	this.columnValorPagarPujaRealizada.setCellValueFactory(new PropertyValueFactory<>("ofertaInicial"));
+    	this.columnFechaPujaRealizada.setCellValueFactory(new PropertyValueFactory<>("fechaPuja"));
+    	
+    	
+    	tblAnunciosPujas.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+
+		informacionAnuncioDtoSeleccionado = newSelection;
+
+		mostrarPujasDeInformacionAnuncioSeleccionado(informacionAnuncioDtoSeleccionado);
+
+		});
+    	
+    	
+    	
+    	
     	modelFactoryController = ModelFactoryController.getInstance();
     	crudProductoController = new CrudProductoController(modelFactoryController);
     	crudAnuncioController = new CrudAnuncioController(modelFactoryController);
     	
-    	tblAnunciosPujas.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-
-			informacionAnuncioDtoSeleccionado = newSelection;
-
-			mostrarPujasDeInformacionAnuncioSeleccionado(informacionAnuncioDtoSeleccionado);
-
-		});
+    	
     	
     	llenarComboTipoProducto();
     }
     private void mostrarPujasDeInformacionAnuncioSeleccionado(InformacionAnuncioDto informacionAnuncioDtoSeleccionado2) {
+    	listaPujas.clear();
     	String codigoProducto =  informacionAnuncioDtoSeleccionado2.getCodigoProducto();
-    	List<Puja> listaPujas = new ArrayList<Puja>();
     	for (Puja puja : modelFactoryController.getSubastaQuindio().getListaPujas()) {
 			if (puja.getCodigoProducto().equals(codigoProducto)) {
 				listaPujas.add(puja);
+				break;
 			}
-		}
-    	
+	 }    	
+    	listaInformacionPuja.clear();
+    	listaInformacionPuja.addAll(listaPujas);
+    	tblPujasRealizadas.setItems(listaInformacionPuja);
     	System.out.println("Hola");
     	
 	}
@@ -258,6 +294,11 @@ public class AnunciantesViewController {
     void crearAnuncioAction(ActionEvent event) {
 		 crearAnuncio();
     }
+	 @FXML
+	 void elegirPujaAction(ActionEvent event) {
+		 	
+		 crearReportePujas();
+	 }
 	 
 	 @FXML
     void descargarAnunciosReporte(ActionEvent event) {
@@ -480,13 +521,10 @@ public class AnunciantesViewController {
 			}
 		}			
 	}
-	
-	
-	
 	private void crearReporteAnuncios() {
 		FileChooser fileChooser = new FileChooser();		 
         //Set extension filter for text files
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.csv)", "*.csv");
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("CSV files (*.csv)", "*.csv");
         fileChooser.getExtensionFilters().add(extFilter);
 
         //Show save file dialog
@@ -508,6 +546,49 @@ public class AnunciantesViewController {
 					writer.write("NOMBRE PRODUCTO;NOMBRE ANUNCIANTE;FECHA LIMITE; FECHA PUBLICACION; VALOR INICAL \n");
 					for (Anuncio anuncio : modelFactoryController.getSubastaQuindio().getListaAnunciante().get(indexAnunciante).getLista_anuncio()) {
 						 String text = anuncio.getProducto().getNombreProducto() + ";" + this.usuarioLogueado.getNombre() + ";" + anuncio.getFechaLimitePublicacion() + ";" + anuncio.getFechaPublicacion() +";" + anuncio.getProducto().getValorInicial() +"\n";
+		                 writer.write(text);
+		             }
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally {
+				try {
+					writer.flush();
+					writer.close();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}	            
+			}
+        }
+	}
+	
+	private void crearReportePujas() {
+		FileChooser fileChooser = new FileChooser();		 
+        //Set extension filter for text files
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("CSV files (*.csv)", "*.csv");
+        fileChooser.getExtensionFilters().add(extFilter);
+        //Show save file dialog
+        File file = fileChooser.showSaveDialog(null);
+        Writer writer = null;
+        if (file != null) {
+       	 try {
+				writer = new BufferedWriter(new FileWriter(file));
+				writer.write("");
+				if (modelFactoryController.getSubastaQuindio().getListaPujas() != null && modelFactoryController.getSubastaQuindio().getListaPujas().size() > 0 ) {
+					int indexAnunciante = 0;
+					
+					for (int i = 0; i < modelFactoryController.getSubastaQuindio().getListaAnunciante().size(); i++) {
+						if (modelFactoryController.getSubastaQuindio().getListaAnunciante().get(i).getCedula().equals(this.usuarioLogueado.getCedula())) {
+							indexAnunciante = i;
+							break;
+						}
+					}	
+					writer.write("CODIGO PUJA;CODIGO PRODUCTO;NOMBRE PRODUCTO; NOMBRE ANUNCIANTE; OFERTA;FECHA \n");
+					for (Puja puja : modelFactoryController.getSubastaQuindio().getListaCompradores().get(indexAnunciante).getPujas()) {
+						String text = puja.getCodigoPuja() + ";"+puja.getCodigoProducto()+";"+puja.getNombreProducto()+";"+
+										puja.getNombreAnunciante()+";"+puja.getOfertaInicial()+";"+puja.getFechaPuja()+"\n";
 		                 writer.write(text);
 		             }
 				}

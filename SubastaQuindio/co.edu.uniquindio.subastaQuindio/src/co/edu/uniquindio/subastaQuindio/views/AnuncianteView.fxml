@@ -226,11 +226,6 @@
                                           </TableView>
                                        </children>
                                     </Pane>
-                                    <Button fx:id="btnElejirPujas" layoutX="549.0" layoutY="507.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="206.0" style="-fx-background-color: #0d6efd;" text="Elejir puja" textFill="WHITE">
-                                       <font>
-                                          <Font name="Arial Bold" size="12.0" />
-                                       </font>
-                                    </Button>
                                     <Pane layoutX="462.0" layoutY="14.0" prefHeight="468.0" prefWidth="427.0" style="-fx-border-color: black;">
                                        <children>
                                           <Label layoutX="9.0" layoutY="8.0" prefHeight="20.0" prefWidth="172.0" text="Lista de pujas realizadas">
@@ -240,8 +235,8 @@
                                           </Label>
                                           <TableView fx:id="tblPujasRealizadas" layoutX="9.0" layoutY="49.0" prefHeight="388.0" prefWidth="411.0">
                                             <columns>
-                                              <TableColumn fx:id="colunmCodigoPuja" prefWidth="75.0" text="Código " />
-                                              <TableColumn fx:id="columnProductoPuja" prefWidth="75.0" text="Producto" />
+                                              <TableColumn fx:id="colunmCodigoPujaR" prefWidth="75.0" text="Código " />
+                                              <TableColumn fx:id="columnProductoPujaRealizada" prefWidth="75.0" text="Producto" />
                                                 <TableColumn fx:id="columnValorInicialPujaRealizada" prefWidth="75.0" text="Valor inicial" />
                                                 <TableColumn fx:id="columnValorPagarPujaRealizada" prefWidth="93.0" text="Valor a pagar" />
                                                 <TableColumn fx:id="columnFechaPujaRealizada" prefWidth="92.0" text="Fecha" />
@@ -249,6 +244,11 @@
                                           </TableView>
                                        </children>
                                     </Pane>
+                                    <Button fx:id="btnElegirPuja" layoutX="504.0" layoutY="501.0" mnemonicParsing="false" onAction="#elegirPujaAction" prefHeight="40.0" prefWidth="206.0" style="-fx-background-color: #0d6efd;" text="Elejir puja" textFill="WHITE">
+                                       <font>
+                                          <Font name="Arial Bold" size="12.0" />
+                                       </font>
+                                    </Button>
                                  </children>
                               </AnchorPane>
                            </content>
