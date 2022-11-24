@@ -8,6 +8,7 @@ import java.util.Date;
 import co.edu.uniquindio.subastaQuindio.models.Anuncio;
 import co.edu.uniquindio.subastaQuindio.models.Persona;
 import co.edu.uniquindio.subastaQuindio.models.Producto;
+import co.edu.uniquindio.subastaQuindio.models.Puja;
 import co.edu.uniquindio.subastaQuindio.models.TipoPersona;
 import co.edu.uniquindio.subastaQuindio.models.TipoProducto;
 
@@ -26,5 +27,7 @@ public interface IModelFactoryService {
 	
 	public Anuncio crearAnuncio(Date fechaPublicacion,Date fechaFin,Producto producto, Persona anunciante);
 	
+	public Puja crearPuja(String codigoPuja,String codigoProducto, String nombreProducto, String tipoProducto, String valorInicialProducto,
+			String nombreAnunciante, double ofertaInicial, Date fechaPuja,Persona usuarioLogueado);
 
 }

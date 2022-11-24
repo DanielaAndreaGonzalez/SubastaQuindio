@@ -36,7 +36,7 @@ public class Persistencia {
 	
 	public static final String RUTA_ARCHIVO_PRODUCTOS = "C://td//persistencia//Archivos//archivoProducto.txt";
 	
-	
+	public static final String RUTA_ARCHIVO_PUJAS = "C://td//persistencia//Archivos//archivoPujas.txt";
 
 	
 	

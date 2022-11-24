@@ -18,12 +18,14 @@ import java.util.Date;
 
 import co.edu.uniquindio.subastaQuindio.exceptions.AnuncioException;
 import co.edu.uniquindio.subastaQuindio.exceptions.ProductoException;
+import co.edu.uniquindio.subastaQuindio.exceptions.PujaException;
 import co.edu.uniquindio.subastaQuindio.exceptions.RegistroException;
 import co.edu.uniquindio.subastaQuindio.models.Anunciante;
 import co.edu.uniquindio.subastaQuindio.models.Anuncio;
 import co.edu.uniquindio.subastaQuindio.models.Archivos;
 import co.edu.uniquindio.subastaQuindio.models.Persona;
 import co.edu.uniquindio.subastaQuindio.models.Producto;
+import co.edu.uniquindio.subastaQuindio.models.Puja;
 import co.edu.uniquindio.subastaQuindio.models.SubastaQuindio;
 import co.edu.uniquindio.subastaQuindio.models.TipoPersona;
 import co.edu.uniquindio.subastaQuindio.models.TipoProducto;
@@ -147,6 +149,13 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 		hiloServicio1GuardarXML.start();
 		//Persistencia.guardarResourceSubastaXML(subastaQuindio);
 	}
+	
+	private void guardarRecursoLog()
+	{
+		hiloSerivcio3GuardarRegistroLog = new Thread(this);
+		run=true;
+		hiloSerivcio3GuardarRegistroLog.start();
+	}
 	/**
 	 * 
 	 * @return
@@ -206,8 +215,25 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 		}
 		if(hiloServicio2GuardarBinario == hiloEjecucion)
 		{
+			try {
+				crearConexion();
+				solicitarGuardarInformacionPersistencia();
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			Persistencia.guardarRecursoSubastaBinario(subastaQuindio);
 		}
+		if(hiloSerivcio3GuardarRegistroLog== hiloEjecucion)
+		{
+			
+			Persistencia.guardarRecursoSubastaBinario(subastaQuindio);
+		}
+		
+		
 	}
 	
 	@Override
@@ -230,6 +256,23 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 		return anuncio;
 	}
 	
+	@Override
+	public Puja crearPuja(String codigoPuja,String codigoProducto, String nombreProducto, String tipoProducto,
+			String valorInicialProducto, String nombreAnunciante, double ofertaInicial, Date fechaPuja,Persona usuarioLogueado) {
+		Puja puja=null;
+		try {
+			puja =getSubastaQuindio().crearPuja(codigoPuja,codigoProducto, nombreProducto, tipoProducto, valorInicialProducto, nombreAnunciante, ofertaInicial, fechaPuja,usuarioLogueado);
+			
+			if(puja != null)
+				guardarResourceXML();
+				guardarResourceBinario();
+		} catch (PujaException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 
 	@Override
 	public Producto crearProducto(String codigo,String nombreProducto,String descripcion,
@@ -301,6 +344,19 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 		}
 	}
 
+	private void solicitarGuardarInformacionPersistenciaBinaria() throws IOException
+	{
+		// TODO Auto-generated method stub
+		try {
+			flujoSalidaComunicacion.writeInt(4);
+			flujoSalidaObjeto.writeObject(subastaQuindio);
+			flujoSalidaComunicacion.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	private void enviarObjetoPersistenciaTransferido() throws IOException
 	{
 		flujoSalidaObjeto.writeObject(subastaQuindio);
@@ -366,6 +422,8 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 	public void setFlujoSalidaObjeto(ObjectOutputStream flujoSalidaObjeto) {
 		this.flujoSalidaObjeto = flujoSalidaObjeto;
 	}
+
+	
 
 	
 	

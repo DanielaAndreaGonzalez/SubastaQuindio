@@ -8,7 +8,22 @@ public class InformacionAnuncioDto {
 	protected String valorInicial;
 	protected String descripcion;
 	protected String  tipoProducto;
+	protected String  codigoProducto;
 	
+	
+	
+	/**
+	 * @return the codigoProducto
+	 */
+	public String getCodigoProducto() {
+		return codigoProducto;
+	}
+	/**
+	 * @param codigoProducto the codigoProducto to set
+	 */
+	public void setCodigoProducto(String codigoProducto) {
+		this.codigoProducto = codigoProducto;
+	}
 	/**
 	 * @return the tipoProducto
 	 */

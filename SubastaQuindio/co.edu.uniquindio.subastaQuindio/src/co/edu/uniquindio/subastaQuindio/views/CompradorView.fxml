@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
@@ -19,7 +20,7 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="730.0" prefWidth="900.0" style="-fx-background-color: DEF3D7;">
                      <children>
-                        <SplitPane dividerPositions="0.5" layoutX="1.0" layoutY="2.0" orientation="VERTICAL" prefHeight="730.0" prefWidth="900.0" style="-fx-background-color: DEF3D7;">
+                        <SplitPane dividerPositions="0.5, 0.5" layoutX="1.0" layoutY="2.0" orientation="VERTICAL" prefHeight="730.0" prefWidth="900.0" style="-fx-background-color: DEF3D7;">
                            <items>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="730.0" prefWidth="900.0">
                                  <children>
@@ -28,57 +29,71 @@
                                           <Font name="Arial Bold" size="20.0" />
                                        </font>
                                     </Label>
-                                    <TableView fx:id="tblListaProductosPujar" layoutX="16.0" layoutY="40.0" prefHeight="305.0" prefWidth="876.0" style="-fx-background-color: C4DDF6;">
+                                    <TableView fx:id="tblListaProductosPujar" layoutX="16.0" layoutY="37.0" prefHeight="305.0" prefWidth="878.0" style="-fx-background-color: C4DDF6;">
                                        <columns>
                                           <TableColumn fx:id="columnDescripcionAnuncio" prefWidth="115.0" text="Decscripción" />
-                                          <TableColumn fx:id="columnValorInicial" prefWidth="96.0" text="Valor Inicial" />
-                                          <TableColumn fx:id="columnNombreAnunciante" prefWidth="113.0" text="Nombre anunciante" />
-                                          <TableColumn fx:id="columnFechaPublicacion" prefWidth="137.0" text="Fecha publicación" />
-                                          <TableColumn fx:id="columnFechaLimite" prefWidth="144.0" text="Fecha limite" />
-                                          <TableColumn fx:id="columnNombreProducto" prefWidth="167.0" text="Nombre Producto" />
-                                          <TableColumn fx:id="columnTipoProducto" prefWidth="167.0" text="Tipo Producto" />
+                                          <TableColumn fx:id="columnValorInicial" prefWidth="77.0" text="Valor Inicial" />
+                                          <TableColumn fx:id="columnNombreAnunciante" prefWidth="133.0" text="Nombre anunciante" />
+                                          <TableColumn fx:id="columnFechaPublicacion" prefWidth="114.0" text="Fecha publicación" />
+                                          <TableColumn fx:id="columnFechaLimite" prefWidth="84.0" text="Fecha limite" />
+                                          <TableColumn fx:id="columnNombreProducto" prefWidth="110.0" text="Nombre Producto" />
+                                          <TableColumn fx:id="columnTipoProducto" maxWidth="429.0" prefWidth="113.0" text="Tipo Producto" />
+                                          <TableColumn fx:id="columnCodigoProducto" prefWidth="125.0" text="Código Producto" />
                                        </columns>
                                     </TableView>
                                  </children>
                               </AnchorPane>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                  <children>
-                                    <Button fx:id="btnGuardarPuja" layoutX="351.0" layoutY="235.0" mnemonicParsing="false" onAction="#guardarPujaAction" prefHeight="36.0" prefWidth="99.0" style="-fx-background-color: #198754;" text="Enviar Puja" textFill="WHITE">
+                                    <Button fx:id="btnGuardarPuja" layoutX="352.0" layoutY="278.0" mnemonicParsing="false" onAction="#guardarPujaAction" prefHeight="36.0" prefWidth="99.0" style="-fx-background-color: #198754;" text="Enviar Puja" textFill="WHITE">
                                        <font>
                                           <Font name="Arial Bold" size="12.0" />
                                        </font>
                                     </Button>
-                                    <Label layoutX="213.0" layoutY="189.0" prefHeight="15.0" prefWidth="98.0" text="Valor a pagar:*">
+                                    <Label layoutX="215.0" layoutY="205.0" prefHeight="15.0" prefWidth="98.0" text="Valor a pagar:*">
                                        <font>
                                           <Font name="Arial Bold" size="12.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="txtMontoPuja" layoutX="320.0" layoutY="181.0" prefHeight="30.0" prefWidth="377.0" promptText="Ingreses un valor a pagar por el producto" />
+                                    <TextField fx:id="txtMontoPuja" layoutX="322.0" layoutY="197.0" prefHeight="30.0" prefWidth="377.0" promptText="Ingreses un valor a pagar por el producto" />
                                     <Label layoutX="364.0" layoutY="14.0" text="Información pujas">
                                        <font>
                                           <Font name="Arial Bold" size="20.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="199.0" layoutY="53.0" prefHeight="15.0" prefWidth="113.0" text="Nombre producto:*">
+                                    <Label layoutX="200.0" layoutY="92.0" prefHeight="15.0" prefWidth="113.0" text="Nombre producto:*">
                                        <font>
                                           <Font name="Arial Bold" size="12.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="txtNobreProductoSeleccionPuja" disable="true" layoutX="322.0" layoutY="46.0" prefHeight="30.0" prefWidth="377.0" promptText="nombre del producto" />
-                                    <Label layoutX="223.0" layoutY="99.0" prefHeight="15.0" prefWidth="82.0" text="Valor inicial:*">
+                                    <TextField fx:id="txtNobreProductoSeleccionPuja" disable="true" layoutX="322.0" layoutY="84.0" prefHeight="30.0" prefWidth="377.0" promptText="nombre del producto" />
+                                    <Label layoutX="223.0" layoutY="130.0" prefHeight="15.0" prefWidth="82.0" text="Valor inicial:*">
                                        <font>
                                           <Font name="Arial Bold" size="12.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="txtValorInicialProductoSeleccionPuja" disable="true" layoutX="322.0" layoutY="91.0" prefHeight="30.0" prefWidth="377.0" promptText="valor inicial" />
-                                    <Label layoutX="213.0" layoutY="144.0" prefHeight="15.0" prefWidth="94.0" text="Tipo producto:*">
+                                    <TextField fx:id="txtValorInicialProductoSeleccionPuja" disable="true" layoutX="322.0" layoutY="122.0" prefHeight="30.0" prefWidth="377.0" promptText="valor inicial" />
+                                    <Label layoutX="209.0" layoutY="173.0" prefHeight="15.0" prefWidth="94.0" text="Tipo producto:*">
                                        <font>
                                           <Font name="Arial Bold" size="12.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="txtTipoProducto" disable="true" layoutX="322.0" layoutY="137.0" prefHeight="30.0" prefWidth="377.0" promptText="tipo producto" />
+                                    <TextField fx:id="txtTipoProducto" disable="true" layoutX="322.0" layoutY="159.0" prefHeight="30.0" prefWidth="377.0" promptText="tipo producto" />
+                                    <DatePicker fx:id="txtFechaPujaComprador" layoutX="321.0" layoutY="233.0" prefHeight="25.0" prefWidth="379.0" />
+                                    <Label layoutX="246.0" layoutY="230.0" prefHeight="15.0" prefWidth="69.0" text="Fecha:*">
+                                       <font>
+                                          <Font name="Arial Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="208.0" layoutY="54.0" prefHeight="15.0" prefWidth="113.0" text="Código puja :*">
+                                       <font>
+                                          <Font name="Arial Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="txtCodigoPuja" layoutX="322.0" layoutY="47.0" prefHeight="30.0" prefWidth="377.0" promptText="Ingreses un valor a pagar por el producto" />
                                  </children>
                               </AnchorPane>
+                              <TextField fx:id="txtMontoPuja1" prefHeight="30.0" prefWidth="377.0" promptText="Ingreses un valor a pagar por el producto" />
                            </items>
                         </SplitPane>
                      </children>

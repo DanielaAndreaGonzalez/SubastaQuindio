@@ -291,8 +291,6 @@ public class AnunciantesViewController {
 			 }	 
 		 }
 	 }
-	
-	
 	private void crearAnuncio()
 	{
 		//txtNombreAnunciante.setText(this.usuarioLogueado.getNombre());
@@ -363,6 +361,8 @@ public class AnunciantesViewController {
 		}
 	}
 	
+	
+	
 	private boolean datosValidosAnuncio(Date fechaPublicacion, Date fechaFin,Producto producto)
 	{
 		String mensaje = " ";
@@ -380,6 +380,8 @@ public class AnunciantesViewController {
 		}
 		
 	}
+	
+	
 	
 	
 	private void showMessage(String titulo, String header, String contenido, AlertType alertType)
@@ -409,6 +411,7 @@ public class AnunciantesViewController {
 					informacionAnuncioDto.setFechaLimite(anuncio.getFechaLimitePublicacion().toString());
 					informacionAnuncioDto.setFechaPublicacion(anuncio.getFechaPublicacion().toString());
 					informacionAnuncioDto.setValorInicial(""+ anuncio.getProducto().getValorInicial());
+					informacionAnuncioDto.setCodigoProducto(anuncio.getProducto().getCodigo());
 					listaInformacionAnuncios.add(informacionAnuncioDto);            
 				}
 				listaInformacionAnunciosData.addAll(listaInformacionAnuncios);

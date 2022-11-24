@@ -4,6 +4,7 @@
 package co.edu.uniquindio.subastaQuindio.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * @author GonzalezHDanielaA
@@ -14,9 +15,13 @@ public class Comprador extends Persona implements Serializable{
 	private double montoDispuestoPagar;
 	private int[] ofertas = new int[3];
 	private static final long serialVersionUID = 1L;
+	private ArrayList<Puja> pujas;
 	
-	
-	public Comprador(){}
+	public Comprador(){
+		
+		this.pujas = new ArrayList<Puja>();
+	}
+
 	/**
 	 * @return the montoDispuestoPagar
 	 */
@@ -41,11 +46,18 @@ public class Comprador extends Persona implements Serializable{
 	public void setOfertas(int[] ofertas) {
 		this.ofertas = ofertas;
 	}
+	/**
+	 * @return the pujas
+	 */
+	public ArrayList<Puja> getPujas() {
+		return pujas;
+	}
+	/**
+	 * @param pujas the pujas to set
+	 */
+	public void setPujas(ArrayList<Puja> pujas) {
+		this.pujas = pujas;
+	}
 	
 	
-	
-	
-	
-	
-
 }

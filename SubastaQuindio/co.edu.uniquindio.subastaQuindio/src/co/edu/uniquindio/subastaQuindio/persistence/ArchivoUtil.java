@@ -324,7 +324,48 @@ public class ArchivoUtil {
 		return bandera;
 	}
 		
-		
+	public static boolean buscarPuja(String codigo)
+	{
+		boolean bandera=false;
+		File archivo = null;
+		FileReader fr = null;
+		BufferedReader br = null;			
+		try {
+			archivo = new File(Persistencia.RUTA_ARCHIVO_PUJAS);
+			fr = new FileReader(archivo);
+			br = new BufferedReader(fr);
+			
+			// Lectura del fichero
+			String linea = "";
+			String separador = Pattern.quote(Persistencia.SEPARADOR);
+			while ((linea = br.readLine()) != null) {
+				// System.out.println(linea);
+				String lineaDividida[] = linea.split(separador);
+				if(lineaDividida[0].equals(codigo)) {
+					bandera= true;
+				}				
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			// En el finally cerramos el fichero, para asegurarnos
+			// que se cierra tanto si todo va bien como si salta
+			// una excepcion.
+			try {
+				if (null != fr) {
+					fr.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return bandera;
+	}
+			
 		
 		
 }

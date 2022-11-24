@@ -59,7 +59,18 @@ public class HiloDesdeClienteAlServidor  extends Thread{
 				e.printStackTrace();
 			}
 		    break;
-		}	
+		case 4 :{
+			try {
+				guardarInformacionPersistenciaBinaria();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				}
+			}
+		}
+		
+		
+			
 		try {
 			int option = flujoEntradaComunicacion.readInt();
 			String usuario = flujoEntradaComunicacion.readUTF();
@@ -84,6 +95,12 @@ public class HiloDesdeClienteAlServidor  extends Thread{
 		subastaQuindio = (SubastaQuindio) flujoEntradaObjeto.readObject();
 		Persistencia.guardarResourceSubastaXML(subastaQuindio);	
 	}
+	
+	private void guardarInformacionPersistenciaBinaria() throws Exception {		
+		subastaQuindio = (SubastaQuindio) flujoEntradaObjeto.readObject();
+		Persistencia.guardarRecursoSubastaBinario(subastaQuindio);	
+	}
+	
 	private void enviarInformacionPersistencia() throws Exception {
 		// TODO Auto-generated method stub
 		//aplicacion = Persistencia.guardarRecursivoXMLBlockBuster(aplicacion);
