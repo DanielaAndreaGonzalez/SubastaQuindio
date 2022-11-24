@@ -3,16 +3,10 @@
  */
 package co.edu.uniquindio.subastaQuindio.controllers;
 
-import java.time.LocalDate;
-import java.util.Calendar;
-
-import co.edu.uniquindio.subastaQuindio.models.Anunciante;
-import co.edu.uniquindio.subastaQuindio.models.Anuncio;
 import co.edu.uniquindio.subastaQuindio.models.Persona;
 import co.edu.uniquindio.subastaQuindio.models.Producto;
 import co.edu.uniquindio.subastaQuindio.models.SubastaQuindio;
 import co.edu.uniquindio.subastaQuindio.models.TipoProducto;
-import co.edu.uniquindio.subastaQuindio.models.Usuario;
 
 /**
  * @author GonzalezHDanielaA

@@ -13,9 +13,8 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Date;
 
 import co.edu.uniquindio.subastaQuindio.exceptions.AnuncioException;
 import co.edu.uniquindio.subastaQuindio.exceptions.ProductoException;
@@ -28,7 +27,6 @@ import co.edu.uniquindio.subastaQuindio.models.Producto;
 import co.edu.uniquindio.subastaQuindio.models.SubastaQuindio;
 import co.edu.uniquindio.subastaQuindio.models.TipoPersona;
 import co.edu.uniquindio.subastaQuindio.models.TipoProducto;
-import co.edu.uniquindio.subastaQuindio.models.Usuario;
 import co.edu.uniquindio.subastaQuindio.persistence.Persistencia;
 import co.edu.uniquindio.subastaQuindio.services.IModelFactoryService;
 
@@ -213,7 +211,7 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 	}
 	
 	@Override
-	public Anuncio crearAnuncio(LocalDate fechaPublicacion, LocalDate fechaFin,Producto producto,Persona anunciante) {
+	public Anuncio crearAnuncio(Date fechaPublicacion, Date fechaFin,Producto producto,Persona anunciante) {
 		
 		Anuncio anuncio = null;
 		try {
@@ -273,7 +271,8 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 	private void leerObjetoPersistenciaTransferido() throws IOException, ClassNotFoundException
 	{
 		subastaQuindio =  (SubastaQuindio) flujoEntradaObjeto.readObject();
-		System.out.println("Objeto recibido");subastaQuindio.getListaPersonas().size();
+		System.out.println("Objeto recibido");
+		subastaQuindio.getListaPersonas().size();
 		flujoEntradaObjeto.close();	
 	}
 	

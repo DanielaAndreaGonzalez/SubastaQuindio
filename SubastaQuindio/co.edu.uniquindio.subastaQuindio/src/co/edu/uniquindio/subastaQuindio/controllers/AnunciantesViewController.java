@@ -12,13 +12,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Writer;
 import java.net.URL;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import co.edu.uniquindio.subastaQuindio.Main;
+import co.edu.uniquindio.subastaQuindio.dto.InformacionAnuncioDto;
 import co.edu.uniquindio.subastaQuindio.models.Anunciante;
 import co.edu.uniquindio.subastaQuindio.models.Anuncio;
 import co.edu.uniquindio.subastaQuindio.models.Persona;
@@ -37,6 +40,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert.AlertType;
@@ -62,6 +66,9 @@ public class AnunciantesViewController {
 	
 	File fotoProductoCreado;
 	
+	List<InformacionAnuncioDto> listaInformacionAnuncios = new ArrayList<>();
+	ObservableList<InformacionAnuncioDto> listaInformacionAnunciosData = FXCollections.observableArrayList();
+	ObservableList<Producto> productos = FXCollections.observableArrayList();
 	//Producto
     @FXML
     private TextField txtCodigoProductoAnuncio;
@@ -102,77 +109,25 @@ public class AnunciantesViewController {
     private Button btnElejirPujas;
 
     @FXML
-    private Button btnEliminarProducto;
+    private Button btnEliminarProducto;   
 
     @FXML
-    private TableColumn<?, ?> columnDescripcion1;
-
+    private TableView<InformacionAnuncioDto> tableListaAnunciosRealizados;
     @FXML
-    private TableColumn<Producto, String> columnDescripcion11;
-
+    private TableColumn<InformacionAnuncioDto, String> columnNombreProductoAnuncio;
     @FXML
-    private TableColumn<?, ?> columnFechaLimite1;
-
+    private TableColumn<InformacionAnuncioDto, String> columnNombreAnuncianteAnuncio;    
     @FXML
-    private TableColumn<?, ?> columnFechaLimite11;
-
+    private TableColumn<InformacionAnuncioDto, String> columnFechaLimiteAnuncio;
     @FXML
-    private TableColumn<?, ?> columnFechaPublicacion1;
-
+    private TableColumn<InformacionAnuncioDto, String> columnFechaPublicacionAnuncio;    
     @FXML
-    private TableColumn<?, ?> columnFechaPublicacion11;
-
-    @FXML
-    private TableColumn<?, ?> columnNombreAnunciante1;
-
-    @FXML
-    private TableColumn<?, ?> columnNombreAnunciante11;
-
-    @FXML
-    private TableColumn<?, ?> columnPersona1;
-
-    @FXML
-    private TableColumn<?, ?> columnPrecio;
-
-    @FXML
-    private TableColumn<?, ?> columnPrecio1;
-
-    @FXML
-    private TableColumn<?, ?> columnProducto;
-
-    @FXML
-    private TableColumn<?, ?> columnProducto1;
-
-    @FXML
-    private TableColumn<?, ?> columnValorInicial1;
-
-    @FXML
-    private TableColumn<Producto, Double> columnValorInicial11;
+    private TableColumn<InformacionAnuncioDto, String> columnValorInicialAnuncio;
     
     @FXML
-    private TableColumn<Producto, TipoProducto> columnTipoProducto;
-    @FXML
-    private TableColumn<Producto, String> columnnombreanuncio;
-
-    @FXML
-    private TableView<?> tableListaAnunciosRealizados;
-
-    @FXML
-    private TableView<Producto> tableListaProductos;
-
-    @FXML
     private AnchorPane tblListaAnunciosParaPujar;
-
     @FXML
-    private TableView<?> tblListaPujasRealizadas;
-
-    @FXML
-    private TabPane tblListaSolicitudAnuncios;
-
-    @FXML
-    private TableView<?> tbllistaAnuncios;
-
-
+    private TabPane tblListaSolicitudAnuncios;    
     @FXML
     private DatePicker txtFechaLimite;
 
@@ -197,19 +152,26 @@ public class AnunciantesViewController {
 
     @FXML
     void initialize() {
+    	this.columnNombreProductoAnuncio.setCellValueFactory(new PropertyValueFactory<>("nombreProducto"));
+    	this.columnNombreAnuncianteAnuncio.setCellValueFactory(new PropertyValueFactory<>("nombreAnunciante"));
+    	this.columnFechaLimiteAnuncio.setCellValueFactory(new PropertyValueFactory<>("fechaLimite"));
+    	this.columnFechaPublicacionAnuncio.setCellValueFactory(new PropertyValueFactory<>("fechaPublicacion"));
+    	this.columnValorInicialAnuncio.setCellValueFactory(new PropertyValueFactory<>("valorInicial"));
+    	
     	modelFactoryController = ModelFactoryController.getInstance();
     	crudProductoController = new CrudProductoController(modelFactoryController);
     	crudAnuncioController = new CrudAnuncioController(modelFactoryController);
     	llenarComboTipoProducto();
-    	llenarComboProductos();
     }
-    
     public Main getAplicacion() {
 		return aplication;
 	}
 	public void setAplicacion(Main aplicacion, Persona usuarioLogueado) {
 		this.aplication = aplicacion;
 		this.usuarioLogueado = usuarioLogueado;
+		this.txtNombreAnunciante.setText(this.usuarioLogueado.getNombre());
+		llenarComboProductos();
+		llenarInformacionAnunciosTabla();
 	}
 	
 	 @FXML
@@ -264,9 +226,17 @@ public class AnunciantesViewController {
 			
 		}
 	 public void llenarComboProductos() {
-		 ObservableList<Producto> productos = FXCollections.observableArrayList();
-		 productos.addAll(modelFactoryController.getSubastaQuindio().getListaAnunciante().get(0).getProductosAnunciar());
-		 this.cboProducto.setItems(productos);
+		 if (modelFactoryController.getSubastaQuindio().getListaAnunciante() != null && modelFactoryController.getSubastaQuindio().getListaAnunciante().size() > 0 ) {
+			 int indexAnunciante = 0;
+			 for (int i = 0; i < modelFactoryController.getSubastaQuindio().getListaAnunciante().size(); i++) {
+				if (modelFactoryController.getSubastaQuindio().getListaAnunciante().get(i).getCedula().equals(this.usuarioLogueado.getCedula())) {
+					indexAnunciante = i;
+					break;
+				}
+			 }
+			 productos.addAll(modelFactoryController.getSubastaQuindio().getListaAnunciante().get(indexAnunciante).getProductosAnunciar());
+			 this.cboProducto.setItems(productos);
+		 }		 
 	 }
 	private void crearProducto()
 	 {
@@ -281,6 +251,8 @@ public class AnunciantesViewController {
 		 if(datosValidos(codigo, nombre, descripcion, valorInicial, foto, tipo)) {
 			 Producto producto = null;			 
 			 producto = crudProductoController.crearProducto(codigo, nombre, descripcion, valorInicial, tipo, foto, this.usuarioLogueado);
+			 productos.add(producto);
+			 this.cboProducto.setItems(productos);
 			 
 			 if(producto!=null)
 			 {
@@ -295,20 +267,40 @@ public class AnunciantesViewController {
 	
 	private void crearAnuncio()
 	{
-		txtNombreAnunciante.setText(this.usuarioLogueado.getNombre());
+		//txtNombreAnunciante.setText(this.usuarioLogueado.getNombre());
+		Instant instant = null;
 		LocalDate fechaPu = txtFechaPublicacion.getValue();
+		instant = Instant.from(fechaPu.atStartOfDay(ZoneId.systemDefault()));		
+		Date fechaPubli= Date.from(instant);
+		
 		LocalDate fechaLimite = txtFechaLimite.getValue();
+		instant = Instant.from(fechaLimite.atStartOfDay(ZoneId.systemDefault()));
+		Date fechaLimiteDate= Date.from(instant);
+		
 		Producto producto = cboProducto.getValue();
 		
 		
-		if(datosValidosAnuncio(fechaPu, fechaLimite, producto))
+		if(datosValidosAnuncio(fechaPubli, fechaLimiteDate, producto))
 		{
 			Anuncio anuncio = null;
 			
-			anuncio = crudAnuncioController.crearAnuncio(fechaPu, fechaLimite, producto,this.usuarioLogueado);
+			anuncio = crudAnuncioController.crearAnuncio(fechaPubli, fechaLimiteDate, producto,this.usuarioLogueado);
+			
 			
 			if(anuncio != null)
 			{
+				InformacionAnuncioDto informacionAnuncioDto = null;
+				informacionAnuncioDto = new InformacionAnuncioDto();
+				informacionAnuncioDto.setNombreAnunciante(usuarioLogueado.getNombre());
+				informacionAnuncioDto.setNombreProducto(anuncio.getProducto().getNombreProducto());
+				informacionAnuncioDto.setFechaLimite(anuncio.getFechaLimitePublicacion().toString());
+				informacionAnuncioDto.setFechaPublicacion(anuncio.getFechaLimitePublicacion().toString());
+				informacionAnuncioDto.setValorInicial(""+ anuncio.getProducto().getValorInicial());
+				listaInformacionAnuncios.add(informacionAnuncioDto);
+				listaInformacionAnunciosData.clear();
+				listaInformacionAnunciosData.addAll(listaInformacionAnuncios);
+				tableListaAnunciosRealizados.setItems(listaInformacionAnunciosData);
+				
 				showMessage("Notificación registro anuncio ", "Anuncio creado", "El anuncio se ha creado con éxito", AlertType.INFORMATION);
 			}else {
 				 showMessage("Notificación registro anuncio", "Anuncio no creado", "Los datos ingresados no son válidos", AlertType.ERROR);
@@ -343,7 +335,7 @@ public class AnunciantesViewController {
 		}
 	}
 	
-	private boolean datosValidosAnuncio(LocalDate fechaPublicacion, LocalDate fechaFin,Producto producto)
+	private boolean datosValidosAnuncio(Date fechaPublicacion, Date fechaFin,Producto producto)
 	{
 		String mensaje = " ";
 		if( fechaPublicacion == null)
@@ -371,7 +363,31 @@ public class AnunciantesViewController {
 		 alert.showAndWait();	 
 	 }
 	
-	
+	private void llenarInformacionAnunciosTabla() {
+		if (modelFactoryController.getSubastaQuindio().getListaAnunciante() != null && modelFactoryController.getSubastaQuindio().getListaAnunciante().size() > 0 ) {
+	    	int indexAnunciante = 0;
+			for (int i = 0; i < modelFactoryController.getSubastaQuindio().getListaAnunciante().size(); i++) {
+				if (modelFactoryController.getSubastaQuindio().getListaAnunciante().get(i).getCedula().equals(this.usuarioLogueado.getCedula())) {
+					indexAnunciante = i;
+					break;
+				}
+			}				
+			InformacionAnuncioDto informacionAnuncioDto = null;
+			if (modelFactoryController.getSubastaQuindio().getListaAnunciante().get(indexAnunciante).getLista_anuncio() != null && modelFactoryController.getSubastaQuindio().getListaAnunciante().get(indexAnunciante).getLista_anuncio().size()>0) {				
+				for (Anuncio anuncio : modelFactoryController.getSubastaQuindio().getListaAnunciante().get(indexAnunciante).getLista_anuncio()) {
+					informacionAnuncioDto = new InformacionAnuncioDto();
+					informacionAnuncioDto.setNombreAnunciante(usuarioLogueado.getNombre());
+					informacionAnuncioDto.setNombreProducto(anuncio.getProducto().getNombreProducto());
+					informacionAnuncioDto.setFechaLimite(anuncio.getFechaLimitePublicacion().toString());
+					informacionAnuncioDto.setFechaPublicacion(anuncio.getFechaPublicacion().toString());
+					informacionAnuncioDto.setValorInicial(""+ anuncio.getProducto().getValorInicial());
+					listaInformacionAnuncios.add(informacionAnuncioDto);            
+				}
+				listaInformacionAnunciosData.addAll(listaInformacionAnuncios);
+				tableListaAnunciosRealizados.setItems(listaInformacionAnunciosData);			
+			}
+		}			
+	}
 	private void crearReporteAnuncios() {
 		FileChooser fileChooser = new FileChooser();		 
         //Set extension filter for text files
@@ -385,17 +401,21 @@ public class AnunciantesViewController {
        	 try {
 				writer = new BufferedWriter(new FileWriter(file));
 				writer.write("");
-				int indexAnunciante = 0;
-				for (int i = 0; i < modelFactoryController.getSubastaQuindio().getListaAnunciante().size(); i++) {
-					if (modelFactoryController.getSubastaQuindio().getListaAnunciante().get(i).getCedula().equals(this.usuarioLogueado.getCedula())) {
-						indexAnunciante = i;
-						break;
-					}
-				}				
-				for (Anuncio anuncio : modelFactoryController.getSubastaQuindio().getListaAnunciante().get(indexAnunciante).getLista_anuncio()) {
-	                 String text = anuncio.getFechaLimitePublicacion() + ";" + anuncio.getFechaLimitePublicacion() + ";" + anuncio.getProducto().getNombreProducto() + "\n";
-	                 writer.write(text);
-	             }
+				if (modelFactoryController.getSubastaQuindio().getListaAnunciante() != null && modelFactoryController.getSubastaQuindio().getListaAnunciante().size() > 0 ) {
+					int indexAnunciante = 0;
+					
+					for (int i = 0; i < modelFactoryController.getSubastaQuindio().getListaAnunciante().size(); i++) {
+						if (modelFactoryController.getSubastaQuindio().getListaAnunciante().get(i).getCedula().equals(this.usuarioLogueado.getCedula())) {
+							indexAnunciante = i;
+							break;
+						}
+					}	
+					writer.write("NOMBRE PRODUCTO;NOMBRE ANUNCIANTE;FECHA LIMITE; FECHA PUBLICACION; VALOR INICAL \n");
+					for (Anuncio anuncio : modelFactoryController.getSubastaQuindio().getListaAnunciante().get(indexAnunciante).getLista_anuncio()) {
+						 String text = anuncio.getProducto().getNombreProducto() + ";" + this.usuarioLogueado.getNombre() + ";" + anuncio.getFechaLimitePublicacion() + ";" + anuncio.getFechaPublicacion() +";" + anuncio.getProducto().getValorInicial() +"\n";
+		                 writer.write(text);
+		             }
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

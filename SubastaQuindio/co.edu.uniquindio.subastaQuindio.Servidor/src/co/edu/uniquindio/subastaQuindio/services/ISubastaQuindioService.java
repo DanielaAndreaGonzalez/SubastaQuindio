@@ -4,19 +4,16 @@
 package co.edu.uniquindio.subastaQuindio.services;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.util.Calendar;
+import java.util.Date;
 
 import co.edu.uniquindio.subastaQuindio.exceptions.AnuncioException;
 import co.edu.uniquindio.subastaQuindio.exceptions.ProductoException;
 import co.edu.uniquindio.subastaQuindio.exceptions.RegistroException;
-import co.edu.uniquindio.subastaQuindio.models.Anunciante;
 import co.edu.uniquindio.subastaQuindio.models.Anuncio;
 import co.edu.uniquindio.subastaQuindio.models.Persona;
 import co.edu.uniquindio.subastaQuindio.models.Producto;
 import co.edu.uniquindio.subastaQuindio.models.TipoPersona;
 import co.edu.uniquindio.subastaQuindio.models.TipoProducto;
-import co.edu.uniquindio.subastaQuindio.models.Usuario;
 
 /**
  * @author GonzalezHDanielaA
@@ -36,6 +33,6 @@ public interface ISubastaQuindioService {
 	
 	public boolean verificarProductoExistente(String codigo);
 	
-	public Anuncio crearAnuncio(LocalDate fechaPublicacion,LocalDate fechaFin, Producto producto,Persona usuarioLogueado) throws AnuncioException,IOException;
+	public Anuncio crearAnuncio(Date fechaPublicacion,Date fechaFin, Producto producto,Persona usuarioLogueado) throws AnuncioException,IOException;
 
 }

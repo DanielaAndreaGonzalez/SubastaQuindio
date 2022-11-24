@@ -3,18 +3,13 @@
  */
 package co.edu.uniquindio.subastaQuindio.services;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
-
-import co.edu.uniquindio.subastaQuindio.exceptions.RegistroException;
-import co.edu.uniquindio.subastaQuindio.models.Anunciante;
+import java.util.Date;
 import co.edu.uniquindio.subastaQuindio.models.Anuncio;
 import co.edu.uniquindio.subastaQuindio.models.Persona;
 import co.edu.uniquindio.subastaQuindio.models.Producto;
 import co.edu.uniquindio.subastaQuindio.models.TipoPersona;
 import co.edu.uniquindio.subastaQuindio.models.TipoProducto;
-import co.edu.uniquindio.subastaQuindio.models.Usuario;
 
 /**
  * @author GonzalezHDanielaA
@@ -29,7 +24,7 @@ public interface IModelFactoryService {
 	public Producto crearProducto(String codigo,String nombreProducto,String descripcion,
 			double valorInicial,TipoProducto tipoProducto,String foto, Persona usuarioLogeado);
 	
-	public Anuncio crearAnuncio(LocalDate fechaPublicacion,LocalDate fechaFin,Producto producto, Persona anunciante);
+	public Anuncio crearAnuncio(Date fechaPublicacion,Date fechaFin,Producto producto, Persona anunciante);
 	
 
 }

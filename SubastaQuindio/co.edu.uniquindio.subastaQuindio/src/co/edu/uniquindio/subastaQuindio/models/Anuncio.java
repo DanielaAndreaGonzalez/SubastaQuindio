@@ -4,7 +4,6 @@
 package co.edu.uniquindio.subastaQuindio.models;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -15,8 +14,8 @@ public class Anuncio implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	private LocalDate fechaPublicacion;
-	private LocalDate fechaLimitePublicacion;
+	private Date fechaPublicacion;
+	private Date fechaLimitePublicacion;
 	private Producto producto;
 	private Persona anunciante;
 
@@ -25,28 +24,28 @@ public class Anuncio implements Serializable{
 	/**
 	 * @return the fechaPublicacion
 	 */
-	public LocalDate getFechaPublicacion() {
+	public Date getFechaPublicacion() {
 		return fechaPublicacion;
 	}
 
 	/**
 	 * @param fechaPublicacion the fechaPublicacion to set
 	 */
-	public void setFechaPublicacion(LocalDate fechaPublicacion) {
+	public void setFechaPublicacion(Date fechaPublicacion) {
 		this.fechaPublicacion = fechaPublicacion;
 	}
 
 	/**
 	 * @return the fechaLimitePublicacion
 	 */
-	public LocalDate getFechaLimitePublicacion() {
+	public Date getFechaLimitePublicacion() {
 		return fechaLimitePublicacion;
 	}
 
 	/**
 	 * @param fechaLimitePublicacion the fechaLimitePublicacion to set
 	 */
-	public void setFechaLimitePublicacion(LocalDate fechaLimitePublicacion) {
+	public void setFechaLimitePublicacion(Date fechaLimitePublicacion) {
 		this.fechaLimitePublicacion = fechaLimitePublicacion;
 	}
 	

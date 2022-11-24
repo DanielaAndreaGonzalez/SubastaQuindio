@@ -56,7 +56,7 @@ public class Main extends Application {
 			AnunciantesViewController anunciantesViewController = loader.getController();
 			
 			anunciantesViewController.setAplicacion(this,usuariosLogueado);
-			Scene scene = new Scene(rootLayout);
+			Scene scene = new Scene(rootLayout, 900,650);
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		}catch (IOException e) {

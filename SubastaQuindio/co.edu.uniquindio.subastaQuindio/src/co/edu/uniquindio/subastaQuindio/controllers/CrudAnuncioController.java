@@ -3,7 +3,7 @@
  */
 package co.edu.uniquindio.subastaQuindio.controllers;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 import co.edu.uniquindio.subastaQuindio.models.Anuncio;
 import co.edu.uniquindio.subastaQuindio.models.Persona;
@@ -37,7 +37,7 @@ public class CrudAnuncioController {
 	
 	
 	
-	public Anuncio crearAnuncio(LocalDate fechaPublicacion,LocalDate fechaFin,Producto producto,Persona anunciante)
+	public Anuncio crearAnuncio(Date fechaPublicacion,Date fechaFin,Producto producto,Persona anunciante)
 	{
 		return modelFactoryController.crearAnuncio(fechaPublicacion, fechaFin, producto, anunciante);
 		

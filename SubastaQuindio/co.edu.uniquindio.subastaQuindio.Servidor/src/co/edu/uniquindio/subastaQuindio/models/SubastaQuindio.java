@@ -9,9 +9,8 @@ package co.edu.uniquindio.subastaQuindio.models;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Date;
 
 import co.edu.uniquindio.subastaQuindio.exceptions.AnuncioException;
 import co.edu.uniquindio.subastaQuindio.exceptions.ProductoException;
@@ -167,7 +166,7 @@ public class SubastaQuindio implements  Serializable, ISubastaQuindioService{
 	}
 	
 	@Override
-	public Anuncio crearAnuncio(LocalDate fechaPublicacion,LocalDate fechaFin, Producto producto,Persona usuarioLogueado)
+	public Anuncio crearAnuncio(Date fechaPublicacion,Date fechaFin, Producto producto,Persona usuarioLogueado)
 			throws AnuncioException, IOException {
 		
 		String mensaje = "";
