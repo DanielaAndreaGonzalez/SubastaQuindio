@@ -104,6 +104,8 @@ public class HiloDesdeClienteAlServidor  extends Thread{
 	private void enviarInformacionPersistencia() throws Exception {
 		// TODO Auto-generated method stub
 		//aplicacion = Persistencia.guardarRecursivoXMLBlockBuster(aplicacion);
+		//SubastaQuindio misubasta= new SubastaQuindio();
+		//Persistencia.guardarResourceSubastaXML(misubasta);
 		subastaQuindio = Persistencia.cargarRecursoSubastaQuindioXML();
 		flujoSalidaObjeto.writeObject(subastaQuindio);
 	}

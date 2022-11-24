@@ -203,7 +203,7 @@ public class ArchivoUtil {
 			XMLDecoder decodificadorXML;
 			Object objetoXML;
 			
-			decodificadorXML = new XMLDecoder(new FileInputStream(rutaArchivo));
+			decodificadorXML = new XMLDecoder(new FileInputStream(rutaArchivo));			
 			objetoXML = decodificadorXML.readObject();
 			decodificadorXML.close();
 			return objetoXML;

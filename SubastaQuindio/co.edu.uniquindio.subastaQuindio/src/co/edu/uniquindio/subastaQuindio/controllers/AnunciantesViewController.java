@@ -114,6 +114,7 @@ public class AnunciantesViewController {
     @FXML
     private Button btnEliminarProducto;   
 
+    //Anuncio
     @FXML
     private TableView<InformacionAnuncioDto> tableListaAnunciosRealizados;
     @FXML
@@ -143,7 +144,23 @@ public class AnunciantesViewController {
     @FXML
     private AnchorPane tblListaAnunciosParaPujar;
     @FXML
-    private TabPane tblListaSolicitudAnuncios;    
+    private TabPane tblListaSolicitudAnuncios;  
+    
+    //anuncio Puja
+    @FXML
+    private TableColumn<InformacionAnuncioDto, String> columnAnunciantePuja;
+    @FXML
+    private TableColumn<InformacionAnuncioDto, String> columnDescripcionPuja;
+    @FXML
+    private TableColumn<InformacionAnuncioDto, String> columnValorInicialPuja;
+    @FXML
+    private TableColumn<InformacionAnuncioDto, String> columnProductoPuja;
+    @FXML
+    private TableColumn<InformacionAnuncioDto, String> columnTipoProductoPuja;
+    @FXML
+    private TableView<InformacionAnuncioDto> tblAnunciosPujas;
+    
+ 
     @FXML
     private DatePicker txtFechaLimite;
 
@@ -182,9 +199,18 @@ public class AnunciantesViewController {
     	this.columnTipoProductoProducto.setCellValueFactory(new PropertyValueFactory<>("tipoProducto"));
     	
     	
+    	//Para la tabla Anuncios en pujas
+    	this.columnAnunciantePuja.setCellValueFactory(new PropertyValueFactory<>("nombreAnunciante"));
+    	this.columnDescripcionPuja.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+    	this.columnValorInicialPuja.setCellValueFactory(new PropertyValueFactory<>("valorInicial"));
+    	this.columnProductoPuja.setCellValueFactory(new PropertyValueFactory<>("nombreProducto"));
+    	this.columnTipoProductoPuja.setCellValueFactory(new PropertyValueFactory<>("tipoProducto"));
+    	
+    	
     	modelFactoryController = ModelFactoryController.getInstance();
     	crudProductoController = new CrudProductoController(modelFactoryController);
     	crudAnuncioController = new CrudAnuncioController(modelFactoryController);
+    	
     	llenarComboTipoProducto();
     }
     public Main getAplicacion() {
@@ -197,6 +223,7 @@ public class AnunciantesViewController {
 		llenarComboProductos();
 		llenarInformacionAnunciosTabla();
 		llenarInformacionProductoTabla();
+		
 	}
 	
 	 @FXML
@@ -304,15 +331,10 @@ public class AnunciantesViewController {
 		Date fechaLimiteDate= Date.from(instant);
 		
 		Producto producto = cboProducto.getValue();
-		
-		
 		if(datosValidosAnuncio(fechaPubli, fechaLimiteDate, producto))
 		{
 			Anuncio anuncio = null;
-			
-			anuncio = crudAnuncioController.crearAnuncio(fechaPubli, fechaLimiteDate, producto,this.usuarioLogueado);
-			
-			
+			anuncio = crudAnuncioController.crearAnuncio(fechaPubli, fechaLimiteDate, producto,this.usuarioLogueado);		
 			if(anuncio != null)
 			{
 				InformacionAnuncioDto informacionAnuncioDto = null;
@@ -331,10 +353,7 @@ public class AnunciantesViewController {
 			}else {
 				 showMessage("Notificación registro anuncio", "Anuncio no creado", "Los datos ingresados no son válidos", AlertType.ERROR);
 			 }
-		}
-		
-		
-		
+		}	
 	}
 
 	private boolean datosValidos(String codigo, String nombre,String descripcion, double valorInicial,
@@ -360,9 +379,6 @@ public class AnunciantesViewController {
 			 return false;
 		}
 	}
-	
-	
-	
 	private boolean datosValidosAnuncio(Date fechaPublicacion, Date fechaFin,Producto producto)
 	{
 		String mensaje = " ";
@@ -380,10 +396,6 @@ public class AnunciantesViewController {
 		}
 		
 	}
-	
-	
-	
-	
 	private void showMessage(String titulo, String header, String contenido, AlertType alertType)
 	 {
 		 Alert alert = new Alert(alertType);
@@ -392,7 +404,6 @@ public class AnunciantesViewController {
 		 alert.setContentText(contenido);
 		 alert.showAndWait();	 
 	 }
-	
 	private void llenarInformacionAnunciosTabla() {
 		if (modelFactoryController.getSubastaQuindio().getListaAnunciante() != null && modelFactoryController.getSubastaQuindio().getListaAnunciante().size() > 0 ) {
 	    	int indexAnunciante = 0;
@@ -412,10 +423,13 @@ public class AnunciantesViewController {
 					informacionAnuncioDto.setFechaPublicacion(anuncio.getFechaPublicacion().toString());
 					informacionAnuncioDto.setValorInicial(""+ anuncio.getProducto().getValorInicial());
 					informacionAnuncioDto.setCodigoProducto(anuncio.getProducto().getCodigo());
+					informacionAnuncioDto.setDescripcion(anuncio.getProducto().getDescripcion());
+					informacionAnuncioDto.setTipoProducto(anuncio.getProducto().getTipoProducto().toString());
 					listaInformacionAnuncios.add(informacionAnuncioDto);            
 				}
 				listaInformacionAnunciosData.addAll(listaInformacionAnuncios);
-				tableListaAnunciosRealizados.setItems(listaInformacionAnunciosData);			
+				tableListaAnunciosRealizados.setItems(listaInformacionAnunciosData);	
+				tblAnunciosPujas.setItems(listaInformacionAnunciosData);
 			}
 		}			
 	}
@@ -440,6 +454,8 @@ public class AnunciantesViewController {
 			}
 		}			
 	}
+	
+	
 	
 	private void crearReporteAnuncios() {
 		FileChooser fileChooser = new FileChooser();		 

@@ -181,7 +181,7 @@ public class CompradorViewController {
 	    	InformacionAnuncioDto informacionAnuncioDto = null;					
 			for (Anuncio anuncio : modelFactoryController.getSubastaQuindio().getListaAnuncios()) {
 				informacionAnuncioDto = new InformacionAnuncioDto();
-				informacionAnuncioDto.setNombreAnunciante(usuarioLogueado.getNombre());
+				informacionAnuncioDto.setNombreAnunciante(anuncio.getAnunciante().getNombre());
 				informacionAnuncioDto.setNombreProducto(anuncio.getProducto().getNombreProducto());
 				informacionAnuncioDto.setFechaLimite(anuncio.getFechaLimitePublicacion().toString());
 				informacionAnuncioDto.setFechaPublicacion(anuncio.getFechaPublicacion().toString());

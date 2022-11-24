@@ -29,12 +29,9 @@ public class SubastaQuindio implements  Serializable, ISubastaQuindioService{
 	
 	ArrayList<Persona> listaPersonas = new ArrayList<>();
 	//ArrayList<Producto> listaProducto = new ArrayList<>();
-	ArrayList<Anunciante> listaAnunciante = new ArrayList<>();	
-	
-	ArrayList<Anuncio> listaAnuncios = new ArrayList<>();
-	
-	ArrayList<Puja> listaPujas = new ArrayList<>();
-	
+	ArrayList<Anunciante> listaAnunciante = new ArrayList<>();		
+	ArrayList<Anuncio> listaAnuncios = new ArrayList<>();	
+	ArrayList<Puja> listaPujas = new ArrayList<>();	
 	ArrayList<Comprador> listaCompradores= new ArrayList<>();	
 	
 

@@ -25,7 +25,6 @@ import co.edu.uniquindio.subastaQuindio.services.ISubastaQuindioService;
  *
  */
 public class SubastaQuindio implements  Serializable, ISubastaQuindioService{
-
 	private static final long serialVersionUID = 1L;
 	private Archivos archivo = new Archivos("Usuarios");
 	//private static Persistencia persistencia =null; no es necesario declararla debido a que se puede acceder a la clase porque el metodo es estatico
@@ -33,12 +32,9 @@ public class SubastaQuindio implements  Serializable, ISubastaQuindioService{
 	
 	ArrayList<Persona> listaPersonas = new ArrayList<>();
 	//ArrayList<Producto> listaProducto = new ArrayList<>();
-	ArrayList<Anunciante> listaAnunciante = new ArrayList<>();	
-	
-	ArrayList<Anuncio> listaAnuncios = new ArrayList<>();
-	
-	ArrayList<Puja> listaPujas = new ArrayList<>();
-	
+	ArrayList<Anunciante> listaAnunciante = new ArrayList<>();		
+	ArrayList<Anuncio> listaAnuncios = new ArrayList<>();	
+	ArrayList<Puja> listaPujas = new ArrayList<>();	
 	ArrayList<Comprador> listaCompradores= new ArrayList<>();	
 	
 
@@ -284,8 +280,6 @@ public class SubastaQuindio implements  Serializable, ISubastaQuindioService{
 			mensaje = "Se guardó el producto con código: "+producto.getCodigo()+
 					" nombre"+producto.getNombreProducto() +" descripcion: "+producto.getDescripcion()+
 					"valor inicial "+producto.getValorInicial()+" tipo Producto"+producto.getTipoProducto();
-			
-			
 			Persistencia.guardarRegistroLog(mensaje, 1, "Se creó el producto, crear Producto - Subasta quindío");
 			
 			//Persistencia.guardarProducto(listaProducto);
@@ -335,6 +329,7 @@ public class SubastaQuindio implements  Serializable, ISubastaQuindioService{
 		}
 		return anuncianteAux;
 	}
+
 	@Override
 	public Puja crearPuja(String codigoPuja,String codigoProducto, String nombreProducto, String tipoProducto,
 			String valorInicialProducto, String nombreAnunciante, double ofertaInicial, Date fechaPuja,Persona usuarioLogueado)
@@ -358,10 +353,8 @@ public class SubastaQuindio implements  Serializable, ISubastaQuindioService{
 			puja.setFechaPuja(fechaPuja);
 			getListaPujas().add(puja);
 			
-			
 			Comprador comprador = new Comprador();
-			
-			
+						
 			if(buscarComprador(usuarioLogueado.getCedula()) != null) 
 			{
 				comprador = buscarComprador(usuarioLogueado.getCedula());
@@ -376,6 +369,7 @@ public class SubastaQuindio implements  Serializable, ISubastaQuindioService{
 			comprador.setContrasenia(usuarioLogueado.getContrasenia());
 			comprador.setMontoDispuestoPagar(ofertaInicial);
 			getListaCompradores().add(comprador);
+			comprador.getPujas().add(puja);
 			}
 		mensaje = "Se guardó la puja con código "+puja.getCodigoPuja()+"Código Producto"+puja.getCodigoProducto()
 						+" nombre producto "+puja.getNombreProducto()
@@ -389,14 +383,19 @@ public class SubastaQuindio implements  Serializable, ISubastaQuindioService{
 		
 		return puja;
 	}
-
+	
 	public boolean verificarPujaExistente(String codigo) {	
-		if(ArchivoUtil.buscarPuja(codigo))
-		{
-			return true;
-		}else {
-			return false;
-		}	
-	}
 		
+		boolean bandera = false;
+		int index=0;
+		for (Puja puja : listaPujas) {
+			if (puja.getCodigoPuja().equals(codigo)) {	
+				bandera =  true;
+			}else {
+				bandera =  false;
+			}
+			index++;
+		}
+		return bandera;
+	}
 }

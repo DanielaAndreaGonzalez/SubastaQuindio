@@ -87,7 +87,6 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 			crearConexion();
 			solicitarInformacionPersistencia();			
 			leerObjetoPersistenciaTransferido();
-			
 			Persistencia.guardarRegistroLog("Inicio sesion del usuario",1, "Inicio sesion");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -217,7 +216,7 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 		{
 			try {
 				crearConexion();
-				solicitarGuardarInformacionPersistencia();
+				solicitarGuardarInformacionPersistenciaBinaria();
 			} catch (UnknownHostException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -225,7 +224,7 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			Persistencia.guardarRecursoSubastaBinario(subastaQuindio);
+			//Persistencia.guardarRecursoSubastaBinario(subastaQuindio);
 		}
 		if(hiloSerivcio3GuardarRegistroLog== hiloEjecucion)
 		{
@@ -245,7 +244,8 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 			getSubastaQuindio().getListaAnuncios().add(anuncio);
 			//guardar en binario}
 			if(anuncio != null)
-				guardarResourceXML();		
+				guardarResourceXML();
+				guardarResourceBinario();
 			//Persistencia.guardarRecursoSubastaBinario(subastaQuindio);
 			//guardar en xml
 			//Persistencia.guardarResourceSubastaXML(subastaQuindio);
@@ -315,7 +315,6 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 	{
 		subastaQuindio =  (SubastaQuindio) flujoEntradaObjeto.readObject();
 		System.out.println("Objeto recibido");
-		subastaQuindio.getListaPersonas().size();
 		flujoEntradaObjeto.close();	
 	}
 	
