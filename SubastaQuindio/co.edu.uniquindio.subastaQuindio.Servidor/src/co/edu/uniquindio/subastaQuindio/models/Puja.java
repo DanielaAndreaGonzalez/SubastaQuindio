@@ -11,7 +11,7 @@ import java.util.Date;
  *
  */
 public class Puja implements Serializable{
-private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 	
 	protected String codigoPuja;
 	protected String codigoProducto;
@@ -135,6 +135,22 @@ private static final long serialVersionUID = 1L;
 				+ ", fechaPuja=" + fechaPuja + ", tipoProducto=" + tipoProducto + ", nombreAnunciante="
 				+ nombreAnunciante + "]";
 	}
+
+	/**
+	 * @return the valorInicialProductoPuja
+	 */
+	public String getValorInicialProductoPuja() {
+		return valorInicialProductoPuja;
+	}
+
+	/**
+	 * @param valorInicialProductoPuja the valorInicialProductoPuja to set
+	 */
+	public void setValorInicialProductoPuja(String valorInicialProductoPuja) {
+		this.valorInicialProductoPuja = valorInicialProductoPuja;
+	}
+	
+	
 	
 	
 	

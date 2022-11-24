@@ -135,6 +135,20 @@ public class Puja implements Serializable{
 				+ ", fechaPuja=" + fechaPuja + ", tipoProducto=" + tipoProducto + ", nombreAnunciante="
 				+ nombreAnunciante + "]";
 	}
+
+	/**
+	 * @return the valorInicialProductoPuja
+	 */
+	public String getValorInicialProductoPuja() {
+		return valorInicialProductoPuja;
+	}
+
+	/**
+	 * @param valorInicialProductoPuja the valorInicialProductoPuja to set
+	 */
+	public void setValorInicialProductoPuja(String valorInicialProductoPuja) {
+		this.valorInicialProductoPuja = valorInicialProductoPuja;
+	}
 	
 	
 	

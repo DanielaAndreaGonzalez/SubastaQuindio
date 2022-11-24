@@ -67,6 +67,19 @@ public class HiloDesdeClienteAlServidor  extends Thread{
 				e.printStackTrace();
 				}
 			}
+		case 5:{
+			try {
+				String mensaje = flujoEntradaComunicacion.readUTF();
+				int nivel = flujoEntradaComunicacion.readInt();
+				String accion = flujoEntradaComunicacion.readUTF();
+				guardarRecursoLog(mensaje,nivel,accion);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				}
+			}
+		
+		
 		}
 		
 		
@@ -99,6 +112,9 @@ public class HiloDesdeClienteAlServidor  extends Thread{
 	private void guardarInformacionPersistenciaBinaria() throws Exception {		
 		subastaQuindio = (SubastaQuindio) flujoEntradaObjeto.readObject();
 		Persistencia.guardarRecursoSubastaBinario(subastaQuindio);	
+	}
+	private void guardarRecursoLog(String mensaje,int nivel,String accion) throws Exception {		
+		Persistencia.guardarRegistroLog(mensaje, nivel, accion);;
 	}
 	
 	private void enviarInformacionPersistencia() throws Exception {

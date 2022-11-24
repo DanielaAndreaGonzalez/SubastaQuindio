@@ -63,8 +63,7 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 	BufferedReader entrada;
 	boolean is;
 	
-	
-	
+
 	//***********************************Singleton***********************************************
 	//Clase estatica oculta. Tan solo se instanciara el singleton una vez
 	private static class SingletonHolder{
@@ -78,7 +77,6 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 	{
 		return SingletonHolder.eINSTANCE;
 	}
-	
 	public ModelFactoryController()
 	{
 		System.out.println("Invocación clase singleton");
@@ -157,7 +155,7 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 		//Persistencia.guardarResourceSubastaXML(subastaQuindio);
 	}
 	
-	private void guardarRecursoLog()
+	private void guardarRecursoLog(String mensaje,int nivel, String accion)
 	{
 		hiloSerivcio3GuardarRegistroLog = new Thread(this);
 		run=true;
@@ -186,6 +184,7 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 			if(persona != null)
 				guardarResourceXML();
 				guardarResourceBinario();
+				guardarRecursoLog("Se registró el usuario",1,"register person-Model Factory");
 			//guardar en archivo plano
 			archivo.saveperson(persona);
 			//guardar en binario
@@ -241,7 +240,8 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 		if(hiloSerivcio3GuardarRegistroLog== hiloEjecucion)
 		{
 			try {
-				crearConexion();
+				crearConexion();	
+				guardarRecursoLog("Información", 1, "acción");
 			} catch (UnknownHostException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -289,7 +289,7 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 			e.printStackTrace();
 		}
 		
-		return null;
+		return puja;
 	}
 
 	@Override
@@ -358,7 +358,7 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 		try {
 			flujoSalidaComunicacion.writeInt(2);
 			flujoSalidaObjeto.writeObject(subastaQuindio);
-			flujoSalidaComunicacion.close();
+			//flujoSalidaComunicacion.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -371,13 +371,25 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 		try {
 			flujoSalidaComunicacion.writeInt(4);
 			flujoSalidaObjeto.writeObject(subastaQuindio);
-			flujoSalidaComunicacion.close();
+			//flujoSalidaComunicacion.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
+	private void solicitarGuardarRegistroLog() throws IOException
+	{
+		// TODO Auto-generated method stub
+		try {
+			flujoSalidaComunicacion.writeInt(5);
+			flujoSalidaObjeto.writeObject(subastaQuindio);
+			flujoSalidaComunicacion.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	private void enviarObjetoPersistenciaTransferido() throws IOException
 	{

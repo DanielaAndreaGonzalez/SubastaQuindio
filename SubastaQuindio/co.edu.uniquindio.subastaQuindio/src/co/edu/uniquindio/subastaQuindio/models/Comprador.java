@@ -5,6 +5,7 @@ package co.edu.uniquindio.subastaQuindio.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * @author GonzalezHDanielaA
@@ -21,7 +22,6 @@ public class Comprador extends Persona implements Serializable{
 		
 		this.pujas = new ArrayList<Puja>();
 	}
-
 	/**
 	 * @return the montoDispuestoPagar
 	 */
@@ -58,6 +58,12 @@ public class Comprador extends Persona implements Serializable{
 	public void setPujas(ArrayList<Puja> pujas) {
 		this.pujas = pujas;
 	}
+	@Override
+	public String toString() {
+		return "Comprador [montoDispuestoPagar=" + montoDispuestoPagar + ", ofertas=" + Arrays.toString(ofertas)
+				+ ", pujas=" + pujas + "]";
+	}
+	
 	
 	
 }

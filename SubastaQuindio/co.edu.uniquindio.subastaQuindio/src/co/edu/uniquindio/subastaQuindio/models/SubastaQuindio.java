@@ -365,8 +365,8 @@ public class SubastaQuindio implements  Serializable, ISubastaQuindioService{
 			comprador.setUsuario(usuarioLogueado.getUsuario());
 			comprador.setContrasenia(usuarioLogueado.getContrasenia());
 			comprador.setMontoDispuestoPagar(ofertaInicial);
-			getListaCompradores().add(comprador);
 			comprador.getPujas().add(puja);
+			getListaCompradores().add(comprador);
 			}
 		mensaje = "Se guardó la puja con código "+puja.getCodigoPuja()+"Código Producto"+puja.getCodigoProducto()
 						+" nombre producto "+puja.getNombreProducto()

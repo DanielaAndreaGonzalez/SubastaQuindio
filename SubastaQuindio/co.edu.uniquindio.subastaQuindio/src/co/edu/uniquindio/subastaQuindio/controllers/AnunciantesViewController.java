@@ -98,26 +98,12 @@ public class AnunciantesViewController {
     
     @FXML
     private ComboBox<Producto> cboProducto;
-    
     @FXML
-    private Button btnCrearProducto;
-    
-    
-    @FXML
-    private Button btnActualizarAnuncio;
-
-    @FXML
-    private Button btnActualizarProducto;
-
+    private Button btnCrearProducto; 
     @FXML
     private Button btnCrearAnuncio;
-
-
     @FXML
     private Button btnElejirPujas;
-
-    @FXML
-    private Button btnEliminarProducto;   
 
     //Anuncio
     @FXML
@@ -263,7 +249,6 @@ public class AnunciantesViewController {
     	for (Puja puja : modelFactoryController.getSubastaQuindio().getListaPujas()) {
 			if (puja.getCodigoProducto().equals(codigoProducto)) {
 				listaPujas.add(puja);
-				break;
 			}
 	 }    	
     	listaInformacionPuja.clear();
