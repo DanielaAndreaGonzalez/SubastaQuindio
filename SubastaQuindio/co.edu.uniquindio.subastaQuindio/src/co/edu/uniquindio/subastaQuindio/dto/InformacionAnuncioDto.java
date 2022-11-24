@@ -6,6 +6,33 @@ public class InformacionAnuncioDto {
 	protected String fechaLimite;
 	protected String fechaPublicacion;
 	protected String valorInicial;
+	protected String descripcion;
+	protected String  tipoProducto;
+	
+	/**
+	 * @return the tipoProducto
+	 */
+	public String getTipoProducto() {
+		return tipoProducto;
+	}
+	/**
+	 * @param tipoProducto the tipoProducto to set
+	 */
+	public void setTipoProducto(String tipoProducto) {
+		this.tipoProducto = tipoProducto;
+	}
+	/**
+	 * @return the descripcion
+	 */
+	public String getDescripcion() {
+		return descripcion;
+	}
+	/**
+	 * @param descripcion the descripcion to set
+	 */
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
 	/**
 	 * @return the nombreProducto
 	 */

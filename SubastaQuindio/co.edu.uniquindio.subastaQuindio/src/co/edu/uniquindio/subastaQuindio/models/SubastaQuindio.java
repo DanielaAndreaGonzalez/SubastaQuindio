@@ -33,6 +33,8 @@ public class SubastaQuindio implements  Serializable, ISubastaQuindioService{
 	ArrayList<Anuncio> listaAnuncios = new ArrayList<>();
 	
 
+	
+
 	public SubastaQuindio() {
 		
 	}
@@ -90,6 +92,24 @@ public class SubastaQuindio implements  Serializable, ISubastaQuindioService{
 		this.listaAnunciante = listaAnunciante;
 	}
 
+	/**
+	 * @return the listaAnuncios
+	 */
+	public ArrayList<Anuncio> getListaAnuncios() {
+		return listaAnuncios;
+	}
+
+	/**
+	 * @param listaAnuncios the listaAnuncios to set
+	 */
+	public void setListaAnuncios(ArrayList<Anuncio> listaAnuncios) {
+		this.listaAnuncios = listaAnuncios;
+	}
+	
+	public void addNuevoAnuncioListaAnuncios(Anuncio anuncio) {
+		this.listaAnuncios.add(anuncio);
+	}
+	
 	@Override
 	public Persona registerPerson(String cedula, String nombre, int edad, String usuario, String contrasenia,TipoPersona rol) throws RegistroException,IOException {
 
@@ -190,7 +210,6 @@ public class SubastaQuindio implements  Serializable, ISubastaQuindioService{
 		mensaje = "Se creó el anuncio fecha publicacion "+fechaPublicacion+
 					" fecha fin "+fechaFin+ " nombre anunciante "+usuarioLogueado.getNombre()+
 					" con el producto "+producto;
-		
 		
 		Persistencia.guardarRegistroLog(mensaje, 1, "Se creó el anuncio, crear Anuncio - Subasta quindío");
 		

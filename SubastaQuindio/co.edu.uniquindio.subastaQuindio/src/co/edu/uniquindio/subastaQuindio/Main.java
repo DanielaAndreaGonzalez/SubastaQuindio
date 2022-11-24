@@ -3,6 +3,7 @@ package co.edu.uniquindio.subastaQuindio;
 import java.io.IOException;
 
 import co.edu.uniquindio.subastaQuindio.controllers.AnunciantesViewController;
+import co.edu.uniquindio.subastaQuindio.controllers.CompradorViewController;
 import co.edu.uniquindio.subastaQuindio.controllers.SubastaViewController;
 import co.edu.uniquindio.subastaQuindio.models.Anuncio;
 import co.edu.uniquindio.subastaQuindio.models.Persona;
@@ -66,13 +67,13 @@ public class Main extends Application {
 		
 	}	
 
-	public void mostrarVentanaComprador() {
+	public void mostrarVentanaComprador(Persona usuariosLogueado) {
 		try{
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("views/CompradorView.fxml"));
 			AnchorPane rootLayout = (AnchorPane) loader.load();
-			//SubastaWorkerViewController subastaWorkerViewController = loader.getController();
-//			subastaWorkerViewController.setAplicacion(this);
+			CompradorViewController compradorViewController = loader.getController();
+			compradorViewController.setAplicacion(this, usuariosLogueado);
 			Scene scene = new Scene(rootLayout);
 			primaryStage.setScene(scene);
 			primaryStage.show();

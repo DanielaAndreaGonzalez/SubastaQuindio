@@ -169,7 +169,8 @@ public class SubastaViewController {
 					getAplicacion().mostrarVentanaAnunciante(usuarioLogueado);
 			    }
 			    else{
-			    	getAplicacion().mostrarVentanaComprador();
+			    	Persona usuarioLogueado = Persistencia.obtenerUsuario(usuarioIngresado, contraseñaIngresada);
+			    	getAplicacion().mostrarVentanaComprador(usuarioLogueado);
 			    }	
 			}
 			Persistencia.guardarRegistroLog("Usuario Logueado", 1, "Ingreso al sistema  "+usuarioIngresado);

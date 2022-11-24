@@ -234,8 +234,6 @@ public class AnunciantesViewController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		     
-		     
 		 }
     }
 	 public void llenarComboTipoProducto()

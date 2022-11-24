@@ -216,7 +216,7 @@ public class ModelFactoryController implements IModelFactoryService,Runnable{
 		Anuncio anuncio = null;
 		try {
 			anuncio = getSubastaQuindio().crearAnuncio(fechaPublicacion, fechaFin, producto, anunciante);
-			
+			getSubastaQuindio().getListaAnuncios().add(anuncio);
 			//guardar en binario}
 			if(anuncio != null)
 				guardarResourceXML();		
